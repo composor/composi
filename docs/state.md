@@ -199,7 +199,7 @@ const fruitList = new Component({
 })
 ```
 
-Although we've added a key property to the list item, this will not get added to the actual DOM element. It will exist on the virtual dom version. The diffing algorythm will use the property to understand the order of items in the list. This results in more efficient diffing and patching.
+The diffing algorythm will use the key value to understand the order of items in the list. This results in more efficient diffing and patching.
 
 Keys Must Be Unique
 -------------------
