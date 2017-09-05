@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "composi": "./bin/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/composor/composi.git"
