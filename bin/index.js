@@ -32,12 +32,12 @@ const composi = (() => {
   const version = argv.version || argv.v
   const composi_path = __dirname.split('/bin')[0]
 
-  if (!name) {
-    console.log('No name was provided. Please try again and provide a name.')
-    return
-  }
   if (version) {
     console.log(pkg.version)
+    return
+  }
+  if (!name) {
+    console.log('No name was provided. Please try again and provide a name.')
     return
   }
   if (name) {
