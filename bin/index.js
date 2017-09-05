@@ -93,7 +93,7 @@ const composi = (() => {
       })}, 400),
       console.log('The project has been created.') 
       console.log('Use the terminal to cd to it and run `npm i` to install its dependencies.')
-      console.log(' After the install is done, you can run `gulp` to build and run your project.')
+      console.log('After the install is done, you can run `gulp` to build and run your project.')
     }, 2500)
   }
 })(argv)
