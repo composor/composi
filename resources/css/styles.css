@@ -1,0 +1,16 @@
+/* Reset */
+
+html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, li, dl,
+dt, dd, blockquote, address {
+  margin: 0;
+  padding: 0;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+body {
+  font-size: 100%;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}

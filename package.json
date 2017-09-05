@@ -29,19 +29,26 @@
     "url": "https://github.com/composor/composi/issues"
   },
   "homepage": "https://github.com/composor/composi#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
     "babel-helpers": "^6.24.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-es2015-parameters": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "copy": "^0.3.1",
+    "cp-file": "^4.2.0",
+    "fs-cp": "^1.4.0",
     "gulp": "^3.9.1",
     "gulp-gzip": "^1.4.0",
+    "ncp": "^2.0.0",
+    "replace-in-file": "^2.6.4",
     "rollup": "^0.49.2",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.0",
     "rollup-plugin-resolve": "0.0.1-predev.1",
-    "rollup-plugin-uglify": "^2.0.1"
+    "rollup-plugin-uglify": "^2.0.1",
+    "writefile": "^0.2.8"
   }
 }

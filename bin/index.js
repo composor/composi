@@ -24,7 +24,7 @@ const noop = function() {}
 
 const composi = (() => {
   /**
-   * Create variables based on commandline arguments
+   * Create variables based on command line arguments.
    */
   const originalName = argv.n
   const name = originalName ? originalName.toLowerCase() : ''
@@ -44,6 +44,7 @@ const composi = (() => {
     // Create new project:
     console.log('Creating a new Composi project.')
     mkdirp(p.join(homedir, 'Desktop', name))
+    const packageName = name.replace(' ', '-')
     cpFile(p.join(composi_path, 'resources', '.babelrc'), p.join(homedir, 'Desktop', name, '.babelrc'), noop)
     cpFile(p.join(composi_path, 'resources', 'gulpfile.js'), p.join(homedir, 'Desktop', name, 'gulpfile.js'), noop)
     cpFile(p.join(composi_path, 'resources', '.editorconfig'), p.join(homedir, 'Desktop', name, '.editorconfig'), noop)
@@ -54,40 +55,42 @@ const composi = (() => {
     cpFile(p.join(composi_path, 'resources', 'README.md'), p.join(homedir, 'Desktop', name, 'README.md'), noop)
     setTimeout(function() {
       replace({
-        replace: /project_name/g,
-        with: originalName,
+        from: /project_name/g,
+        to: originalName,
         files: [
           p.join(path, name, 'index.html')
         ],
       }),
       replace({
-        replace: /project_name/g,
-        with: packageName.toLowerCase(),
+        from: /project_name/g,
+        to: packageName.toLowerCase(),
         files: [
           p.join(path, name, 'package.json')
         ]
       }),
       replace({
-        replace: /project_name/g,
-        with: originalName,
+        from: /project_name/g,
+        to: originalName,
         files: [
           p.join(path, name, 'README.md')
         ]
       }),
+      setTimeout(function() {
       replace({
-        replace: /userName/g,
-        with: user_name,
+        from: /userName/g,
+        to: user,
         files: [
-          p.join(path, name, user)
+          p.join(path, name, 'README.md')
         ]
-      }),
+      })}, 200),
+      setTimeout(function() {
       replace({
-        replace: /currentYear/g,
-        with: user_name,
+        from: /currentYear/g,
+        to: new Date().getFullYear(),
         files: [
-          p.join(path, name, new Date().getFullYear())
+          p.join(path, name, 'README.md')
         ]
-      })
+      })}, 400),
       console.log('The project has been created. Use the terminal to cd to it and run `npm i` to install its dependencies. After the install is done, you can run `gulp` to build and run your project.')
     }, 2500)
   }
