@@ -22,6 +22,35 @@ const mobile = argv.x
 const hybrid = argv.h
 const noop = function() {}
 
+function createPackage(opts) {
+  return `{
+    "name": "${opts.name}",
+    "version": "1.0.0",
+    "description": "Put your description here.",
+    "main": "app.js",
+    "scripts": {
+      "test": "echo \\"Error: no test specified\\" && exit 1"
+    },
+    "author": "${opts.user}",
+    "repository": "foo",
+    "license": "MIT",
+    "devDependencies": {
+      "babel": "^6.5.2",
+      "babel-plugin-external-helpers": "^6.22.0",
+      "babel-plugin-transform-react-jsx": "^6.24.1",
+      "babel-preset-es2015": "^6.14.0",
+      "bluebird": "~2.9.24",
+      "browser-sync": "^2.12.10",
+      "composi": "^${opts.version}",
+      "gulp-better-rollup": "^1.1.1",
+      "gulp-cli": "^1.4.0",
+      "rollup-plugin-babel": "^2.7.1",
+      "rollup-plugin-commonjs": "^8.0.2",
+      "rollup-plugin-node-resolve": "^3.0.0",
+      "rollup-plugin-uglify": "^2.0.1"
+    }
+  }`
+}
 const composi = (() => {
   /**
    * Create variables based on command line arguments.
@@ -31,6 +60,8 @@ const composi = (() => {
   const path = argv.path || argv.p || p.join(homedir, 'Desktop')
   const version = argv.version || argv.v
   const composi_path = __dirname.split('/bin')[0]
+  const package = createPackage({name, user, version: pkg.version})
+  
 
   if (version) {
     console.log(pkg.version)
@@ -51,7 +82,7 @@ const composi = (() => {
     cp(p.join(composi_path, 'resources', 'css', 'styles.css'), p.join(homedir, 'Desktop', name, 'css', 'styles.css'), noop)
     cp(p.join(composi_path, 'resources', 'dev', 'app.js'), p.join(homedir, 'Desktop', name, 'dev', 'app.js'), noop)
     cpFile(p.join(composi_path, 'resources', 'index.html'), p.join(homedir, 'Desktop', name, 'index.html'), noop)
-    cpFile(p.join(composi_path, 'resources', 'package.json'), p.join(homedir, 'Desktop', name, 'package.json'), noop)
+    writefile(p.join(path, originalName, 'package.json'), package, noop)
     cpFile(p.join(composi_path, 'resources', 'README.md'), p.join(homedir, 'Desktop', name, 'README.md'), noop)
     setTimeout(function() {
       replace({
@@ -60,13 +91,6 @@ const composi = (() => {
         files: [
           p.join(path, name, 'index.html')
         ],
-      }),
-      replace({
-        from: /project_name/g,
-        to: packageName.toLowerCase(),
-        files: [
-          p.join(path, name, 'package.json')
-        ]
       }),
       replace({
         from: /project_name/g,
