@@ -135,6 +135,26 @@ export class Counter extends Component {
 
 As you can see, this gives us a more concise and readable format. Another option for events is to define them using the `interacions` property, as explained below.
 
+Arrow Functions for Inline Events
+---------------------------------
+You can get around having to use `bind(this)` on your inline events by using arrows functions. To do this, the value of the inline event needs to be an arrow function that returns the comonent method. Refactoring the `render` method form above, we get this:
+
+```javascript
+render(data) {
+  const {disabled, number} = data
+  // Use bind on the inline events:
+  return (
+    <div class='counter' id={uuid()}>
+      <button key='beezle' disabled={disabled} onclick={() => this.decrease()} id="decrease">-</button>
+      <span>{number}</span>
+      <button onclick={() => this.increase()} id="increase">+</button>
+    </div>
+  )
+}
+```
+
+As you can see, this gives us cleaner inline events.
+
 
 Interactions Property
 ---------------------

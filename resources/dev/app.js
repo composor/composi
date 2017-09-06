@@ -1,6 +1,5 @@
 import {h, Component} from 'composi'
 
-
 const title = new Component({
   root: 'header',
   state: 'World',
@@ -16,4 +15,5 @@ const title = new Component({
     }
   }
 })
+
 title.update()
