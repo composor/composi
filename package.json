@@ -1,6 +1,6 @@
 {
   "name": "composi",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
