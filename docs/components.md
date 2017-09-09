@@ -140,6 +140,68 @@ const peopleList = new Component({
 peopleList.update(people)
 ```
 
+### Understanding Component Instances
+When you create an instance of Component with the `new` keyword, you do so by passing in a object literal of properties and values. This means that the context of those properties is not the component but the object itself. This means that one property does not have access to another, even though they are defined in the same object literal. The only way to access these is from the instance itself. For example, suppose we create a new component instance with state. If we want to access that state inside an event, we would need to do so through the variable we used to create the instance:
+
+```javascript
+const person = new Component({
+  root: '#person',
+  state: personObj,
+  render: (person) => (
+    <div>
+       <h3>{person.firstName} {person.lastName}</h3>
+       <h4>{person.job}</h4>
+    </div>
+  ),
+  // Define a user interactions that accesses the component state:
+  interactions: [
+    {
+      event: 'click',
+      element: 'h3',
+      callback: (e) => {
+        // No way to directly access component state,
+        // so we have to use the instance itself:
+        console.log(person.state)
+      }
+    }
+  ]
+})
+```
+
+### Props
+By default a component instance only exposes its default properties. I you want custom properties, you can pass them as props during intialization. These will be exposed on the instance through its `props` property:
+
+```javascript
+const person = new Component({
+  root: '#person',
+  state: personObj,
+  render: (person) => (
+    <div>
+       <h3>{person.firstName} {person.lastName}</h3>
+       <h4>{person.job}</h4>
+    </div>
+  ),
+  announce: (e) => console.log(e.target.textContent)
+  // Define a user interactions that accesses the component state:
+  interactions: [
+    {
+      event: 'click',
+      element: 'h3',
+      callback: (e) => {
+        // In order to access the `announce` property added above,
+        // we need to do so through the instance `props` property:
+        person.props.announce(e)
+      }
+    }
+  ]
+})
+```
+
+You can also use the `methods` property to define methods for a component instance. See [events](./events.md) for more details.
+
+### Anti-Patterns
+Although it is possible to access a Component instance's properties as we've shown above, this is not ideal. Component instances are best used when the needs are simple and straightforward. If you have need to directly access properties of the component or to have custom properties, then you want to instead extend Component. This is explain next.
+
 Extending Component
 -------------------
 
@@ -200,7 +262,7 @@ const tools = [
 class List extends Component {
   constructor(opts) {
     super(opts)
-    this.root = document.querySelector('body')
+    this.root = 'body'
     this.styles = {
       border: 'solid 1px #ccc',
       width: 200,

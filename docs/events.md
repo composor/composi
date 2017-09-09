@@ -224,7 +224,7 @@ Typing into the component's input and click the Add button will update the compo
 Interactions with Extended Component
 ------------------------------------
 
-We can also use the `interactions` property to register events when we extend Component. Just as with making an instance of Component, events registerd on the DOM do not have access to the component instance. This means we have to use a reference to the instance to access its state, etc.
+We can also use the `interactions` property to register events when we extend Component. Just as when making an instance of Component, events registerd on the DOM do not have access to the component instance. This means we have to use a reference to the instance to access its state, etc.
 
 ```javascript
 // Extending Componet with Interactions:
@@ -270,3 +270,5 @@ const list = new List({
   }]
 })
 ```
+
+If you do not want to have to use the component instance in your events to access its properties, then you want to go with inline events as explained earlier.
