@@ -140,7 +140,8 @@ const peopleList = new Component({
 peopleList.update(people)
 ```
 
-### Understanding Component Instances
+Understanding Component Instances
+-------------------------------------
 When you create an instance of Component with the `new` keyword, you do so by passing in a object literal of properties and values. This means that the context of those properties is not the component but the object itself. This means that one property does not have access to another, even though they are defined in the same object literal. The only way to access these is from the instance itself. For example, suppose we create a new component instance with state. If we want to access that state inside an event, we would need to do so through the variable we used to create the instance:
 
 ```javascript
@@ -168,7 +169,8 @@ const person = new Component({
 })
 ```
 
-### Props
+Props
+-----
 By default a component instance only exposes its default properties. I you want custom properties, you can pass them as props during intialization. These will be exposed on the instance through its `props` property:
 
 ```javascript
@@ -200,7 +202,7 @@ const person = new Component({
 You can also use the `methods` property to define methods for a component instance. See [events](./events.md) for more details.
 
 ### Anti-Patterns
-Although it is possible to access a Component instance's properties as we've shown above, this is not ideal. Component instances are best used when the needs are simple and straightforward. If you have need to directly access properties of the component or to have custom properties, then you want to instead extend Component. This is explain next.
+Although it is possible to access a Component instance's properties as we've shown above, this is not ideal. Component instances are best used when the purpose is simple and straightforward. If you have need to directly access properties of a component or to have one with custom properties, then you want to instead extend Component. This is explained next.
 
 Extending Component
 -------------------
@@ -346,9 +348,27 @@ When you create a stateless component, you'll need to pass it some data with its
 
 ```javascript
 // Render the fruitList component with fruits data:
+const fruitList = new Component({
+  root: 'body',
+  // Define render function that consumes fruit data:
+  render: (fruits) => (
+    <ul class='list'>
+      {
+        fruits.map(fruit => <li>{fruit}</li>)
+      }
+    </ul>
+  )
+})
+// Render component with fruit data:
 fruitList.update(fruits)
 
 // Render title component, no data needed:
+const title = new Component({
+  root: 'header',
+  // Define render function that returns state markup:
+  render: () => <h1>This is a Title!</h1>
+})
+// Render component without data:
 titleComponent.update()
 ```
 
@@ -401,4 +421,90 @@ class Clock extends Component {
 const clock = new Clock({
   root: '#clock'
 })
+```
+
+Trigger Initial Render With State
+---------------------------------
+When you create a component instance, you can trigger its render by setting state on the instance. When you do, no need to use `update` on it:
+
+```javascript
+// Define component:
+const hello = new Component({
+  root: 'body',
+  render: (name) => <h1>Hello, {name}!</h1>
+})
+
+// Setting state will also cause the component to render to the DOM:
+hello.state = 'World'
+```
+
+Querying the DOM
+----------------
+### this.element
+
+Composi does not have a `ref` property like React. However, every component has an `element` property, which is the base element you define in the component's render function. Let's look at the following example:
+
+```javascript
+const List extends Component {
+  constructor(props) {
+    super(props)
+    this.root = 'body',
+  }
+  render(data) {
+    return (
+      <ul class='list'>
+        {
+          data.map(item => <li>{item}</li>)
+        }
+      </ul>
+    )
+  }
+}
+const list = new List()
+// Render list with data:
+list.update(['One','Two','Three'])
+```
+
+The above component instance `list` has a property `element`. In this case its value will be `<ul class="list"></ul`> We can search for any of the list's  child elements using the `element` property as the starting point. This gives you more precise, scoped queries:
+
+```javascript
+// Get the text of the second list item:
+const text = list.element.children[1].textContent
+
+// Get the last list item,
+// then set an event on it:
+const lastItem = list.element.querySelector('li:last-of-type')
+lastItem.addEventListener('click', (e) => alert(e.textContent.trim()))
+```
+For components with complex descendent structure you can use the `element` property for access. You can also access the `element` property from the Component extension's `this` keyword:
+
+```javascript
+import {h, Component} from 'composi'
+
+class Person extends Component {
+  constructor(props) {
+    super(props)
+    this.root = 'section'
+  }
+  render(person) {
+    return (
+      <div class='person-component'>
+        <h3>{person.name}</h3>
+        <p>
+          <label for="name">New Name:</label>
+          <input type="text" />
+          <button onclick={() => this.updateName()}>Update</button>
+        </p>
+      </div>
+    )
+  }
+  updateName() {
+    // Get input through 'element' property:
+    const input = this.element.querySelector('input')
+    const name = input.value || 'unknown'
+    this.setState({name})
+  }
+}
+const person = new Person()
+person.state = {name: 'Joe'}
 ```

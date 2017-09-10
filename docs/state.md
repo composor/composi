@@ -20,7 +20,7 @@ State
 
 Components can be stateless or stateful. There are advantages to both. Chose the right one depending on use case. For example, if a component will only display the result of some other action, make it stateless and pass it the data it needs. If the data of a component can change at unpredictable times, make it stateful. That way, when its data changes, it will update automatically. If you have a fixed dataset and the component will never need to be rendered again during the session, make it stateless and pass it the data. 
 
-When you give a component state, Composi assigns it getters and setters. Setting state causes the component to render a new virtual dom, diff it with the old virtual dom, and if there are differences, update the actual DOM. As such, the assignment of data to a component's state will trigger an update. Setting state directly is ideal for primitive data types, such as string, numbers or booleans:
+When you give a component state, Composi assigns it getters and setters. Setting state causes the component to render a new virtual dom, diff it with the old virtual dom, and if there are differences, update the actual DOM. As such, the assignment of data to a component's state will trigger an update. Setting state directly is ideal for primitive data types, such as string, numbers:
 
 ```javascript
 const helloWorld = new Component({
@@ -38,6 +38,20 @@ With the above component, we can change its output by directly accessing the com
 
 ```javascript
 helloWorld.state = 'everybody'
+```
+
+Booleans
+---------
+By default boolean values are not output. This is so they can be used for truthy conditional checks. However, if you want to output a boolean value, just convert it to a string. There are two ways to do this. For `true` or `false` you can add `.toString()` to convert them to strings. The values `null` and `undefined` do not have a `.toString()` function, but you can use string concatenation to convert them. Below are examples of both approaches:
+
+```javascript
+// For true or false:
+render: (value) => <p>The boolean value is: {value.toString()}</p>
+// The above approach would throw and error is the boolean was undefined or null.
+// For them, do the following:
+render: (value) => <p>The boolean value is: {value + ''}</p>
+// Make boolean uppercase:
+render: (value) => <p>The boolean value is: {(value + '').toUpperCase()}</p>
 ```
 
 Complex Data Types
@@ -153,6 +167,33 @@ state.reverse()
 fruitsList.state = state
 ```
 
+setState with Callback
+----------------------
+One option for handling the need for complex operations when setting state is to pass a callback to the `setState` method. When you do so, the first argument of the callback will be the component's state. In the example below, notice how we get the state and manipulate it in the `handleClick` method. After doing what you need to with state, remember to return it. Otherwise the component's state will not get updated.
+
+```javascript
+class Button extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { counter: 1 }
+  }
+  render() {
+    return <button onclick={() => this.handleClick()}>{this.state.counter}</button>
+  }
+  handleClick() {
+    this.setState(state => {
+      if (state.counter < 10) {
+        return {counter: state.counter + 1}
+      }
+    })
+  }
+}
+
+// Create instance of button:
+// Clicking on the new button will encrease its value upto 10.
+const button = new Button()
+```
+
 Keyed Items
 -----------
 
@@ -199,7 +240,7 @@ const fruitList = new Component({
 })
 ```
 
-The diffing algorythm will use the key value to understand the order of items in the list. This results in more efficient diffing and patching.
+The diffing algorythm will use the key value to understand the order of items in the list. This results in more efficient diffing and patching. Putting the `key` properting in the markup of a list will not be rendered to the DOM. The `key` property will only exist in the virtual dom, where it is used to determine if the order of list elements has changed.
 
 Keys Must Be Unique
 -------------------
@@ -244,4 +285,90 @@ class Clock extends Component {
     )
   }
 }
+```
+
+
+Third Party State Management
+----------------------------
+Because you can create stateless components, you can use thrid party state management solutions with Composi. Redux, Mobx, or roll your own.
+
+### Redux
+
+```javascript
+const { h, Component } from 'composi'
+const { createStore } from 'redux'
+
+// Reducer:
+function count(state=0, action) {
+  switch(action.type) {
+    case 'INCREMENT':
+      if (state > 99) return 100
+      return state + 1
+    case 'DECREMENT':
+      if (state < 1) return 0
+      return state - 1;
+    default:
+      return state
+  }
+}
+
+// Action Creators:
+const increment = () => {
+  return {
+    type: 'INCREMENT'
+  };
+};
+
+const decrement = () => {
+  return {
+    type: 'DECREMENT'
+  };
+};
+
+// Create Redux store:
+const store = createStore(count)
+
+
+// Extend Component to create counter:
+class Counter extends Component {
+  constructor(opts) {
+    super(opts)
+    
+    // Assigning store to component:
+    this.store = opts.store
+    
+    // Update component when store state changes:
+    store.subscribe(() => this.updateFromStore())
+    
+    // Give counter default value of "0":
+    this.render = (count = 0) => (
+    <div id="counter">
+      <button id="dec" disabled={count==0}  onclick={() => this.dec()}>-</button>
+      <span id="text">{count}</span>
+      <button id="inc" onclick={() => this.inc()}>+</button>
+    </div>
+    )
+  }
+  
+  // Use ths method to udpate counter with state changes:
+  updateFromStore() {
+    const state = this.store.getState()
+    this.update(state)
+  }
+
+  inc() {
+    this.store.dispatch(increment())
+  }
+
+  dec() {
+    this.store.dispatch(decrement())
+  }
+}
+
+// Create new counter:
+const counter = new Counter({
+  root: 'article',
+  store: store
+})
+counter.update()
 ```

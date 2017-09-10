@@ -76,16 +76,21 @@ import {h, Component} from 'composi'
 class Clock extends Component {
   constructor(props) {
     super(props)
-    this.state = {time: new Date()};
+    this.root = '#clock'
+    this.state = {date: new Date()};
   }
 
   render() {
     return (
       <div>
         <h2>Current Time</h2>
-        <p>It is {this.state.time.toLocaleTimeString()}.</p>
+        <h2>It is {this.getLocalTime()}.</h2>
       </div>
     )
+  }
+
+  getLocalTime() {
+    return this.state.date.toLocaleTimeString()
   }
 
   componentWasCreated() {
@@ -95,6 +100,7 @@ class Clock extends Component {
     );
   }
 
+  // If component is unmounted, end interval loop:
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
@@ -106,7 +112,6 @@ class Clock extends Component {
   }
 }
 
-const clock = new Clock({
-  root: '#clock'
-})
+// Instantiated clock will create and start it:
+const clock = new Clock()
 ```

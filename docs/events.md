@@ -137,7 +137,7 @@ As you can see, this gives us a more concise and readable format. Another option
 
 Arrow Functions for Inline Events
 ---------------------------------
-You can get around having to use `bind(this)` on your inline events by using arrows functions. To do this, the value of the inline event needs to be an arrow function that returns the comonent method. Refactoring the `render` method form above, we get this:
+When you're extending the Component class, you can get around having to use `bind(this)` on your inline events by using arrows functions. To do this, the value of the inline event needs to be an arrow function that returns the component method. Refactoring the `render` method from above, we get this:
 
 ```javascript
 render(data) {
@@ -271,4 +271,69 @@ const list = new List({
 })
 ```
 
-If you do not want to have to use the component instance in your events to access its properties, then you want to go with inline events as explained earlier.
+If you do not want to have to use the component instance in your events to access its properties, then you can put the interactions directly on the constructor. This will give you access to the component's `this` context.
+
+In the following example we are going to create a component that prints out a list and allows you to add new items to the list.
+
+```javascript
+// Date for component state:
+const fruits = [
+  {
+    key: 101,
+    name: 'Apples'
+  }, 
+  {
+    key: 102,
+    name: 'Orange'
+  },
+  {
+    key: 103,
+    name: 'Bananas'
+  }
+]
+// Extending Componet with Interactions:
+class List extends Component {
+  constructor(opts) {
+    super(opts)
+    this.root = 'section',
+    this.interactions = [{
+      event: 'click',
+      element: '#buttonAdd',
+      callback: () => {
+        // Because this is on the constructor, we can directly access the component's element to do a DOM query:
+        const nameInput = this.element.querySelector('#nameInput')
+        const name = nameInput.value
+        if (!name) {
+          alert('Please provide a name!')
+          return
+        }
+        // Notice that because interactions are defined on the constructor, we can now directly access the component's properties through `this`:
+        this.setState({name, key: list.key++}, this.state.length)
+        nameInput.value = ''
+        nameInput.focus()
+      }
+    }]
+    this.state = fruits
+    this.key = 1000
+  }
+  render() {
+    let state = this.state
+    return (
+      <div>
+        <p>
+          <input id='nameInput' type='text' />
+          <button id='buttonAdd'>Add</button>
+        </p>
+        <ul id='fruitList' class='list'>
+          {
+            this.state.map(fruit => <li key={fruit.key}>{fruit.name}</li>)
+          }
+        </ul>
+      </div>
+    )
+  }
+}
+// Component class has all properties it needs,
+// so simple instantiation with `new` is enough:
+const list = new List()
+```

@@ -127,9 +127,17 @@ const fruitsList = new Component({
 })
 ```
 
-Looking at the above markup, we could break it up a bit to make it easier to read and reuse. To do this we'll define two functions to return markup. As mentioned earlier functions for custom tags must start with an uppercase letter. Also, in order to pass in the data, we need to encose the data parameter in curly braces. This is how props are passed to tags in JSX. When we actually use a custom tag, we need to use another convention with curly braces: double braces and a spread operator for destructuring assignment. That looks like this:
+Custom Tags with Spread Operator
+--------------------------------
+
+Looking at the above markup, we could break it up a bit to make it easier to read and reuse. To do this we'll define two functions to return markup. As mentioned earlier functions for custom tags must start with an uppercase letter. Also, in order to pass in the data, we need to encose the data parameter in curly braces. This is how props are passed to tags in JSX. When we actually use a custom tag, we need to use another convention with curly braces: double braces and a spread operator for destructuring assignment. This will pass each property of the object to the JSX function so that they can be accessed. It looks like this:
 
 ```javascript
+  const data = {
+    prop1: 'Whatever',
+    prop2: 'More of the Same'
+  }
+  // Pass object with destructing to tag:
   <MyTag {...{data}} />
 ```
 
@@ -158,6 +166,7 @@ function Disclosure() => (
 const fruitsList = new Component({
   root: '#fruit-list',
   state: fruits,
+  // Use spread operator on ListItem:
   render: (fruits) => (
     <ul class='list'>
       {
