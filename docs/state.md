@@ -5,6 +5,7 @@ Contents
 --------
 - [Components](./components.md)
 - [JSX](./jsx.md)
+- [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [injectElement](./injectElement.md)
 - [Lifecycle Methods](./lifecycle.md)

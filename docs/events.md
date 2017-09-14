@@ -5,6 +5,7 @@ Contents
 --------
 - [Components](./components.md)
 - [JSX](./jsx.md)
+- [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [injectElement](./injectElement.md)
 - [State](./state.md)
@@ -690,6 +691,7 @@ export class List extends Component {
   }
 }
 ```
+Because this approach does not involve callbacks, there are no scope issues, DOM memory leaks, etc.
 
 Event Target Gotchas
 --------------------

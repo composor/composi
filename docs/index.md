@@ -5,6 +5,7 @@ To learn how Composi works and how to use it, read any of the following document
 
 - [Components](./components.md)
 - [JSX](./jsx.md)
+- [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [injectElement](./injectElement.md)
 - [State](./state.md)

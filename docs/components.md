@@ -4,6 +4,7 @@ Composi
 Contents
 --------
 - [JSX](./jsx.md)
+- [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [injectElement](./injectElement.md)
 - [State](./state.md)
