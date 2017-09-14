@@ -44,15 +44,15 @@ Project Structure
 A new project will have the following folder structure:
 ```
 |- my-project
-   |- css
-      -- styles.css
-   |- dev
-      -- app.js
-      |- components
-         -- list.js
-   -- index.html
-   |- js
-      -- app.js
+|  |- css
+|  |--- styles.css
+|  |- dev
+|  |--- app.js
+|  |  |- components
+|  |  |--- title.js
+|  |- js
+|  |--- app.js
+|--- index.html
 ```
 
 Building
@@ -85,7 +85,6 @@ Documentation
 -------------
 To learn how to use Composi, open the [docs](./docs/index.md) folder.
 
-
 Summary
 -------
 
@@ -94,3 +93,16 @@ Composi is all about components. These provide a great way to organize your code
 Because Composi uses JSX, there are many similarities to React patterns. Please note that Composi is not a React clone, like Preact, Inferno, etc. It is not trying to be compatible with React and the React ecosystem. Component state is managed quite differently from React. Components lack the React refs and context properties. Also lacking, PropTypes. Events are not synthetic. They are either real inline events or standard DOM events with `addEventListener`. Props and custom tags are supported only because JSX provides these by default. 
 
 Composi is small, just 3KB for the gzipped core. It loads quickly. Its small and focused API means you can learn everything in half a day and be productive. If you're already familiar with JSX, then you only need to learn the Component API. You can easily do that in an hour or two.
+
+Prior Art
+---------
+
+Composi was not conceived in a vacuum. Inspiration came for exposure to:
+
+1. [vue](https://github.com/vuejs/vue)
+2. [react](https://github.com/facebook/react)
+3. [preact](https://github.com/developit/preact)
+4. [domvm](https://github.com/leeoniya/domvm)
+5. [yo-yo](https://github.com/maxogden/yo-yo)
+6. [choo](https://github.com/choojs/choo)
+7. [hyperapp](https://github.com/hyperapp/hyperapp)

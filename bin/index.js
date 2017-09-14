@@ -78,6 +78,7 @@ const composi = (() => {
     cpFile(p.join(composi_path, 'resources', '.editorconfig'), p.join(path, '.editorconfig'), noop)
     cp(p.join(composi_path, 'resources', 'css', 'styles.css'), p.join(path, 'css', 'styles.css'), noop)
     cp(p.join(composi_path, 'resources', 'dev', 'app.js'), p.join(path, 'dev', 'app.js'), noop)
+    cp(p.join(composi_path, 'resources', 'dev', 'title.js'), p.join(path, 'dev', 'components', 'title.js'), noop)
     cpFile(p.join(composi_path, 'resources', 'index.html'), p.join(path, 'index.html'), noop)
     writefile(p.join(path, 'package.json'), package, noop)
     cpFile(p.join(composi_path, 'resources', 'README.md'), p.join(path, 'README.md'), noop)
