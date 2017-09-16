@@ -2,7 +2,6 @@ import {h, Component} from 'composi'
 
 export const title = new Component({
   root: 'header',
-  state: 'World',
   render: (message) => (
     <h1>Hello, {message}!</h1>
   ),

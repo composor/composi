@@ -28,6 +28,9 @@ Composi has the following four lifecycle methods:
 
 Lifecycle methods let you implement maintenance and clean up code based on the status of a component from when it is created and injected into the DOM, when it is updated and when it is removed from the DOM.
 
+Lifecycle Methods with Component Instance
+-----------------------------------------
+
 In the following example we use `componentWasCreated` to start a timer and `componentWillUnmount` to terminate the timer.
 
 In our first example of lifecycle methods, we'll use a Component instance. This poses several problems for the lifecycle methods. They do not have access to the component itself. This forces us to use global variables to pass things around.
@@ -68,6 +71,9 @@ const clock = new Component({
 
 clock.update()
 ```
+
+Lifecycle Methods with Extended Component
+-----------------------------------------
 
 In contrast, when we create a new component by extending the Component class, we are able to access component properties directly through the `this` keyword.
 

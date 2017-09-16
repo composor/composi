@@ -20,32 +20,32 @@ const noop = function() {}
 
 function createPackage(opts) {
   return `{
-    "name": "${opts.name}",
-    "version": "1.0.0",
-    "description": "Put your description here.",
-    "main": "app.js",
-    "scripts": {
-      "test": "echo \\"Error: no test specified\\" && exit 1"
-    },
-    "author": "${opts.user}",
-    "repository": "foo",
-    "license": "MIT",
-    "devDependencies": {
-      "babel": "^6.5.2",
-      "babel-plugin-external-helpers": "^6.22.0",
-      "babel-plugin-transform-react-jsx": "^6.24.1",
-      "babel-preset-es2015": "^6.14.0",
-      "bluebird": "~2.9.24",
-      "browser-sync": "^2.12.10",
-      "composi": "^${opts.version}",
-      "gulp-better-rollup": "^1.1.1",
-      "gulp-cli": "^1.4.0",
-      "rollup-plugin-babel": "^2.7.1",
-      "rollup-plugin-commonjs": "^8.0.2",
-      "rollup-plugin-node-resolve": "^3.0.0",
-      "rollup-plugin-uglify": "^2.0.1"
-    }
-  }`
+  "name": "${opts.name}",
+  "version": "1.0.0",
+  "description": "Put your description here.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \\"Error: no test specified\\" && exit 1"
+  },
+  "author": "${opts.user}",
+  "repository": "foo",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "bluebird": "~2.9.24",
+    "browser-sync": "^2.12.10",
+    "composi": "^${opts.version}",
+    "gulp": "^3.9.1",
+    "gulp-better-rollup": "^1.1.1",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1"
+  }
+}`
 }
 const composi = (() => {
   /**

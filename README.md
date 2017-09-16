@@ -94,6 +94,25 @@ Because Composi uses JSX, there are many similarities to React patterns. Please 
 
 Composi is small, just 3KB for the gzipped core. It loads quickly. Its small and focused API means you can learn everything in half a day and be productive. If you're already familiar with JSX, then you only need to learn the Component API. You can easily do that in an hour or two.
 
+What's Missing
+--------------
+Composi is focused on one thing - providing a solution for components as the means to build and structure a project. That means there are certain things it does not address.
+
+### State Management
+Composi provides the barest support for state through the component's `state` property and `setState` method. However for a more robust solution you may prefer to use [Redux](http://redux.js.org), [Mobx](https://mobx.js.org), or some other state management solution. When you do so, you'll want to create stateless components. Read the documentation for [Component](./docs/components.md) to learn more about stateless components. If yo want something really minimal, take a look at [trkl](https://www.npmjs.com/package/trkl) and [pure](https://www.npmjs.com/package/purestate). You could event roll your own state management solution by defining a class and using Composi's [pubsub functions](./docs/pubsub.md), `subscribe` and `dispatch` for making it reactive. Another possibility for state management is [freezer-js](https://www.npmjs.com/package/freezer-js)
+
+### Router
+Composi does not provide a client-side router. Currently the most popular choices for client-side routing are [Page.js](https://www.npmjs.com/package/page.js), [Universal Router](https://www.npmjs.com/package/universal-router), [Navigo](https://www.npmjs.com/package/navigo) or [rlite-router](https://www.npmjs.com/package/rlite-router).
+
+### Ajax
+Composi does not provide a means of aquiring remote data. If you only need to support current, ever-green browsers, you an use [fectch](). If you would like to use `fetch` with older browsers, you can provide the [WHATWG polyfill](https://github.com/whatwg/fetch). If don't need every possible feature of `fetch` and are concerned about the polyfill size, you can consider [unfetch](https://www.npmjs.com/package/unfetch). It's tiny and provides good support for the basics.
+
+If you would prefer an approach more like tradition Ajax championed by jQuery, you can take a look at [Axios](https://www.npmjs.com/package/axios).
+
+### Local Data Persistence
+If you need to persist data locally, you could use the browser's [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). If you need greater storage or a more sophisticated API, you might look at [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). If you need support for older browsers, you might consider [localForage](https://www.npmjs.com/package/localforage). This is a libarary that uses whatever local dataStore is the best choice for the browser. It provides a simple interface that works the same for localStorage, WebSQL and IndexedDB.
+
+
 Prior Art
 ---------
 

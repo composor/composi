@@ -8,7 +8,7 @@ const gzip = require('gulp-gzip')
 
 gulp.task('build', function() {
 return rollup.rollup({
-    entry: './index-umd.js',
+    entry: './index.js',
     plugins: [
       babel({
         exclude: 'node_modules/**'

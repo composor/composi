@@ -373,3 +373,52 @@ const counter = new Counter({
 })
 counter.update()
 ```
+
+This was a trivial example of using Redux with Composi. Please consult [Redux documention](http://redux.js.org/docs/basics/) to learn more about how Redux can solve your state management needs.
+
+### Mobx
+
+You can also use [Mobx](https://mobx.js.org) for state management. Like in the Redux example above, you'll want to use state components.
+
+```javascript
+const {h, Component} from 'composi'
+const { observable, autorun } from 'mobx'
+
+const store = observable({ count: 0})
+
+// Extend Component to create counter:
+class Counter extends Component {
+  constructor(opts) {
+    super(opts)
+    this.root = 'article'
+    
+    // Assign Mobx obersable store to Counter:
+    this.store = store
+    
+    // Give counter default value of "0":
+    this.render = (count = 0) => (
+    <div id="counter">
+      <button id="dec" onclick={() => this.dec()} disabled={count==0}>-</button>
+      <span id="text">{count}</span>
+      <button id="inc" onclick={() => this.inc()} disabled={count>19}>+</button>
+    </div>
+    )
+  }
+
+  inc() {
+    this.store.count++
+  }
+
+  dec() {
+    this.store.count--
+  }
+}
+
+// Create new counter:
+const counter = new Counter()
+
+// Capture observable store changes and update counter:
+autorun(() => counter.update(counter.store.count))
+```
+
+Of course, Mobx has many useful and powerful features. This was just a trivial example. Consult the [Mobx documentation](https://mobx.js.org/refguide/api.html) to learn more about how Mobx can solve your state management needs.
