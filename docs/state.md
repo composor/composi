@@ -293,7 +293,8 @@ Third Party State Management
 ----------------------------
 Because you can create stateless components, you can use thrid party state management solutions with Composi. Redux, Mobx, or roll your own.
 
-### Redux
+Redux
+-----
 
 ```javascript
 const { h, Component } from 'composi'
@@ -376,7 +377,8 @@ counter.update()
 
 This was a trivial example of using Redux with Composi. Please consult [Redux documention](http://redux.js.org/docs/basics/) to learn more about how Redux can solve your state management needs.
 
-### Mobx
+Mobx
+----
 
 You can also use [Mobx](https://mobx.js.org) for state management. Like in the Redux example above, you'll want to use state components.
 
@@ -421,4 +423,4 @@ const counter = new Counter()
 autorun(() => counter.update(counter.store.count))
 ```
 
-Of course, Mobx has many useful and powerful features. This was just a trivial example. Consult the [Mobx documentation](https://mobx.js.org/refguide/api.html) to learn more about how Mobx can solve your state management needs.
+Of course, Mobx has many more useful and powerful features. This was just a trivial example. Consult the [Mobx documentation](https://mobx.js.org/refguide/api.html) to learn more about how Mobx can solve your state management needs.

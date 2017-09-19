@@ -19,7 +19,7 @@ Contents
 injectElement
 -------------
 
-Components provide a powerful and convenient way for you to create modular chunks of the UI. However, sometimes that are overkill. If you just need to output a chunk of static markup, a component is not necessary. Instead you can simply define a function that returns the markup. Once you done that you can render it into the document with the `injectElement` function. To use it, you will need to import it into your code:
+Components provide a powerful and convenient way for you to create modular chunks of the UI. However, sometimes they are overkill. If you just need to output a chunk of static markup, a component is not necessary. Instead you can simply define a function that returns the markup. Once you've create a function to do that, you can render it into the document with the `injectElement` function. To use it, you will need to import it into your code:
 
 ```javascript
 import {h, Component, injectElement} from 'composi'
@@ -40,7 +40,7 @@ Define a Function to Return Markup
 ```javascript
 import {h, injectElement} from 'composi'
 
-// Define function with JSX:
+// Define function that returns JSX:
 function createList(data) {
   return (
     <ul>

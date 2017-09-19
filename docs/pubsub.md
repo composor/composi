@@ -23,7 +23,7 @@ Composi provides three functions to enable pubsub: subscribe, dispatch and unsub
 
 subscribe(topic, callback)
 ---------------------------
-To create a subscriber you use the `subscribe` method. This takes to arguments. The topic you wish to listen for and a callback to execute when that top is dispatched. The first argument of the callback will be any data passed with the dispatch. See `dispatch` below for information about how dispatcher work.
+To create a subscriber you use the `subscribe` method. This takes two arguments: the topic you wish to listen for and a callback to execute when that topic is dispatched. The first argument of the callback will be any data passed by the dispatch. See `dispatch` below for information about how dispatcher work.
 
 ```javascript
 // A subscriber without data:
@@ -33,7 +33,7 @@ subscribe('whatever', () => alert('We just received a message from Whatever!'))
 subscribe('inbound-stuff', (data) => alert(`We just received this: ${data}`))
 ```
 
-The data that a subscriber receives can be a primitive type: string, number, boolean, or a complex type: object or array. You can use a subscriber and dispatch to capture data from one part of your app and update the state of a component in the callback:
+The data that a subscriber receives can be a primitive type: string, number, boolean, or a complex type: object or array. You can use a subscriber and dispatcher to capture data from one part of your app and update the state of a component in the callback:
 
 ```javascript
 // Update a users component with a new user:
@@ -62,7 +62,7 @@ dispatch('new-user', {firstName: 'Joe', lastName: 'Bodoni', age: 21, id: 'd417b3
 ```
 
 
-dispatch(topic, ?data)
+dispatch(topic, [data])
 -----------------------
 The dispatch function takes at least one argument, with an options second. The main argument is the topic you want to dispatch to:
 
@@ -90,7 +90,7 @@ subscribe('message', (message) => {
 })
 ```
 
-unsubscribe(topic, ?callback)
+unsubscribe(topic, [callback])
 ----------------------------
 
 If you need to, you can unsubscribe from a topic. Just provide the topic you wish to unsubscribe. Remember that since multiple subscribers can be listening to the same topic, unsubscribing it will render them all ineffective.

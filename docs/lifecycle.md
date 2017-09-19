@@ -75,7 +75,7 @@ clock.update()
 Lifecycle Methods with Extended Component
 -----------------------------------------
 
-In contrast, when we create a new component by extending the Component class, we are able to access component properties directly through the `this` keyword.
+When we create a new component by extending the Component class, we can access component properties directly through the `this` keyword. This is so because we define the lifecycle methods as class methods. Notice how we do this in the example below.
 
 ```javascript
 import {h, Component} from 'composi'
@@ -101,6 +101,7 @@ class Clock extends Component {
   }
 
   componentWasCreated() {
+    // Store timer referrence so we can clear it later:
     this.timerID = setInterval(
       () => this.tick(),
       1000
