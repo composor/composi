@@ -15,6 +15,7 @@ Contents
 - [Pubsub](./pubsub.md)
 - [Uuid](./uuid.md)
 - [Installation](../README.md)
+- [Thrid Party Libraries](./third-party.md)
 
 You might have the best looking components on the planet, but if there wasn't a way for users to interact with your components, they would be essentially useless. There are three ways to implement events: inline, through the `interactions` property and the `handleEvent` interface. Inline events are the primary way developers implement events in React, Angular, Vue and other libraries and frameworks. Composi offers a second way to implement events using a component's `interactions` property. This takes an array of event objects that definine the event type, the target and the callback. Behind the scene this wires up tradition events with `addEventListener`. The third option is to create a `handleEvent` object that gets passed to the `addEventListener` event. This is similiar to the second approach. It differs in that instead of passing the event listener a callback, you pass it an object with a method called `handleEvent`. This will get called when the event fires.
 

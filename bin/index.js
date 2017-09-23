@@ -55,8 +55,10 @@ const composi = (() => {
   const name = argv.n ? argv.n.toLowerCase() : ''
   let path = argv.path || argv.p || p.join(homedir, 'Desktop')
   const version = argv.version || argv.v
-  const composi_path = __dirname.split('/bin')[0]
-  const package = createPackage({name, user, version: pkg.version})
+  const sep = p.sep
+  const composi_path = __dirname.split(sep + 'bin')[0]
+  const packageName = name.replace(' ', '-')
+  const package = createPackage({name: packageName, user: user, version: pkg.version})
   
 
   if (version) {

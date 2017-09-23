@@ -1,4 +1,4 @@
-import {h} from 'composi'
+import {h, Component} from 'composi'
 import {title} from './components/title'
 
 // Set state on component.

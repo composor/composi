@@ -16,3 +16,4 @@ To learn how Composi works and how to use it, read any of the following document
 - [Pubsub](./pubsub.md)
 - [Uuid](./uuid.md)
 - [Installation](../README.md)
+- [Thrid Party Libraries](./third-party.md)
