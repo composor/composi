@@ -23,8 +23,8 @@ Lifecycle Methods
 Composi has the following four lifecycle methods:
 
 1. componentWasCreated
-2. componentWillRender
-3. componentDidRender
+2. componentWillUpdate
+3. componentDidUpdate
 4. componentWillUnmount
 
 Lifecycle methods let you implement maintenance and clean up code based on the status of a component from when it is created and injected into the DOM, when it is updated and when it is removed from the DOM.
