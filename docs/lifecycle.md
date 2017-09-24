@@ -29,6 +29,15 @@ Composi has the following four lifecycle methods:
 
 Lifecycle methods let you implement maintenance and clean up code based on the status of a component from when it is created and injected into the DOM, when it is updated and when it is removed from the DOM.
 
+`componentWasCreated` is executed after the component is inserted into the DOM.
+
+`componentWillUpdate` is executed right before the component is updated.
+
+`componentDidUpdate` is executed immediately after the component was updated.
+
+`componentWillUnmount` is executed before a component is unmounted with its `unmount` method.
+
+
 Lifecycle Methods with Component Instance
 -----------------------------------------
 
