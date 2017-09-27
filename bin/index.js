@@ -67,6 +67,8 @@ const composi = (() => {
   }
   if (!name) {
     console.log('No name was provided. Please try again and provide a name.')
+    console.log('Make sure you use the `-n` flag before the name.')
+    console.log('Example: composi -n MyProject')
     return
   }
   if (name) {
