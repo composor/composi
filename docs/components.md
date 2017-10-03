@@ -33,7 +33,18 @@ With these imported, you have two options for creating components.
 1. Create an instance of Component
 2. Extend Component to create a new class
 
-Let's look at the first option, creating an instance of `Component`. When creating a component, you need to provide at least two arguments: the element or root into which the component will be rendered and a render function. The root element could just be the document body. Or you could have a basic html shell with predefined containers into which you will render your components. Using a shell means your document reaches first render quicker. 
+Regardless of which approach you take, components have a number of properties that you can use to make your component useful. Below is a general list of properties. There are differences in how an instance of the Component class, or an extension of it, use these.
+
+1. root - the element in the DOM in which the component will be rendered. Multiple components can share the same root. In such a case they will be appended to the root element one after the other in the order you update them or set their initial state.
+2. render - a function that returns markup for the element. This function may optionally take some data that it uses to create dynamic content for the component. You may want to use inline events in your markup to capture user interactions. Read the [documentation for events](./events.md) for more information.
+3. styles - This is an object defining a stylesheet for the component. It follows normal object literal conventions. To learn more about how to create a sytles object, [read the documentation](./styles.md).
+4. interactions - This is an array of event objects. This is only available when creating an instance of the Component class. To learn more about events, [read the documentation](./events.md).
+5. methods - This is an object of methods for a component instance. It is not necessary when extended the Component class because you can define methods directly on the class itself. To learn more about methods, [read the documentation for events](./events.md).
+
+Creating an Instance of Component
+---------------------------------
+
+Let's look at the first option, creating an instance of `Component`. When creating a component, you need to provide at least two arguments: the root, which is element into which the component will be rendered and a render function. The root element could just be the document body. Or you could have a basic html shell with predefined containers into which you will render your components. Using a shell means your document reaches first render quicker. 
 
 The component's render function is used to define markup that will get converted into elements and inserted into the DOM. The render function is also used every time the component is updated. Rendering the component with new data or changing the state of a stateful component causes the component to create a new virtual dom. Composi compares the component's new virtual dom with its previous one. If they do not match, the new one is used to patch and update the DOM. This results in fast and efficient updating of the DOM based on current state.
 
@@ -42,7 +53,7 @@ By default Composi uses JSX for markdown. You can learn more about JSX in the [d
 Component Instance
 ------------------
 
-When you create a new Component instance, you initialize it by passing an object of options to the constructor. In this case, the options will be `root` and `render:
+When you create a new Component instance, you initialize it by passing an object of options to the constructor. In this case, the options will be `root` and `render`:
 
 ```javascript
 import {h, Component} from 'composi'
@@ -510,3 +521,47 @@ class Person extends Component {
 const person = new Person()
 person.state = {name: 'Joe'}
 ```
+
+SSR & Hydration
+---------------
+
+If you want to, you can use whatever server-side solution to pre-render the html for your document. Then after page load, you can let Composi take over parts of the document as components. To do this you need to follows a simple rule.
+
+Give your component's main element a unique id that matches the id of an element in the rendered document. This needs to be in the same element as the component's root. Let's take a look at how we might do this. Suppose on the server we output some markup as follows:
+
+```html
+<body>
+  <article>
+    <ul id="specialList">
+      <li>Apples</li>
+      <li>Oranges</li>
+      <li>Bananas</li>
+    </ul>
+  </article>
+</body>
+```
+
+When the page first loads this will be the default content. In fact, if the JavaScript did not load or failed with an exception, the user would see this content. If we want to replace the static content with a dynamic list, we can define the list component like this:
+
+```javascript
+const list = new Component({
+  // Give the component the same root as the list "specialList" above:
+  root: 'article',
+  // Define list with same id as list in server-side markup:
+  render: (fruits) => (
+    <ul id="specialList">
+      {
+        fruits.map(fruit => <li>{fruit}</li>)
+      }
+    </ul>
+  )
+})
+// Set state, render the component and replace state nodes:
+list.state = ['Stawberries', 'Peaches', 'Blueberries']
+```
+
+With the above code, even though the server sent a static list to the browser, at laod time Composi will replace it with the dynamic component of the same id in the same root element.
+
+### Important
+
+When Composi looks for a match in the DOM, it does so from the root element that you assigned for the component. If the root is a generic element as in the case above, and there are more than one in the document, Composi will search in the first match and insert the component there. It is therefore essential that a component's root be unique. If the document had multiple `article` tags, the component would render in the first one only. Remember, if you want to replace a DOM tree with a component, they both must share the same root and also have an element with the same id. Follow those two simple rules and hydration will happen automatically.

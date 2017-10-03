@@ -20,7 +20,7 @@ Contents
 JSX
 ----
 
-JSX provides a consice and convenient way to defining markup to be created. Often people erroneously call JSX HTML. It is not HTML. It is in fact a type of XML. When you build your project, Babel takes the JSX code and converts it into hyperscript functions. In the case of a Composi project, it is set up to tell Babel to use Composi's hyperscript function for that transformation in the project's [`.babelrc`](https://babeljs.io/docs/usage/babelrc/) file.
+JSX provides a consice and convenient way to define markup to be created. Often people erroneously call JSX HTML. It is not HTML. It is in fact a type of XML. When you build your project, Babel takes the JSX code and converts it into hyperscript functions. In the case of a Composi project, it is set up to tell Babel to use Composi's hyperscript function for that transformation in the project's [`.babelrc`](https://babeljs.io/docs/usage/babelrc/) file.
 
 
 XML
@@ -44,7 +44,7 @@ To use the above tags in JSX, they would need to be closed with a forward slash:
 <input type='text' value='Cute Kitten' />
 ```
 
-Although some "purists" complain that JSX is mixing HTML into JavaScript, this is not completely true. JSX is just a DSL that describes the JavaScript functions that will be create to produce the elements. It is in fact very similar to a now abandoned effort to enable using XML in JavaScript called [E4X](https://developer.mozilla.org/en-US/docs/Archive/Web/E4X). 
+Although some "purists" complain that JSX is mixing HTML into JavaScript, this is not completely true. JSX is just a DSL that describes the JavaScript functions that will be created to produce the elements. It is in fact very similar to a now abandoned effort to enable using XML in JavaScript called [E4X](https://developer.mozilla.org/en-US/docs/Archive/Web/E4X). 
 If you read the E4X documentation, you will recognize the similarities to JSX. E4X was an attempt by Mozilla to enable the creation of DOM nodes without using string concatenation. Unfortunately E4X never took off. The introduction of template literals and tagged template literals solved some of the problems E4X was trying to address. However, the shortcoming of template literals is the the markup is defined as strings. This means IDEs cannot understand the markup in a template literal. JSX does not have this limitation. As such text editors and IDEs provide great tooling to make using JSX productive.
 
 Tag Attributes
@@ -163,7 +163,7 @@ function Disclosure() => (
   </aside>
 )
 
-//Now that we have some custom tags, we can use them as follows:
+// Now that we have some custom tags, we can use them as follows:
 
 const fruitsList = new Component({
   root: '#fruit-list',
@@ -188,7 +188,7 @@ This results in cleaner code that is easier to read and maintain.
 
 One Tag to Rule Them All
 ------------------------
-Because of the way JSX works, there must always be one enclosing tag for all the other tags you wish to create. You cannot return a groups of siblings. They need to be contained in another tag. For example, suppose you wanted to create some list items to insert in a list:
+Because of the way JSX works, there must always be one enclosing tag for all the other tags you wish to create. You cannot return a group of siblings. They need to be contained in another tag. For example, suppose you wanted to create some list items to insert in a list:
 
 ```javascript
 const badJSX = new Component({
@@ -219,4 +219,4 @@ const goodJSX = new Component({
 Components with Same Root
 -------------------------
 
-Components do not have to have unique root elements. Multiple components can be rendered in the same root element. Their order in the DOM will be dependent on their order in code.
+Components do not have to have unique root elements. Multiple components can be rendered in the same root element. Their order in the DOM will be dependent on their order in execution.

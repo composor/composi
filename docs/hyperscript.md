@@ -97,6 +97,7 @@ const fruits = {
     price: '.30'
   }
 }
+
 const list = h('ul', {class: 'list'}, [
   fruits.map(function(fruit) {
     return h('li', {}, `${fruit.name}: $${fruit.price}`)
