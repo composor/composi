@@ -22,12 +22,15 @@ Lifecycle Methods
 
 Composi has the following four lifecycle methods:
 
-1. componentWasCreated
-2. componentWillUpdate
-3. componentDidUpdate
-4. componentWillUnmount
+1. beforeCreateComponent
+2. componentWasCreated
+3. componentWillUpdate
+4. componentDidUpdate
+5. componentWillUnmount
 
 Lifecycle methods let you implement maintenance and clean up code based on the status of a component from when it is created and injected into the DOM, when it is updated and when it is removed from the DOM.
+
+`beforeCreateComponent` is executed before the component is created and inserted into the DOM.
 
 `componentWasCreated` is executed after the component is inserted into the DOM.
 
@@ -37,6 +40,25 @@ Lifecycle methods let you implement maintenance and clean up code based on the s
 
 `componentWillUnmount` is executed before a component is unmounted with its `unmount` method.
 
+Lifecycle Methods are Asynchronous
+----------------------------------
+When using lifecycle methods, be aware that they are asynchronous. For example, with `beforeCreateComponent` your component will probably be created and inserted into the DOM before your method can finish. Similarly, when using `componentWillUnmount`, the component will probably be unmounted and destroyed before your code in this method completes. If you want to handle these two in a synchronous manner for tighter control, you have two choices. Use a method that returns a promise, or use the [ES7 async functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/async_function). If your browser target includes IE9, you will need to polyfill promises for either of these to work.
+
+Order of Execution
+------------------
+The first time a component is rendered, `beforeCreateComponent` and `componentWasCreated` will be executed. `componentWillUpdate` and `componentWillUpdate` will not be executed at this time. After the component was created, each render will fire `componentWillUpdate` and `componentWillUpdate`. So, if you wanted to do something when the component is initially created and after it updates, you would need to do this:
+
+```javascript
+class List extends Component {
+  //... setup here.
+  componentWasCreated() {
+    // Do stuff after component was created.
+  }
+  componentDidUpdate() {
+    // Do stuff every time component is updated.
+  }
+}
+```
 
 Lifecycle Methods with Component Instance
 -----------------------------------------
