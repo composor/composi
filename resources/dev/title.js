@@ -1,7 +1,7 @@
 import {h, Component} from 'composi'
 
 export const title = new Component({
-  root: 'header',
+  container: 'header',
   render: (message) => {
     const styles = `
     nav {
