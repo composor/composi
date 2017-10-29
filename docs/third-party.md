@@ -7,15 +7,15 @@ Contents
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [injectElement](./injectElement.md)
+- [Render](./render.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Pubsub](./pubsub.md)
-- [Uuid](./uuid.md)
 - [Installation](../README.md)
+- [Functional Components](./functional-components.md)
+- [Deployment](./deployment.md)
 
 Third Party Libraries
 ---------------------

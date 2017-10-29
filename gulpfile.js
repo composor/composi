@@ -6,9 +6,9 @@ const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const gzip = require('gulp-gzip')
 
-gulp.task('build', function() {
+gulp.task('build', () => {
 return rollup.rollup({
-    entry: './index.js',
+    input: './index.js',
     plugins: [
       babel({
         exclude: 'node_modules/**'
@@ -27,22 +27,18 @@ return rollup.rollup({
     ]
   })
   .then((bundle) => {
-    bundle.write({
+    return bundle.write({
       format: 'umd',
-      moduleName: 'composi',
-      dest: './dist/composi.js',
-      sourceMap: true
+      name: 'composi',
+      file: './dist/composi.js',
+      sourcemap: true
     })
   })
-})
-gulp.task('zip', function() {
-  setTimeout(function() {
+  .then((bundle) => {
     gulp.src('./dist/composi.js')
-    .pipe(gzip({ extension: 'gzip' }))
-    .pipe(gulp.dest('./dist'))
-  }, 2000)
+     .pipe(gzip({ extension: 'gzip' }))
+     .pipe(gulp.dest('./dist'))
+  })
 })
 
-
-
-gulp.task('default', ['build', 'zip'])
+gulp.task('default', ['build'])

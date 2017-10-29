@@ -6,23 +6,23 @@ Contents
 - [Components](./components.md)
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
-- [injectElement](./injectElement.md)
+- [Render](./render.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Pubsub](./pubsub.md)
-- [Uuid](./uuid.md)
 - [Installation](../README.md)
-- [Thrid Party Libraries](./third-party.md)
+- [Third Party Libraries](./third-party.md)
+- [Functional Components](./functional-components.md)
+- [Deployment](./deployment.md)
 
 hyperscript - h
 ---------------
 
 Although most people are fine using JSX, some people hate it and would rather use anything else. Hyperscript is an alternate way of defining markup. In fact, when you build your project, Babel converts all JSX into hyperscript. Composi provides the `h` function to enable hyperscript compatible usage.
 
-`h` can have three arguments:
+`h` expects three arguments:
 
 1. tag name
 2. propertes/attributes
@@ -97,12 +97,6 @@ const fruits = {
     price: '.30'
   }
 }
-
-const list = h('ul', {class: 'list'}, [
-  fruits.map(function(fruit) {
-    return h('li', {}, `${fruit.name}: $${fruit.price}`)
-  })
-])
 
 // ES5 version:
 const list = h('ul', {class: 'list'}, [

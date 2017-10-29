@@ -1,19 +1,19 @@
 Composi
 =======
 
-To learn how Composi works and how to use it, read any of the following documents that interest you.
+To learn how Composi works and how to use it, read any of the following documents that interest you. Or visit the Visit the [website](https://composor.github.io) for docs and tutorials.
 
 - [Components](./components.md)
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [injectElement](./injectElement.md)
+- [Render](./render.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Pubsub](./pubsub.md)
-- [Uuid](./uuid.md)
 - [Installation](../README.md)
-- [Thrid Party Libraries](./third-party.md)
+- [Third Party Libraries](./third-party.md)
+- [Functional Components](./functional-components.md)
+- [Deployment](./deployment.md)

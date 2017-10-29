@@ -7,20 +7,20 @@ Contents
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [injectElement](./injectElement.md)
+- [Render](./render.md)
 - [State](./state.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Pubsub](./pubsub.md)
-- [Uuid](./uuid.md)
 - [Installation](../README.md)
-- [Thrid Party Libraries](./third-party.md)
+- [Third Party Libraries](./third-party.md)
+- [Functional Components](./functional-components.md)
+- [Deployment](./deployment.md)
 
 Lifecycle Methods
 -----------------
 
-Composi has the following four lifecycle methods:
+Composi has the following five lifecycle methods:
 
 1. beforeCreateComponent
 2. componentWasCreated
@@ -34,9 +34,9 @@ Lifecycle methods let you implement maintenance and clean up code based on the s
 
 `componentWasCreated` is executed after the component is inserted into the DOM.
 
-`componentWillUpdate` is executed right before the component is updated.
+`componentWillUpdate` is executed right before the component is updated. If a component is updated with the same data, then no update will occur, meaning this will not execute.
 
-`componentDidUpdate` is executed immediately after the component was updated.
+`componentDidUpdate` is executed immediately after the component was updated. If a component is updated with the same data, then no update will occur, meaning this will not execute.
 
 `componentWillUnmount` is executed before a component is unmounted with its `unmount` method.
 

@@ -6,16 +6,16 @@ Contents
 - [Components](./components.md)
 - [JSX](./jsx.md)
 - [Hyperscript](./hyperscript.md)
-- [injectElement](./injectElement.md)
+- [Render](./render.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Pubsub](./pubsub.md)
-- [Uuid](./uuid.md)
 - [Installation](../README.md)
-- [Thrid Party Libraries](./third-party.md)
+- [Third Party Libraries](./third-party.md)
+- [Functional Components](./functional-components.md)
+- [Deployment](./deployment.md)
 
 Hyperx
 ------
@@ -31,7 +31,7 @@ First you will need to install Hyperx in your project. Open your terminal and ru
 npm i -D hyperx
 ```
 
-Then open your project's `gulpfile.js`. Scroll down to line 38 to the following plugin block:
+Then open your project's `gulpfile.js`. Scroll down to the `build` task and look for `commonjs(),`. Update it to the following:
 
 ```javascript
 commonjs({
@@ -62,9 +62,9 @@ const html = hyperx(h)
 
 We can now use the `html` function to define template literals as markup for Composi components. If you have not used template literals before, you might want to read up on [how they work](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
-Using Hyperx
-------------
-Remember that unlike JSX, you need to use a dollar sign, $, before the curly braces to delimit a variable interpolation:
+Using Template Literals
+-----------------------
+You can use template literals just as you normally would. Whereas JSX uses `{someVariable}` to evaluate variables, template literals use `${someVariable}`. Notice how we capture Hyperx as a tagged template literal function `html`, which we then use to define markup:
 
 ```javascript
 import {h, Component} from 'composi'
@@ -110,7 +110,7 @@ We can use Hyperx directly inside a Component as part of the `render` function. 
 
 ```javascript
 const fruitsList = new Component({
-  root: '#fruit-list',
+  container: '#fruit-list',
   state: fruits,
   render: (fruits) => html`
     <ul class='list'>
@@ -156,7 +156,7 @@ function disclosure() {
 //Now that we have some custom tags, we can use them as follows:
 
 const fruitsList = new Component({
-  root: '#fruit-list',
+  container: '#fruit-list',
   state: fruits,
   render: (fruits) => html`
     <ul class='list'>
@@ -175,13 +175,13 @@ const fruitsList = new Component({
 
 About Sibling Tags
 ------------------
-Like JSX, you markup must always have one enclosing tag. Although it is legal to return a set of sibling elements in an ES6 template literal, this will not work with Composi's `h` function. That's because each tag you define will be converted into a function. For this reason there needs to be one final, top-most function that returns the markup. 
+Like JSX, you markup must always have one enclosing tag. Although it is legal to return a set of sibling elements in an ES6 template literal, this will not work with Composi's `h` function. That's because each tag you define will be converted into a function. As such, there needs to be one final, top-most function that returns the markup. 
 
 Bad markup:
 
 ```javascript
 const badHyperx = new Component({
-  root: '#list',
+  container: '#list',
   render: () => html`
     <li>One</li>
     <li>Two</li>
@@ -190,11 +190,11 @@ const badHyperx = new Component({
 })
 ```
 
-The above code will not build. Instead you need to create the entire list like this and insert it in some higher element as the root:
+The above code will not build. Instead you need to create the entire list like this and insert it in some higher element as the container:
 
 ```javascript
 const goodHyperx = new Component({
-  root: '#listDiv',
+  container: '#listDiv',
   render: () => html`
     <ul>
       <li>One</li>

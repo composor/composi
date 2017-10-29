@@ -25,6 +25,7 @@ function createPackage(opts) {
   "description": "Put your description here.",
   "main": "app.js",
   "scripts": {
+    "build": "gulp",
     "test": "echo \\"Error: no test specified\\" && exit 1"
   },
   "author": "${opts.user}",
@@ -40,6 +41,7 @@ function createPackage(opts) {
     "composi": "^${opts.version}",
     "gulp": "^3.9.1",
     "gulp-better-rollup": "^1.1.1",
+    "gulp-gzip": "^1.4.0",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
@@ -59,16 +61,33 @@ const composi = (() => {
   const composi_path = __dirname.split(sep + 'bin')[0]
   const packageName = name.replace(' ', '-')
   const package = createPackage({name: packageName, user: user, version: pkg.version})
-  
 
+  const deploy = argv.d || argv.deploy
+    
   if (version) {
     console.log(pkg.version)
     return
   }
   if (!name) {
-    console.log('No name was provided. Please try again and provide a name.')
-    console.log('Make sure you use the `-n` flag before the name.')
-    console.log('Example: composi -n MyProject')
+    if (deploy) {
+      console.log('Deploying to production.')
+      console.log('Please wait.')
+      let proj_dir = deploy.split(sep)
+      proj_dir = proj_dir[proj_dir.length -1]
+      proj_dir += '-production'
+      cp(p.join(deploy, 'index.html'), p.join(path, proj_dir, 'index.html'), noop)
+      ncp(p.join(deploy, 'js'), p.join(path, proj_dir, 'js'), noop)
+      ncp(p.join(deploy, 'css'), p.join(path, proj_dir, 'css'), noop)
+      ncp(p.join(deploy, 'icons'), p.join(path, proj_dir, 'icons'), noop)
+      ncp(p.join(deploy, 'images'), p.join(path, proj_dir, 'images'), noop)
+      console.log('Deployment completed.')
+      console.log('Project deployed at: ' + path + p.sep + proj_dir)
+
+    } else {
+      console.log('No name was provided. Please try again and provide a name.')
+      console.log('Make sure you use the `-n` flag before the name.')
+      console.log('Example: composi -n MyProject')
+    }
     return
   }
   if (name) {

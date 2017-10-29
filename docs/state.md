@@ -7,15 +7,15 @@ Contents
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [injectElement](./injectElement.md)
+- [Render](./render.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Pubsub](./pubsub.md)
-- [Uuid](./uuid.md)
 - [Installation](../README.md)
-- [Thrid Party Libraries](./third-party.md)
+- [Third Party Libraries](./third-party.md)
+- [Functional Components](./functional-components.md)
+- [Deployment](./deployment.md)
 
 State
 -----
@@ -44,21 +44,23 @@ helloWorld.state = 'everybody'
 
 Booleans
 ---------
-By default boolean values are not output. This is so they can be used for truthy conditional checks. However, if you want to output a boolean value, just convert it to a string. There are two ways to do this. For `true` or `false` you can add `.toString()` to convert them to strings. The values `null` and `undefined` do not have a `.toString()` function, but you can use string concatenation to convert them. Below are examples of both approaches:
+By default boolean values are not output. This is so they can be used for conditional checks. However, if you want to output a boolean value, just convert it to a string. There are two ways to do this. For `true` or `false` you can add `toString()` to convert them to strings. The values `null` and `undefined` do not have a `toString()` function, but you can use string concatenation to convert them, or use `String(value)`. Below are examples of these approaches:
 
 ```javascript
 // For true or false:
 render: (value) => <p>The boolean value is: {value.toString()}</p>
-// The above approach would throw and error is the boolean was undefined or null.
+
+// The above approach would throw an error if the boolean was undefined or null.
 // For them, do the following:
 render: (value) => <p>The boolean value is: {value + ''}</p>
+
 // Make boolean uppercase:
-render: (value) => <p>The boolean value is: {(value + '').toUpperCase()}</p>
+render: (value) => <p>The boolean value is: {(String(value).toUpperCase()}</p>
 ```
 
 Complex Data Types
 ------------------
-Most components will have state of complex data types: objects or arrays. For update state of complex types you have two choice: use the `setState` method or get the state, perform your operations and set the state with the final result. We'll look at `setState` first.
+Most components will have state of complex data types: objects or arrays. To update the state of complex types you have two choices: use the `setState` method or get the state, perform your operations and set the state with the final result. We'll look at `setState` first.
 
 setState
 --------
@@ -66,6 +68,7 @@ The Component class has a method called `setState`. Actually, you can use `setSt
 
 ```javascript
 helloWorld.state = 'everybody'
+
 // or:
 helloWorld.setState('everybody')
 ```
@@ -110,8 +113,10 @@ Updating Array State
 When a component has an array as state, you need to provide a second argument for `setState`: the index of the array where you want to make the index. For instance, suppose we have a component `fruitList` that prints out a list of fruits. We notice that the third item in the list is mispelled and want to update it. We can do that as follows:
 
 ```javascript
-// Use second argument for index in the array:
-fruitList.setState('Pinapple', 2)
+fruitList.state = ['Apples', 'Oranges', 'Pinapplez', 'Bananas']
+
+// Use second argument for index in the array you want to update:
+fruitList.setState('Pinapples', 2)</code>
 ```
 
 ### Arrays of Objects
@@ -140,19 +145,21 @@ This array is used as the state for a component of users. We want to update Joe'
 
 ```javascript
 // Update job for Joe Bodoni:
-userList.setState({job: 'Rock Star', 0})
+userList.setState({job: 'Rock Star'}, 0)
 ```
 
 This will instead result in the object loosing the firstName and lastName properties, and the list in the DOM would be updated accordingly. Instead, we need to get the object we want to update from the array, make whatever changes we need to and then set it on the state:
 
 ```javascript
-// Proper way to set an object in an array.
+// Proper way to update an object in an array.
 // Get the Joe Bodoni user from state:
 const state = userList.state[0]
+
 // Set job to new value:
 state.job = 'Rock Star'
+
 // Update component's state:
-userList.setState(state, 0)
+userList.state = state
 ```
 
 Complex State Operations
@@ -163,14 +170,16 @@ As we saw in our last example of arrays, sometimes you will need to get the stat
 ```javascript
 // Get the component's state:
 const state = fruitsList.state
+
 // Reverse the array:
 state.reverse()
+
 // Set the component's state with the new state:
 fruitsList.state = state
 ```
 
-setState with Callback
-----------------------
+setState with a Callback
+------------------------
 One option for handling the need for complex operations when setting state is to pass a callback to the `setState` method. When you do so, the first argument of the callback will be the component's state. In the example below, notice how we get the state and manipulate it in the `handleClick` method. After doing what you need to with state, remember to return it. Otherwise the component's state will not get updated.
 
 ```javascript
@@ -183,6 +192,7 @@ class Button extends Component {
     return <button onclick={() => this.handleClick()}>{this.state.counter}</button>
   }
   handleClick() {
+    // Use callback in setState to manilate state before retuning it:
     this.setState(state => {
       if (state.counter < 10) {
         return {counter: state.counter + 1}
@@ -196,13 +206,15 @@ class Button extends Component {
 const button = new Button()
 ```
 
+Be aware that whatever the callback returns will be set as the component's new state. Therefore you will need to make whatever changes to the component's whole state before returning it.
+
 Keyed Items
 -----------
 
 In general, Composi's diffing algorythm is very efficient at determining what changed. However, when dealing with long lists, especially if the items order has changed in a random way, it can be challenging to determine the best way to patch the DOM. Keys provide a mechnamism to remedy this. If you are not going to make any drastic changes to a list's data, keys are not necessary. But if the order of updated items can change dramatically, you'll want to use keyed data. 
 
 ### Keyed Array Data
-The easiest way to create a keyed list is to have any array of data with unique ids. These ids only need to be unique for the items in the array the list is using. You can use any scheme to create unique ids for array items. We provide a `uuid` function for creating uuids of 32 hexadecimal digits. The [documentation](./uuid.md) explains how to use it.
+The easiest way to create a keyed list is to have any array of data with unique ids. These ids only need to be unique for the items in the array the list is using. You can use any scheme to create unique ids for array items. You could use a `uuid` module from [NPM](https://www.npmjs.com/search?q=uuid).
 
 Below is an example of some keyed data:
 
@@ -258,12 +270,7 @@ class Clock extends Component {
   constructor(opts) {
     super(opts)
     // Set state for all class instances:
-    this.state = {time: Date.now()}
-    this.styles = {
-      'p > span': {
-        fontFamily: 'Courier, Monospace'
-      }
-    }
+    this.state = {time: Date.now()
   }
   render() {
     let time = this.state.time

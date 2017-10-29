@@ -6,6 +6,7 @@ const babel =  require('rollup-plugin-babel')
 const uglify =  require('rollup-plugin-uglify')
 const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
+const gzip = require('gulp-gzip')
 
 // Static Server & watching files:
 gulp.task('serve', ['build'], function () {
@@ -22,7 +23,7 @@ gulp.task('watch', function() {
   gulp.watch('./index.html').on('change', reload)
   gulp.watch(['./dev/app.js', 'dev/**/*.js'], ['build', reload])
   gulp.watch('./js/app.js').on('change', reload)
-  gulp.watch('css/*.css').on('change', reload)
+  gulp.watch('./css/*.css').on('change', reload)
 })
 
 gulp.task('build', function () {
@@ -44,14 +45,19 @@ gulp.task('build', function () {
     ]
   })
   .then((bundle) => {
-    bundle.write({
+    return bundle.write({
       format: 'iife',
       moduleName: 'app',
       dest: './js/app.js',
       sourceMap: true
     })
   })
+  .then((bundle) => {
+    gulp.src('./js/app.js')
+     .pipe(gzip({ extension: 'gzip' }))
+     .pipe(gulp.dest('./js'))
+  })
 })
 
 // Process app.js and load page in browser:
-gulp.task('default', ['serve', 'watch']);
+gulp.task('default', ['serve', 'watch'])

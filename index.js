@@ -1,9 +1,6 @@
 import {h} from './lib/h'
 import {patch} from './lib/patch'
-import {createElement} from './lib/patch'
 import {Component} from './lib/component'
-import {injectElement} from './lib/injectElement'
-import {subscribe, dispatch, unsubscribe} from './lib/pubsub'
-import {uuid} from './lib/uuid'
+import {render} from './lib/render'
 
-export {h, patch, createElement, injectElement, Component, dispatch, subscribe, unsubscribe, uuid}
+export {h, patch, render, Component}

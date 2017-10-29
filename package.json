@@ -1,9 +1,10 @@
 {
   "name": "composi",
-  "version": "0.9.1",
+  "version": "1.0.0",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
+    "build": "gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
