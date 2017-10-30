@@ -67,12 +67,6 @@ To build your project, `cd` to its folder and run:
 npm i
 ```
 
-You'll also need to have the `gulp-cli` installed:
-
-```sh
-npm i -g gulp-cli
-```
-
 Then, while in your project's root folder, run:
 
 ```sh
