@@ -1,7 +1,7 @@
-Composi
-=======
+Composi Docs
+============
 
-To learn how Composi works and how to use it, read any of the following documents that interest you. Or visit the Visit the [website](https://composor.github.io) for docs and tutorials.
+To learn how Composi works and how to use it, read any of the following documents that interest you. Or visit the [website](https://composor.github.io) for docs and tutorials.
 
 - [Components](./components.md)
 - [JSX](./jsx.md)
