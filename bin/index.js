@@ -47,7 +47,8 @@ function createPackage(opts) {
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-uglify": "^2.0.1"
   }
-}`
+}
+`
 }
 const composi = (() => {
   /**
