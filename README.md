@@ -44,11 +44,11 @@ Project Structure
 A new project will have the following folder structure:
 ```
 +--myproject
-|  +--css
-|     |--styles.css
 |  +--dev
 |     +--components
 |        |--title.js
+|     +--css
+|        |--styles.css
 |     |--app.js
 |  +--js
 |--.babelrc

@@ -32,7 +32,7 @@ function createPackage(opts) {
   "repository": "foo",
   "license": "MIT",
   "devDependencies": {
-    "babel": "^6.5.2",
+    "babel-cli": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-preset-env": "^1.6.0",
@@ -41,7 +41,9 @@ function createPackage(opts) {
     "composi": "^${opts.version}",
     "gulp": "^3.9.1",
     "gulp-better-rollup": "^1.1.1",
+    "gulp-cssnano": "^2.1.2",
     "gulp-gzip": "^1.4.0",
+    "gulp-sourcemaps": "^2.6.1",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
@@ -100,7 +102,7 @@ const composi = (() => {
     cpFile(p.join(composi_path, 'resources', '.babelrc'), p.join(path, '.babelrc'), noop)
     cpFile(p.join(composi_path, 'resources', 'gulpfile.js'), p.join(path, 'gulpfile.js'), noop)
     cpFile(p.join(composi_path, 'resources', '.editorconfig'), p.join(path, '.editorconfig'), noop)
-    cp(p.join(composi_path, 'resources', 'css', 'styles.css'), p.join(path, 'css', 'styles.css'), noop)
+    cp(p.join(composi_path, 'resources', 'dev', 'css', 'styles.css'), p.join(path, 'dev','css', 'styles.css'), noop)
     cp(p.join(composi_path, 'resources', 'dev', 'app.js'), p.join(path, 'dev', 'app.js'), noop)
     cp(p.join(composi_path, 'resources', 'dev', 'title.js'), p.join(path, 'dev', 'components', 'title.js'), noop)
     cpFile(p.join(composi_path, 'resources', 'index.html'), p.join(path, 'index.html'), noop)

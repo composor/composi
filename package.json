@@ -1,6 +1,6 @@
 {
   "name": "composi",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/composor/composi#readme",
   "dependencies": {
-    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-helpers": "^6.24.1",
     "babel-plugin-external-helpers": "^6.22.0",

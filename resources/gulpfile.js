@@ -7,6 +7,8 @@ const uglify =  require('rollup-plugin-uglify')
 const resolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const gzip = require('gulp-gzip')
+const sourcemaps = require('gulp-sourcemaps');
+const cssnano = require('gulp-cssnano');
 
 // Static Server & watching files:
 gulp.task('serve', ['build'], function () {
@@ -27,6 +29,14 @@ gulp.task('watch', function() {
 })
 
 gulp.task('build', function () {
+
+  gulp.src('./dev/css/styles.css')
+    .pipe(sourcemaps.init())
+    .pipe(cssnano({advanced: true, aggressiveMerging: true}))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('./css'))
+    
+
   return rollup.rollup({
     entry: './dev/app.js',
     plugins: [
@@ -53,9 +63,14 @@ gulp.task('build', function () {
     })
   })
   .then((bundle) => {
-    gulp.src('./js/app.js')
+    return gulp.src('./js/app.js')
      .pipe(gzip({ extension: 'gzip' }))
      .pipe(gulp.dest('./js'))
+  })
+  .then((bundle) => {
+    gulp.src('./css/styles.css')
+      .pipe(gzip({ extension: 'gzip' }))
+      .pipe(gulp.dest('./css'))
   })
 })
 
