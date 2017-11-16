@@ -25,7 +25,7 @@ gulp.task('watch', function() {
   gulp.watch('./index.html').on('change', reload)
   gulp.watch(['./dev/app.js', 'dev/**/*.js'], ['build', reload])
   gulp.watch('./js/app.js').on('change', reload)
-  gulp.watch('./css/*.css').on('change', reload)
+  gulp.watch('./dev/css/*.css', ['build', reload])
 })
 
 gulp.task('build', function () {
