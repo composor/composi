@@ -7,7 +7,7 @@ const commonjs = require('rollup-plugin-commonjs')
 const gzip = require('gulp-gzip')
 
 gulp.task('build', () => {
-return rollup.rollup({
+  return rollup.rollup({
     input: './index.js',
     plugins: [
       babel({
