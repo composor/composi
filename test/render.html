@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/test/styles.css">
+</head>
+<body>
+  <nav onclick="location.pathname='/test/index.html'">
+    <h1>Mocha Tests - Composi render Function</h1>
+  </nav>
+  <section>
+    <div id="mocha"></div>
+    <div id="messages"></div>
+    <div id="fixtures"></div>
+    <div id="hide-tests">
+      <div id='h1-test'></div>
+      <div id="list-test"></div>
+      <div id="alert-test"></div>
+    </div>
+  </section>
+  
+  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+  <script src="https://cdn.rawgit.com/chaijs/chai/4.1.2/chai.js"></script>
+  <script src='/dist/composi.js'></script>
+  <script>mocha.setup('bdd')</script>
+  <script>
+    const {h, render, patch} = composi
+    let expect = chai.expect
+
+    function H1(){
+      return h('h1', {id: 'title'}, 'The Title')
+    } 
+
+    render(H1(), '#h1-test')
+
+    function List() {
+      return h('ul', {class: 'list'},[
+        h('li', {}, 'one'),
+        h('li', {}, 'two'),
+        h('li', {}, 'three')
+      ])
+    }
+    render(List(), '#list-test')
+
+    function Alert(message) {
+      return h('h2', {style: {color: 'red'}} , `Alert: ${message}!`)
+    }
+    render(Alert('this is a message'), '#alert-test')
+
+    describe("Render h1", function() {
+      const title = document.querySelector('#title')
+      it('title should be "h1"', function() {
+        expect(title.nodeName).to.equal('H1')
+      });
+      it('title should have id equal to "title"', function() {
+        expect(title.id).to.equal('title')
+      })
+      it('title content should be "The Title"', function() {
+        expect(title.textContent).to.equal('The Title')
+      })
+    })
+    describe('Render list', function() {
+      const list = document.querySelector('ul')
+      it('list should be of type "UL"', function() {
+        expect(list.nodeName).to.equal('UL')
+      })
+      it('list should have class of "list"', function() {
+        expect(list.className).to.equal('list')
+      })
+      it('list should have three children', function() {
+        expect(list.childNodes).to.have.lengthOf(3)
+      })
+      it('list item one should be type "LI"', function() {
+        expect(list.childNodes[0].nodeName).to.equal('LI')
+      })
+      it('list 1 item content should be "one"', function() {
+        expect(list.childNodes[0].textContent).to.equal('one')
+      })
+      it('list 2 item content should be "two"', function() {
+        expect(list.childNodes[1].textContent).to.equal('two')
+      })
+      it('list 3 item content should be "three"', function() {
+        expect(list.childNodes[2].textContent).to.equal('three')
+      })
+    })
+    describe('Render alert', function() {
+      const alert = document.querySelector('h2')
+      it('alert should be of type "H2"', function() {
+        expect(alert.nodeName).to.equal('H2')
+      })
+      it('alert content should be "Alert: this is a message!"', function() {
+        expect(alert.textContent).to.equal("Alert: this is a message!")
+      })
+      it('alert should have style of "color: red"', function() {
+        expect(alert.style.color).to.equal('red')
+      })
+    })
+    mocha.run()
+  </script>
+</body>
+</html>

@@ -92,15 +92,35 @@ Because Composi uses JSX, there are many similarities to React patterns. Please 
 
 Composi is small, just 3KB for the gzipped core. It loads quickly. Its small and focused API means you can learn everything in half a day and be productive. If you're already familiar with JSX, then you only need to learn the Component API. You can easily do that in an hour.
 
+Running Tests
+-------------
+
+Composi comes with unit test written with Mocha and Chai. These are loaded from a CDN, so you require an internet connect to run these tests. To run them, open your terminal and execute:
+
+```bash
+npm test
+```
+
+This will open a navigation page in your default browser. There are four tests:
+
+1. h
+2. patch
+3. render
+4. Component
+
+Clicking on one of these will open the test page. The test runs automatically when you open the page. Some errors may only show in the browser console, so open it to check. You can get back to the test navigation page by clicking any where on the top header.
+
 What's Missing
 --------------
-Composi is focused on one thing - providing a solution for components as the means to build and structure a project. That means there are certain things it does not address.
+Composi is focused on one thing - providing a solution for components to build and structure a project. That means there are certain things it does not address.
 
 ### State Management
 Composi provides the barest support for state through the component's `state` property and `setState` method. However for a more robust solution you may prefer to use [Redux](http://redux.js.org), [Mobx](https://mobx.js.org), or some other state management solution. When you do so, you'll want to create stateless components. Read the documentation for [Component](./docs/components.md) to learn more about stateless components. If yo want something really minimal, take a look at [trkl](https://www.npmjs.com/package/trkl) and [pure](https://www.npmjs.com/package/purestate). You could event roll your own state management solution by defining a class and using Composi's [pubsub functions](./docs/pubsub.md), `subscribe` and `dispatch` for making it reactive. Another possibility for state management is [freezer-js](https://www.npmjs.com/package/freezer-js)
 
 ### Router
-Composi does not provide a client-side router. Currently the most popular choices for client-side routing are [Page.js](https://www.npmjs.com/package/page.js), [Universal Router](https://www.npmjs.com/package/universal-router), [Navigo](https://www.npmjs.com/package/navigo) or [rlite-router](https://www.npmjs.com/package/rlite-router).
+Composi does not provide a client-side router. However, you can use our blessed router [composi-router](https://www.npmjs.com/package/composi-router). The Github repository has documentation on how to use.
+
+Other alternatives for client-side routing are [Page.js](https://www.npmjs.com/package/page.js), [Universal Router](https://www.npmjs.com/package/universal-router), [Navigo](https://www.npmjs.com/package/navigo) or [rlite-router](https://www.npmjs.com/package/rlite-router).
 
 ### Ajax
 Composi does not provide a means of aquiring remote data. If you only need to support current, ever-green browsers, you an use [fectch](). If you would like to use `fetch` with older browsers, you can provide the [WHATWG polyfill](https://github.com/whatwg/fetch). If don't need every possible feature of `fetch` and are concerned about the polyfill size, you can consider [unfetch](https://www.npmjs.com/package/unfetch). It's tiny and provides good support for the basics.

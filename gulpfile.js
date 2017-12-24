@@ -1,4 +1,5 @@
 const gulp = require('gulp')
+const browserSync = require('browser-sync')
 const rollup = require('rollup')
 const babel =  require('rollup-plugin-babel')
 const uglify =  require('rollup-plugin-uglify')
@@ -39,6 +40,23 @@ gulp.task('build', () => {
      .pipe(gzip({ extension: 'gzip' }))
      .pipe(gulp.dest('./dist'))
   })
+})
+
+// Setup tests:
+gulp.task('test', function() {
+  // Launch browser:
+  browserSync.init({
+      server: {
+          baseDir: "./",
+          index: "./test/index.html"
+      }
+  });
+  browserSync({
+    port: 4040,
+    server: {
+      open: false
+    }
+  }).reload
 })
 
 gulp.task('default', ['build'])

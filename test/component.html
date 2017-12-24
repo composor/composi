@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/test/styles.css">
+</head>
+<body>
+  <nav onclick="location.pathname='/test/index.html'">
+    <h1>Mocha Tests - Composi Component Class</h1>
+  </nav>
+  <section>
+    <div id="mocha"></div>
+    <div id="messages"></div>
+    <div id="fixtures"></div>
+    <div id="hide-tests">
+      <div id='h1-test'></div>
+      <div id="list1-test"></div>
+      <div id="list2-test"></div>
+    </div>
+  </section>
+  
+  <script src='/dist/composi.js'></script>
+  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+  <script src="https://cdn.rawgit.com/chaijs/chai/4.1.2/chai.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script>
+    
+    const {h, Component} = composi
+    let should = chai.should()
+    let expect = chai.expect
+    
+    describe('Create Component Instance', function() {
+      let componentDidMount = false;
+      const h1 = new Component({
+        render: data => h('h1', {style: {backgroundColor: '#000', color: '#fff'}}, `Hello, ${data}!`),
+        container: '#h1-test',
+        componentDidMount: () => {componentDidMount = true}
+      })
+      h1.update('World')
+      const h1El = document.querySelector('#h1-test h1')
+      
+      it('Component container should be "#h1-test"', function() {
+        expect(h1.container.id).to.equal('h1-test')
+      })
+      it('Component element should exist', function() {
+        should.exist(h1.element)
+      })
+      it('Component element should be "h1"', function() {
+        expect(h1.element.nodeName).to.equal('H1')
+      })
+      it("Component render function should be \"data => h('h1', {style: {backgroundColor: '#000', color: '#fff'}}, `Hello, ${data}!`)\"", function() {
+        expect(h1.render.toString()).to.equal("data => h('h1', {style: {backgroundColor: '#000', color: '#fff'}}, `Hello, ${data}!`)")
+      })
+      it('Component lifecycle method "componentDidMount" should have run', function() {
+        expect(componentDidMount).to.equal(true)
+      })
+      it('Element created by component should be "h1"', function() {
+        expect(h1El.nodeName).to.equal('H1')
+      })
+      it('H1 element content should be "Hello, World!"', function() {
+        expect(h1El.textContent.trim()).to.equal('Hello, World!')
+      })
+      it('H1 element background color should be "#000"', function() {
+        expect(h1El.style.backgroundColor).to.equal('rgb(0, 0, 0)')
+      })
+      it('H1 element color should be "#fff"', function() {
+        expect(h1El.style.color).to.equal('rgb(255, 255, 255)')
+      })
+      it('Running update method on component with new data, H1 content should be "Hello, Joe Bodoni!"', function(done) {
+        setTimeout(function() {
+          h1.update('Joe Bodoni')
+          expect(h1El.textContent.trim()).to.equal('Hello, Joe Bodoni!')
+        },1000)
+        done()
+      })
+    })
+
+    describe('Create Extended Component without State', function() {
+      let componentDidMount = false;
+      class List extends Component {
+        render(data) {
+          return h('ul', {class:'list'},
+            data.map(item => h('li', {}, item))
+          )
+        }
+        componentDidMount() {
+          componentDidMount = true
+        }
+      }
+      const list = new List({
+        container: '#list1-test'
+      })
+      window.list = list
+      list.update(['Apples', 'Oranges', 'Bananas'])
+
+      it('Component mounted property should be true', function() {
+        expect(list.mounted).to.equal(true)
+      })
+      it('Component lifecycle method "componentDidMount" should have run', function() {
+        expect(componentDidMount).to.equal(true)
+      })
+      it('Component container should be "#list1-test"', function() {
+        expect(list.container.id).to.equal('list1-test')
+      }) 
+      it('Component element should be "ul"', function() {
+        expect(list.element.nodeName).to.equal('UL')
+      }) 
+      it('Component selector should be "#list1-test"', function() {
+        expect(list.selector).to.equal('#list1-test')
+      }) 
+      it('Component should have no state', function() {
+        expect(list.state).to.equal(undefined)
+      })
+      let listEl = document.querySelector('#list1-test ul')
+      it('Element created by component should be "ul"', function() {
+        expect(listEl.nodeName).to.equal('UL')
+      }) 
+      it('Element should have class of "list"', function() {
+        expect(listEl.className).to.equal('list')
+      }) 
+      it('Element should have three childen', function() {
+        expect(listEl.children).to.have.lengthOf(3)
+      })
+      it('First list item should contain "Apples"', function() {
+        expect(listEl.children[0].textContent.trim()).to.equal('Apples')
+      })
+      it('Last list item should contain "Bananas"', function() {
+        expect(listEl.children[2].textContent.trim()).to.equal('Bananas')
+      })  
+      it('On update, list should have four children', function(done) {
+        setTimeout(function() {
+          list.update(['Apples', 'Oranges', 'Bananas', 'Grapes'])
+          expect(listEl.children).to.have.lengthOf(4)
+        }, 1000)
+        done()
+      })
+      it('On update, last list item should contain "Grapes"', function(done) {
+        setTimeout(function() {
+          expect(listEl.children[3].textContent.trim()).to.equal('Grapes')
+        }, 1000)
+        done()
+      }) 
+      it('On unmount, list should be removed from DOM', function(done) {
+        setTimeout(function() {
+          list.unmount()
+          const container = document.querySelector('#list1-test')
+          listEl = document.querySelector('#list1-test ul')
+          should.not.exist(listEl)
+          expect(container.children).to.have.lengthOf(0)
+        }, 1000)
+        done()
+      }) 
+    })
+
+    describe('Create Extended Component with State', function() {
+      let componentWillMount = false
+      let componentDidMount = false
+      let componentWillUpdate = false
+      let componentDidUpdate = false
+      let componentWillUnmount = false
+      const veggies = ['Potatoes', 'Tomatoes', 'Carrots', 'Peas']
+      class List extends Component {
+        constructor(props) {
+          super(props)
+          this.container = '#list2-test'
+          this.state = veggies
+        }
+        render(data) {
+          return h('ul', {class:'list'},
+            data.map(item => h('li', {title:item}, item))
+          )
+        }
+        componentWillMount() {
+          componentWillMount = true
+        }
+        componentDidMount() {
+          componentDidMount = true
+        }
+        componentWillUpdate() {
+          componentWillUpdate = true
+        }
+        componentDidUpdate() {
+          componentDidUpdate = true
+        }
+        componentWillUnmount() {
+          componentWillUnmount = true
+        }
+      }
+      const list2 = new List()
+      window.list2 = list2
+      let listEl
+      setTimeout(() => {
+        listEl = document.querySelector('#list2-test ul')
+      }, 100)
+
+      it('Component lifecycle method "componentDidMount" should run before component is created', function(done) {
+        setTimeout(() => {
+          expect(componentWillMount).to.equal(true)
+        }, 100)
+        done()
+      })
+      it('Component should mount when instantiated because it has state', function() {
+        const listEl = document.querySelector('#list1-test ul')
+        should.exist(listEl)
+      })
+      it('Component lifecycle method "componentDidMount" should have run', function(done) {
+        setTimeout(function() {
+          expect(componentDidMount).to.equal(true)
+        }, 100)
+        done()
+      })
+      it('Component mounted property should be true', function(done) {
+        setTimeout(() => {
+          expect(list2.mounted).to.equal(true)
+        }, 100)
+        done()
+      })
+      it('Component container should be "#list2-test"', function(done) {
+        setTimeout(function() {
+          expect(list2.container.id).to.equal('list2-test')
+        }, 100)
+        done()
+      }) 
+      it('Component element should be "ul"', function(done) {
+        setTimeout(function() {
+          expect(list2.element.nodeName).to.equal('UL')
+        }, 100)
+        done()
+      }) 
+      it('Component selector should be "#list2-test"', function(done) {
+        setTimeout(function() {
+          expect(list2.selector).to.equal('#list2-test')
+        }, 100)
+        done()
+      }) 
+      it('Component should have state', function(done) {
+        setTimeout(function() {
+          should.exist(list2.state)
+        }, 100)
+        done()
+      })
+      it('Component state show have 4 items', function(done) {
+        setTimeout(function() {
+          expect(list2.state).to.have.lengthOf(4)
+        }, 100)
+        done()
+      })
+      it('Component state should equal "Potatoes Tomatoes Carrots Peas"', function(done) {
+        setTimeout(function() {
+          expect(list2.state.join(' ')).to.equal("Potatoes Tomatoes Carrots Peas")
+        }, 100)
+        done()
+      })
+      it('Element created by component should be "ul"', function(done) {
+        setTimeout(function() {
+          expect(listEl.nodeName).to.equal('UL')
+        }, 100)
+        done()
+      }) 
+      it('Element should have class of "list"', function(done) {
+        setTimeout(function() {
+          expect(listEl.className).to.equal('list')
+        }, 100)
+        done()
+      }) 
+      it('Element should have three childen', function(done) {
+        setTimeout(function() {
+          expect(listEl.children).to.have.lengthOf(4)
+        }, 100)
+        done()
+      })
+      it('First list item should contain "Potatoes"', function(done) {
+        setTimeout(function() {
+          expect(listEl.children[0].textContent.trim()).to.equal('Potatoes')
+        }, 100)
+        done()
+      })
+      it('Last list item should contain "Peas"', function(done) {
+        setTimeout(function() {
+          expect(listEl.children[3].textContent.trim()).to.equal('Peas')
+        }, 100)
+        done()
+      })  
+      it('List items should have title attribute', function(done) {
+        setTimeout(function() {
+          const items = Array.prototype.slice.apply(listEl.children)
+          items.map((item, idx) => {
+            should.exist(item.title)
+            expect(item.title).to.equal(veggies[idx])
+          })
+        }, 100)
+        done()
+      })  
+
+
+      it('On update, list should have four children', function(done) {
+        setTimeout(function() {
+          list2.setState('Onions', list2.state.length)
+          expect(listEl.children).to.have.lengthOf(4)
+        }, 300)
+        done()
+      })
+      it('On update, last list item should contain "Onions"', function(done) {
+        setTimeout(function() {
+          expect(listEl.children[4].textContent.trim()).to.equal('Onions')
+        }, 400)
+        done()
+      }) 
+
+
+
+      it('Component lifecycle methods "componentWillUpdate" and "componentDidUpdate" should run when component state is updated', function(done) {
+        setTimeout(function(){
+          list2.setState('Lettuce', list2.state.length)
+          setTimeout(() => {
+            expect(componentWillUpdate).to.equal(true)
+            expect(componentDidUpdate).to.equal(true)
+            expect(list2.state[5]).to.equal('Lettuce')
+          }, 1000)
+        }, 1100)
+        done()
+      })
+
+      it('On unmount, "componentWillUnmount" lifecyle method should run and list should be removed from DOM', function(done) {
+        setTimeout(function() {
+          list2.unmount()
+          const container = document.querySelector('#list1-test')
+          listEl = document.querySelector('#list2-test ul')
+          expect(componentWillUnmount).to.equal(true)
+          should.not.exist(listEl)
+          expect(container.children).to.have.lengthOf(0)
+        }, 3000)
+        done()
+      }) 
+
+    })
+
+    mocha.run()
+  </script>
+</body>
+</html>
