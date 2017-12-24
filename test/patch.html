@@ -5,29 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+  <link href="https://unpkg.com/mocha@4.0.1/mocha.css" rel="stylesheet" />
   <link rel="stylesheet" href="/test/styles.css">
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-    }
-    body {
-      height: 100%;
-    }
-    nav {
-      padding: 20px;
-      background-color: #333;
-      color: #fff;
-    }
-    a[href='.'] {
-      display: none;
-    }
-    #hide-tests {
-      display: none;
-    }
-  </style>
 </head>
 <body>
   <nav onclick="location.pathname='/test/index.html'">
@@ -42,8 +21,8 @@
     </div>
   </section>
   
-  <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
-  <script src="https://cdn.rawgit.com/chaijs/chai/4.1.2/chai.js"></script>
+  <script src="https://unpkg.com/mocha@4.0.1/mocha.js"></script>
+  <script src="https://unpkg.com/chai@4.1.2/chai.js"></script>
   <script src='/dist/composi.js'></script>
   <script>mocha.setup('bdd')</script>
   <script>
