@@ -13,10 +13,10 @@ const cssnano = require('gulp-cssnano');
 // Static Server & watching files:
 gulp.task('serve', ['build'], function () {
   browserSync({
-    server: './',
     port: 4040,
     server: {
-      open: false
+      open: false,
+      baseDir: './'
     }
   }).reload
 })
