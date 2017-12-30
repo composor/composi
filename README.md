@@ -14,6 +14,28 @@ Browser Support
 
 Composi is compatible with browsers back to IE 9 on Windows 7.
 
+
+
+Live Examples on Codepen
+------------------------
+
+1. <a href='https://codepen.io/rbiggs/pen/GOyObq' target='__blank'>Todo List</a>
+3. <a href='https://codepen.io/rbiggs/pen/zPmERR' target='__blank'>Minimal Hacker News</a>
+2. <a href='https://codepen.io/rbiggs/pen/POMbxG' target='__blank'>Tour of Heroes (Client Side Routing)s</a>
+4. <a href='https://codepen.io/rbiggs/pen/BmXqqL' target='__blank'>Calculator</a>
+5. <a href='https://codepen.io/rbiggs/pen/qVxvOp' target='__blank'>Cat Image Browser</a>
+6. <a href='https://codepen.io/rbiggs/pen/EbovjJ' target='__blank'>Pythagoras Dancing Tree</a>
+7. <a href='https://codepen.io/rbiggs/pen/POpMMz' target='__blank'>Tic-Tac-Toe</a>
+8. <a href='https://codepen.io/rbiggs/pen/jYbVPe' target='__blank'>Rick and Morty Character Viewer</a>
+9. <a href='https://codepen.io/rbiggs/pen/VywZWE' target='__blank'>Slideshow Component</a>
+10. <a href='https://codepen.io/rbiggs/pen/gXopyN' target='__blank'>Coin Flip App</a>
+11. <a href='https://codepen.io/rbiggs/pen/LOZmbG' target='__blank'>Canvas Clock</a>
+12. <a href='https://codepen.io/rbiggs/pen/RjRpxL' target='__blank'>SVG Clock</a>
+13. <a href='https://codepen.io/rbiggs/pen/mqyxJX' target='__blank'>Spreadsheet</a>
+14. <a href='https://codepen.io/rbiggs/pen/oervxx' target='__blank'>Counter with Redux</a>
+15. <a href='https://codepen.io/rbiggs/pen/JygrLo' target='__blank'>Counter with Mobx</a>
+
+
 Installation
 -------------
 
