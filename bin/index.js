@@ -109,6 +109,8 @@ const composi = (() => {
     cpFile(p.join(composi_path, 'resources', 'index.html'), p.join(path, 'index.html'), noop)
     writefile(p.join(path, 'package.json'), package, noop)
     cpFile(p.join(composi_path, 'resources', 'README.md'), p.join(path, 'README.md'), noop)
+    cpFile(p.join(composi_path, 'resources', 'favicon-16x16.png'), p.join(path, 'images', 'favicon-16x16.png'))
+    cpFile(p.join(composi_path, 'resources', 'favicon-32x32.png'), p.join(path, 'images', 'favicon-32x32.png'))
     setTimeout(function() {
       replace({
         from: /project_name/g,
