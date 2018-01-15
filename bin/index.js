@@ -26,6 +26,7 @@ function createPackage(opts) {
   "main": "app.js",
   "scripts": {
     "build": "gulp",
+    "start": "npm run build",
     "test": "echo \\"Error: no test specified\\" && exit 1"
   },
   "author": "${opts.user}",
