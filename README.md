@@ -92,7 +92,7 @@ npm i
 Then, while in your project's root folder, run:
 
 ```sh
-npm run build
+npm start
 ```
 
 This will build and launch your project in your default browser.
