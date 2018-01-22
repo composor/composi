@@ -22,17 +22,17 @@ Lifecycle Methods
 
 Composi has the following five lifecycle methods:
 
-1. beforeCreateComponent
-2. componentWasCreated
+1. componentWillMount
+2. ComponentDidMount
 3. componentWillUpdate
 4. componentDidUpdate
 5. componentWillUnmount
 
 Lifecycle methods let you implement maintenance and clean up code based on the status of a component from when it is created and injected into the DOM, when it is updated and when it is removed from the DOM.
 
-`beforeCreateComponent` is executed before the component is created and inserted into the DOM.
+`componentWillMount` is executed before the component is created and inserted into the DOM.
 
-`componentWasCreated` is executed after the component is inserted into the DOM.
+`componentDidMount` is executed after the component is inserted into the DOM.
 
 `componentWillUpdate` is executed right before the component is updated. If a component is updated with the same data, then no update will occur, meaning this will not execute.
 
@@ -42,16 +42,16 @@ Lifecycle methods let you implement maintenance and clean up code based on the s
 
 Lifecycle Methods are Asynchronous
 ----------------------------------
-When using lifecycle methods, be aware that they are asynchronous. For example, with `beforeCreateComponent` your component will probably be created and inserted into the DOM before your method can finish. Similarly, when using `componentWillUnmount`, the component will probably be unmounted and destroyed before your code in this method completes. If you want to handle these two in a synchronous manner for tighter control, you have two choices. Use a method that returns a promise, or use the [ES7 async functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/async_function). If your browser target includes IE9, you will need to polyfill promises for either of these to work.
+When using lifecycle methods, be aware that they are asynchronous. For example, with `componentWillMount` your component will probably be created and inserted into the DOM before your method can finish. Similarly, when using `componentWillUnmount`, the component will probably be unmounted and destroyed before your code in this method completes. If you want to handle these two in a synchronous manner for tighter control, you have two choices. Use a method that returns a promise, or use the [ES7 async functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/async_function). If your browser target includes IE9, you will need to polyfill promises for either of these to work.
 
 Order of Execution
 ------------------
-The first time a component is rendered, `beforeCreateComponent` and `componentWasCreated` will be executed. `componentWillUpdate` and `componentWillUpdate` will not be executed at this time. After the component was created, each render will fire `componentWillUpdate` and `componentWillUpdate`. So, if you wanted to do something when the component is initially created and after it updates, you would need to do this:
+The first time a component is rendered, `componentDidMount` and `componentWillMount` will be executed. `componentWillUpdate` and `componentWillUpdate` will not be executed at this time. After the component was created, each render will fire `componentWillUpdate` and `componentDidUpdate`. So, if you wanted to do something when the component is initially created and after it updates, you would need to do this:
 
 ```javascript
 class List extends Component {
   //... setup here.
-  componentWasCreated() {
+  componentDidMount() {
     // Do stuff after component was created.
   }
   componentDidUpdate() {
@@ -63,7 +63,7 @@ class List extends Component {
 Lifecycle Methods with Component Instance
 -----------------------------------------
 
-In the following example we use `componentWasCreated` to start a timer and `componentWillUnmount` to terminate the timer.
+In the following example we use `componentDidMount` to start a timer and `componentWillUnmount` to terminate the timer.
 
 In our first example of lifecycle methods, we'll use a Component instance. This poses several problems for the lifecycle methods. They do not have access to the component itself. This forces us to use global variables to pass things around.
 
@@ -87,7 +87,7 @@ const clock = new Component({
     </div>
   )},
 
-  componentWasCreated() {
+  componentDidMount() {
     timerID = setInterval(
       () => {
         tick()
@@ -132,7 +132,7 @@ class Clock extends Component {
     return this.state.date.toLocaleTimeString()
   }
 
-  componentWasCreated() {
+  componentDidMount() {
     // Store timer referrence so we can clear it later:
     this.timerID = setInterval(
       () => this.tick(),

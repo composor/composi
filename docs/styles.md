@@ -113,7 +113,22 @@ When you are using this technique, it is up to you to make sure the styles in th
 Inline Styles
 -------------
 
-You can provide your component elements with inline styles. Only other properies, the style tag expects a JavaScript object defining the style to be created. This means that CSS properties that are hyphenated must be camel cased. Also all values other than pure numbers must be enclosed in quotes. Since the style property's value needs to be interpolated, the style definition needs to be enclosed in curly braces. Notice how we provide objects as styles inside curly braces:
+You can provide your component elements with inline styles. This is just like you would normally do with HTML, a style attribute followed by a string of CSS properties and values:
+
+
+```javascript
+const title = new Component({
+  container: 'header',
+  state: 'World',
+  render: state => (
+    &lt;nav style='padding: 20px; background-color: #ccc;'>
+      &lt;h1 style='margin: 0; color: #fff;'>Hello, {state}!&lt;h1>
+    &lt;/nav>
+  )
+})
+```
+
+You can also choose to use an object notation approach. This allows you to use dynamic JavaScript evaluations in your CSS. In this case you are passing the `style` attribute a JavaScript object defining the style to be created. This means that CSS properties that are hyphenated must be camel cased. Also all values other than pure numbers must be enclosed in quotes. Since the style property's value needs to be interpolated, the style definition needs to be enclosed in curly braces. Notice how we provide objects as styles inside curly braces:
 
 ```javascript
 const list = new Component({

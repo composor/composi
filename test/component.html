@@ -20,6 +20,7 @@
       <div id='h1-test'></div>
       <div id="list1-test"></div>
       <div id="list2-test"></div>
+      <div id="list3-test"></div>
     </div>
   </section>
   
@@ -338,6 +339,39 @@
       }) 
 
     })
+
+    describe('Use property dangerouslySetInnerHTML on element', function() {
+      
+      class Div extends Component {
+        constructor(props) {
+          super(props)
+          this.container = '#list3-test'
+          this.state = true
+        }
+        render(data) {
+          return h(
+            'div',
+             {dangerouslySetInnerHTML: '<div id="dangerous-div">This was set dangerously!</div>'}
+          )
+        }
+        componentDidMount() {
+          console.log(this.element.children[0].id)
+        }
+      }
+      const testDiv = new Div()
+
+      it('Test div should have one child', function() {
+        expect(testDiv.element.children.length).to.equal(1)
+      })
+      it('Test div child should have id of "dangerous-div"', function() {
+        expect(testDiv.element.children[0].id).to.equal('dangerous-div')
+      })
+      it('Test div child should have content of "This was set dangerously!"', function() {
+        expect(testDiv.element.children[0].textContent.trim()).to.equal('This was set dangerously!')
+      })
+    })
+
+    
 
     mocha.run()
   </script>

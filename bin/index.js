@@ -104,6 +104,7 @@ const composi = (() => {
     cpFile(p.join(composi_path, 'resources', '.babelrc'), p.join(path, '.babelrc'), noop)
     cpFile(p.join(composi_path, 'resources', 'gulpfile.js'), p.join(path, 'gulpfile.js'), noop)
     cpFile(p.join(composi_path, 'resources', '.editorconfig'), p.join(path, '.editorconfig'), noop)
+    cpFile(p.join(composi_path, 'resources', 'jsconfig.json'), p.join(path, 'jsconfig.json'))
     cp(p.join(composi_path, 'resources', 'dev', 'css', 'styles.css'), p.join(path, 'dev','css', 'styles.css'), noop)
     cp(p.join(composi_path, 'resources', 'dev', 'app.js'), p.join(path, 'dev', 'app.js'), noop)
     cp(p.join(composi_path, 'resources', 'dev', 'title.js'), p.join(path, 'dev', 'components', 'title.js'), noop)
