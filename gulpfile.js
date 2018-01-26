@@ -45,16 +45,12 @@ gulp.task('build', () => {
 // Setup tests:
 gulp.task('test', function() {
   // Launch browser:
-  browserSync.init({
-      server: {
-          baseDir: "./",
-          index: "./test/index.html"
-      }
-  });
   browserSync({
     port: 4040,
     server: {
-      open: false
+      open: false,
+      baseDir: "./",
+      index: "./test/index.html"
     }
   }).reload
 })

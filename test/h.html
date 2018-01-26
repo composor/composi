@@ -74,6 +74,13 @@
         expect(title.children[0]).to.equal('The Title')
       })
     })
+    describe('h should accept a functional component that takes props and children and returns a virtual node.', function() {
+      const Component = (props, children) => h("div", props, children)
+      const result = h(Component, null, "foo")
+      it('Functional component should be {type: "div", props: {}, children: ["foo"]}', function() {
+        expect(JSON.stringify(result)).to.equal(JSON.stringify({type: "div", props: {}, children: ["foo"]}))
+      })
+    })
     describe("Test for creation of list", function() {
       it('list should have type "ul"', function() {
         expect(list.type).to.equal('ul')

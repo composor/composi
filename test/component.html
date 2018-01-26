@@ -340,7 +340,7 @@
 
     })
 
-    describe('Use property dangerouslySetInnerHTML on element', function() {
+    describe('Use property dangerouslySetInnerHTML on element to set props using innerHTML without encoding.', function() {
       
       class Div extends Component {
         constructor(props) {
@@ -360,14 +360,23 @@
       }
       const testDiv = new Div()
 
-      it('Test div should have one child', function() {
-        expect(testDiv.element.children.length).to.equal(1)
+      it('Test div should have one child', function(done) {
+        setTimeout(() => {
+          expect(testDiv.element.children.length).to.equal(1)
+        }, 100)
+        done()
       })
-      it('Test div child should have id of "dangerous-div"', function() {
-        expect(testDiv.element.children[0].id).to.equal('dangerous-div')
+      it('Test div child should have id of "dangerous-div"', function(done) {
+        setTimeout(() => {
+          expect(testDiv.element.children[0].id).to.equal('dangerous-div')
+        }, 100)
+        done()
       })
-      it('Test div child should have content of "This was set dangerously!"', function() {
-        expect(testDiv.element.children[0].textContent.trim()).to.equal('This was set dangerously!')
+      it('Test div child should have content of "This was set dangerously!"', function(done) {
+        setTimeout(() => {
+          expect(testDiv.element.children[0].textContent.trim()).to.equal('This was set dangerously!')
+        }, 100)
+        done()
       })
     })
 
