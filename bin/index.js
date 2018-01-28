@@ -2,7 +2,6 @@
 
 // Import packages:
 const cpFile = require('cp-file')
-const copy = require('copy')
 const cp = require('fs-cp')
 const mkdirp = require('mkdirp')
 const ncp = require('ncp').ncp
