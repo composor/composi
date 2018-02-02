@@ -1,11 +1,12 @@
 {
   "name": "composi",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
     "build": "gulp",
-    "test": "gulp test"
+    "test": "gulp test",
+    "prepare": "npm run build"
   },
   "bin": {
     "composi": "./bin/index.js"
