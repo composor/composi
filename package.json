@@ -4,7 +4,7 @@
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
-    "build": "gulp && gulp test",
+    "build": "gulp",
     "test": "gulp test",
     "prepare": "npm run build"
   },
