@@ -63,8 +63,7 @@ const composi = (() => {
   const deploy = argv.d || argv.deploy
     
   if (version) {
-    console.log(pkg.version)
-    return
+    return console.log(pkg.version)
   }
   if (!name) {
     if (deploy) {
@@ -144,4 +143,4 @@ const composi = (() => {
       console.log('After the install is done, you can run `gulp` to build and run your project.')
     }, 2500)
   }
-})(argv)
+})()
