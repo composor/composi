@@ -8,6 +8,7 @@ To learn how Composi works and how to use it, read any of the following document
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Render](./render.md)
+- [CreateElement](./create-element.md)s
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)

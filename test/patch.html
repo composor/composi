@@ -26,7 +26,7 @@
   <script src='/dist/composi.js'></script>
   <script>mocha.setup('bdd')</script>
   <script>
-    const {h, render, patch} = composi
+    const {h, render, patch, createElement} = composi
     let expect = chai.expect
 
     const listItems = ['one', 'two', 'three']
@@ -207,6 +207,28 @@
           expect(listEl.className).to.equal('')
         }, 1000)
         done()
+      })
+    })
+
+    describe('createElement should return convert and return DOM nodes', function() {
+      const header = h('nav', {class: 'header', id: 'abc123'}, [
+        h('h1', {}, 'This is the Title!')
+      ])
+      const node = createElement(header)
+
+      it('Should return a node of type "NAV"', function() {
+        expect(node.nodeName).to.equal('NAV')
+      })
+      it('Should have a class of "header" and an id of "abc123"', function() {
+        expect(node.className).to.equal('header')
+        expect(node.id).to.equal('abc123')
+      })
+      it('Should have one child of type "H1"', function() {
+        expect(node.children.length).to.equal(1)
+        expect(node.children[0].nodeName).to.equal('H1')
+      })
+      it('It\'s child should have the text content of "This is the Title!"', function() {
+        expect(node.children[0].textContent).to.equal('This is the Title!')
       })
     })
 

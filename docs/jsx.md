@@ -7,6 +7,7 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Render](./render.md)
+- [CreateElement](./create-element.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
@@ -243,6 +244,89 @@ const goodJSX = new Component({
     </ul>
   )
 })
+```
+
+Fragment Tag
+------------
+
+As of version 1.5.0, Composi also supports a special Fragment tag. This allows you to group a number a siblings together instead of needing to enclose them in an html tag. The Fragment tag will be the parent, however it will not be converted into a tag in the DOM. Instead its children will become the children of whatever the Fragment gets inserted into. This is similar to how document fragments work. However, this is not an actual document fragment. The Fragment tag must always start with a capital F:
+
+```javascript
+function Title() {
+  return (
+    <Fragment>
+      <h1>Main Title</h1>
+      <h2>Secondary Title</h2>
+    </Fragment>
+  )
+}
+```
+
+Let's look at the previous list example to see how we can use Fragments to make it more manageable. Before we can use the Fragment tag, we need to import it into our project:
+
+```javascript
+import {h, Fragment, Component} from 'composi'
+
+class List extends Component {
+  container = '#listDiv'
+  state = ['Apples', 'Oranges', 'Bananas']
+  render(items) {
+    function ListItems({items}) {
+      return (
+        <Fragment>
+          {
+            items.map(item => <li>{item}</li>)
+          }
+        </Fragment>
+      )
+    }
+    return (
+      <ul>
+        <ListItems items={this.state}>
+        <ListItems>
+      </ul>
+    )
+  }
+}
+// Instantiate a new List:
+new List()
+```
+
+Because Fragment just returns their children, if you nest them, when you return them their children will be flattens. Notice what the following exaple returns:
+
+```javascript
+import {h, render, Fragment} from 'composi'
+
+const letters = ['A', 'B', 'C', 'D', 'E', 'F']
+function Items({letters}) {
+  return (
+    <main>
+      <Fragment>
+        <span>{letters[0]}</span>
+        <span>{letters[1]}</span>
+        <Fragment>
+          <span>{letters[2]}</span>
+          <span>{letters[3]}</span>
+          <Fragment>
+            <span>{letters[4]}</span>
+            <span>{letters[5]}</span>
+          </Fragment>
+        </Fragment>
+      </Fragment>
+    </main>
+  )
+}
+
+render(<Items letters={letters}/>, document.body)
+// This will create the following:
+<main>
+  <span>A</span>
+  <span>B</span>
+  <span>C</span>
+  <span>D</span>
+  <span>E</span>
+  <span>F</span>
+</main>
 ```
 
 Components with Same Container

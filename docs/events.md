@@ -8,6 +8,7 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Render](./render.md)
+- [CreateElement](./create-element.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Styles](./styles.md)
