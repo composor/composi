@@ -7,8 +7,6 @@
     "**/node_modules/*"
   ],
   "include": [
-    "node_moduels/composi/index.js",
-    "dev/**/*.js",
-    "dev/*.js"
+    "node_moduels/composi/index.js"
   ]
 }
