@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-      "target": "ES6"
+    "target": "ES6"
   },
   "exclude": [
-      "node_modules",
-      "**/node_modules/*"
+    "node_modules",
+    "**/node_modules/*"
   ],
   "include": [
-    "node_moduels/composi/index.js"
+    "node_moduels/composi/index.js",
+    "dev/**/*.js",
+    "dev/*.js"
   ]
 }
