@@ -1,8 +1,8 @@
 import {h} from './lib/h'
-import {patch} from './lib/patch'
-import {Component} from './lib/component'
+import {mount} from './lib/mount'
 import {render} from './lib/render'
+import {Component} from './lib/component'
 import {Fragment} from './lib/fragment'
-import {createElement} from './lib/utils/createElement'
 
-export {h, patch, render, Component, Fragment, createElement}
+
+export {h, mount, render, Component, Fragment}
