@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Mount and Render</title>
   <link href="https://unpkg.com/mocha@4.0.1/mocha.css" rel="stylesheet" />
   <link rel="stylesheet" href="/test/styles.css">
 </head>
 <body>
   <nav onclick="location.pathname='/test/index.html'">
-    <h1>Mocha Tests - Composi render Function</h1>
+    <h1>Mocha Tests - Composi mount &amp; render Function</h1>
   </nav>
   <section>
     <div id="mocha"></div>
@@ -20,6 +20,7 @@
       <div id='h1-test'></div>
       <div id="list-test"></div>
       <div id="alert-test"></div>
+      <div id="render-test"></div>
     </div>
   </section>
   
@@ -28,14 +29,14 @@
   <script src='/dist/composi.js'></script>
   <script>mocha.setup('bdd')</script>
   <script>
-    const {h, render, patch} = composi
+    const {h, mount, render} = composi
     let expect = chai.expect
 
     function H1(){
       return h('h1', {id: 'title'}, 'The Title')
     } 
 
-    render(H1(), '#h1-test')
+    mount(H1(), '#h1-test')
 
     function List() {
       return h('ul', {class: 'list'},[
@@ -44,14 +45,34 @@
         h('li', {}, 'three')
       ])
     }
-    render(List(), '#list-test')
+    mount(List(), '#list-test')
 
     function Alert(message) {
       return h('h2', {style: {color: 'red'}} , `Alert: ${message}!`)
     }
-    render(Alert('this is a message'), '#alert-test')
+    mount(Alert('this is a message'), '#alert-test')
 
-    describe("Render h1", function() {
+    const things = [
+      'Apple',
+      'Chair',
+      'Horse'
+    ]
+    function List2(data) {
+      return h(
+        'ul',
+        {},
+        data.map(item => h('li', {}, item))
+      )
+    }
+    console.log(List2(things))
+    let list2 = mount(List2(things), '#render-test')
+
+    setTimeout(() => {
+      things.push('Popcorn')
+      render(List2(things), list2)
+    }, 3000)
+
+    describe("Mount h1", function() {
       const title = document.querySelector('#title')
       it('title should be "h1"', function() {
         expect(title.nodeName).to.equal('H1')
@@ -63,7 +84,7 @@
         expect(title.textContent).to.equal('The Title')
       })
     })
-    describe('Render list', function() {
+    describe('Mount list', function() {
       const list = document.querySelector('ul')
       it('list should be of type "UL"', function() {
         expect(list.nodeName).to.equal('UL')
@@ -87,7 +108,7 @@
         expect(list.childNodes[2].textContent).to.equal('three')
       })
     })
-    describe('Render alert', function() {
+    describe('Mount alert', function() {
       const alert = document.querySelector('h2')
       it('alert should be of type "H2"', function() {
         expect(alert.nodeName).to.equal('H2')
@@ -99,6 +120,38 @@
         expect(alert.style.color).to.equal('red')
       })
     })
+    describe('Mount list to update with render function', function() {
+      const list = document.querySelector('#render-test ul')
+      it('should have just three children', function() {
+        expect(list.children.length).to.equal(3)
+      })
+      it('list items should contain "Apple", "Chair" and "Horse"', function() {
+        expect(list.children[0].textContent).to.equal('Apple')
+        expect(list.children[1].textContent).to.equal('Chair')
+        expect(list.children[2].textContent).to.equal('Horse')
+      })
+
+    })
+    describe('Update list with render function', function(done) {
+      const list = document.querySelector('#render-test ul')
+      it('list should now have four items', function(done) {
+        setTimeout(() => 
+          expect(list.children.length).to.equal(4),
+        3000)
+      done()
+      })
+      it('list items should contain "Apple", "Chair", "Horse" and "Popcorn"', function(done) {
+        setTimeout(() => {
+          expect(list.children[0].textContent).to.equal('Apple')
+          expect(list.children[1].textContent).to.equal('Chair')
+          expect(list.children[2].textContent).to.equal('Horse')
+          expect(list.children[3].textContent).to.equal('Popcorn')
+        }, 3000)
+      done()
+      })
+      
+    })
+
     mocha.run()
   </script>
 </body>
