@@ -18,80 +18,102 @@ Contents
 - [Functional Components](./functional-components.md)
 - [Deployment](./deployment.md)
 
+mount
+-----
+
+This function is used to inject a function component into the DOM. It takes two arguments: the tag to convert to nodes and the element in which to inject the tag. The container can be indicated with a valid CSS selector, or an actualy DOM node. The `mount` function always returns a reference to the element injected into the DOM. You can use this as an argument to the `render` function so that it can update the already mounted component.
+
+If no second argument for a component container is supplied, `mount` will inject the component into the body element.
+
+Here are some examples of using `mount`:
+
+```javascript
+import {h, mount} from 'composi'
+
+// Define a functional component:
+function Header({message}) {
+  return (
+    <nav>
+      <h1>{message}</h1>
+    </nav>
+  )
+}
+
+// Mount the functional component in the document's header element:
+mount(<Header message="Hello, World!" />, "header")
+```
+
 render
 ------
 
-Components provide a powerful and convenient way for you to create modular chunks of UI. However, sometimes they are overkill. If you just need to output a chunk of static markup, a component is not necessary. Instead you can define a function that returns the markup. This is sometimes called a functional component. Once you've created a function to do that, you can render it into the document with the `render` function. To use it, you will need to import it into your code:
+Functional components are the best way to create components that are simple yet powerful. The `mount` function makes it easy to inject them into the DOM. But many times you may need to update the component when props or data change. For that you use the `render` function. To use it, you will need to import it into your code:
 
 ```javascript
-import {h, Component, render} from 'composi'
+import {h, mount, render} from 'composi'
 
 ```
-`render` take two parameters:
+`render` takes two parameters:
 
 1. tag - the element to create and insert into the DOM
-2. container - the element in the DOM in which to insert the new element 
+2. element - the element in the DOM that the tag will update 
 
 Define a Function to Return Markup
 ----------------------------------
 
 ```javascript
-import {h, render} from 'composi'
+import {h, mount, render} from 'composi'
 
 const fruits = ['Apples', 'Oranges', 'Bananas']
 
 // Define function that returns JSX:
-function createList(fruits) {
+function createList({fruits}) {
   return (
-    <ul>
-      {
-        fruits.map(fruit => <li>{fruit}</li>)
-      }
-    </ul>
+    <div>
+      <p>
+        <input type='text'/>
+        <button>Add</button>
+      </p>
+      <ul>
+        {
+          fruits.map(fruit => <li>{fruit}</li>)
+        }
+      </ul>
+    </div>
   )
 }
 
-// Create virtual node of list:
-const list = createList(fruits)
+// Insert the list into the document body:
+const list = mount(<List fruits={fruits}/>, 'body')
 
-// Insert the list in the document body:
-render(list, 'body')
-```
-
-We could use the `createList` function to make several lists:
-
-```javascript
-function CreateList({data}) {
-  return (
-    <ul id={data.id}>
-      {data.items.map(item => <li>{item}</li>)}
-    </ul>
-  )
+// Define event object:
+const listEvents = {
+  // Define event handler:
+  handleEvent(e) {
+    e.target.nodeName === 'BUTTON' && this.addItem()
+  },
+  // Store reference to form input:
+  input : document.querySelector('input')
+  // Define method to add item and update list:
+  addItem() {
+    const value = this.document.value
+    if (value) {
+      fruits.push(value)
+      // Update the list component with "render".
+      // Pass in mounted component reference as second argument:
+      render(<List fruits={fruits}/>, list)
+      // Clear input value:
+      input.value = ''
+    } else {
+      alert('Please provide a value before submitting.')
+    }
+  }
 }
-
-// Data for lists:
-const fruits = {id: '101', items:['Apples', 'Oranges', 'Bananas']}
-const names = {id: '102', items:['Joe', 'Ellen', 'Sam']}
-
-// Create lists and instert in their containers:
-render(<CreateList data={fruits} />, '#list1')
-render(<CreateList data={names} />, '#list2')
 ```
 
-In the above example, each subsequent call of the `render` function in the same container will patch and update whatever was previously rendered there. Be aware that the inital invocation of `render` will not replace any static content already in the container. Please read `Gotchas` and `Scope` below to better understand how `render` patches the DOM.
-
-Gotchas
--------
-The first time `render` is executed, it does not check to see what is in the container. It just appends to it. If you want to have server-side rendered content and replace it with new content using `render`, you'll need to remove the nodes yourself before invoking `render`. After the inital execution, `render` will patch whatever a previous invocation appended to the container. This means that if you render a completely different function component with the `render` function to the same container, whatever the was previously rendered will be patched with the new functional component.
-
-If you want to be able to create multiple instances of the same component, then you will want to use the Component class to do so. Please read the Component class [documentation](./components.md) to see how to do this.
-
-Scope
--------
-When `render` patches the DOM, it keeps track of changes scoped to the current call scope. So, if you used `render` to output some JSX in your `app.js` and then invoked the same function again in another file, because the scope is different, it would result in two versions of the same content being rendered in the container. When using `render`, understanding scope is very important to avoid duplication bugs.
+In the above example, each subsequent call of the `render` function will update the DOM tree structure with new data. Technically, if we wanted to modify the order of the list items, we would want to render them with a key.
 
 
 Summary
 -------
 
-`render` is similar to [`ReactDOM.render`](https://facebook.github.io/react/docs/react-dom.html#render), if you have used that before. It has its use in very limited circumstances. Otherwise, components offer more functionality and versitility.
+Both `mount` and `render` are similar in purpose to [`ReactDOM.render`](https://facebook.github.io/react/docs/react-dom.html#render). The main difference is that Composi separates mounting from updating. These means the two function have difference arguments. `mount` expects a second argument for where to inject the component, whereas `render` expects a second argument of the DOM tree to update. If your components need local state, class components might be a better choice. Or not. It depends on you specific needs and your design choices. If you do not like ES6 classes, you can stick with just `mount` and `render` for creating functional components.

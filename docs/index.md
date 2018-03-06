@@ -7,7 +7,7 @@ To learn how Composi works and how to use it, read any of the following document
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [Render](./render.md)
+- [Mount and Render](./render.md)
 - [CreateElement](./create-element.md)s
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
