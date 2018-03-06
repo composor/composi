@@ -126,7 +126,7 @@ npm test
 This will open a navigation page in your default browser. There are four tests:
 
 1. h
-2. patch
+2. fragment
 3. render
 4. Component
 
