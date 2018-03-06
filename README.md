@@ -127,7 +127,7 @@ This will open a navigation page in your default browser. There are four tests:
 
 1. h
 2. fragment
-3. render
+3. mount and render
 4. Component
 
 Clicking on one of these will open the test page. The test runs automatically when you open the page. Some errors may only show in the browser console, so open it to check. You can get back to the test navigation page by clicking any where on the top header.
