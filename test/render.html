@@ -53,24 +53,41 @@
     mount(Alert('this is a message'), '#alert-test')
 
     const things = [
-      'Apple',
-      'Chair',
-      'Horse'
+      {name: 'Apple', key: 101},
+      {name: 'Chair', key: 102},
+      {name: 'Horse', key: 103}
     ]
     function List2(data) {
       return h(
         'ul',
         {},
-        data.map(item => h('li', {}, item))
+        data.map(item => h('li', {key: item.key}, item.name))
       )
     }
-    console.log(List2(things))
+    let vNode = List2(things)
     let list2 = mount(List2(things), '#render-test')
 
     setTimeout(() => {
-      things.push('Popcorn')
+      things.push({name: 'Popcorn', key: 104})
+      vNode = List2(things)
       render(List2(things), list2)
     }, 3000)
+
+    describe('Create virtual node for list', function() {
+      it('virtual node should have three children', function() {
+        expect(vNode.children.length).to.equal(3)
+      })
+      it('virtual node children should equal "Apple", "Chair" and "Horse"', function() {
+        expect(vNode.children[0].children[0]).to.equal('Apple')
+        expect(vNode.children[1].children[0]).to.equal('Chair')
+        expect(vNode.children[2].children[0]).to.equal('Horse')
+      })
+      it('virtual node children should have following keys: "101", "102", "103"', function() {
+        expect(vNode.children[0].props.key).to.equal(101)
+        expect(vNode.children[1].props.key).to.equal(102)
+        expect(vNode.children[2].props.key).to.equal(103)
+      })
+    }) 
 
     describe("Mount h1", function() {
       const title = document.querySelector('#title')
@@ -122,6 +139,7 @@
     })
     describe('Mount list to update with render function', function() {
       const list = document.querySelector('#render-test ul')
+      
       it('should have just three children', function() {
         expect(list.children.length).to.equal(3)
       })
@@ -133,21 +151,51 @@
 
     })
     describe('Update list with render function', function(done) {
-      const list = document.querySelector('#render-test ul')
-      it('list should now have four items', function(done) {
-        setTimeout(() => 
-          expect(list.children.length).to.equal(4),
-        3000)
-      done()
+      it('list virtual node should have four children', function(done) {
+        setTimeout(() => {
+          expect(vNode.children.length).to.equal(4)
+        }, 3000)
+        done()
       })
-      it('list items should contain "Apple", "Chair", "Horse" and "Popcorn"', function(done) {
+      it('list virtual node now have four items"', function(done) {
+        setTimeout(() => {
+          expect(vNode.children.length).to.equal(4)
+        }, 3000)
+        done()
+      })
+      const list = document.querySelector('#render-test ul')
+      it('virtual node children should be "Apple", "Chair", "Horse" and "Popcorn', function(done) {
+        setTimeout(() => {
+          expect(vNode.children[0].children[0]).to.equal('Apple')
+          expect(vNode.children[1].children[0]).to.equal('Chair')
+          expect(vNode.children[2].children[0]).to.equal('Horse')
+          expect(vNode.children[3].children[0]).to.equal('Popcorn')
+        }, 3000)
+        done()
+      })
+      it('virtual node children keys should be "101", "102", "103", "104"', function(done) {
+        setTimeout(() => {
+        expect(vNode.children[0].props.key).to.equal(101)
+        expect(vNode.children[1].props.key).to.equal(102)
+        expect(vNode.children[2].props.key).to.equal(103)
+        expect(vNode.children[3].props.key).to.equal(104)
+        }, 3000)
+        done()
+      })
+      it('DOM list should have four list items', function(done) {
+        setTimeout(() => {
+          expect(list.children.length).to.equal(4)
+        }, 3000)
+        done()
+      })
+      it('DOM list items should contain "Apple", "Chair", "Horse" and "Popcorn"', function(done) {
         setTimeout(() => {
           expect(list.children[0].textContent).to.equal('Apple')
           expect(list.children[1].textContent).to.equal('Chair')
           expect(list.children[2].textContent).to.equal('Horse')
           expect(list.children[3].textContent).to.equal('Popcorn')
         }, 3000)
-      done()
+        done()
       })
       
     })

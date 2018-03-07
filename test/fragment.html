@@ -28,7 +28,7 @@
   <script src='/dist/composi.js'></script>
   <script>mocha.setup('bdd')</script>
   <script>
-    const {h, render, patch, Fragment} = composi
+    const {h, mount, render, patch, Fragment} = composi
     let expect = chai.expect
 
 
@@ -93,7 +93,7 @@
         const items = stuff.map(item => h('li', {}, [item]))
         return Fragment(null, items)
       }
-      render(h('ul', {}, [Items(stuff)]), '#fragment-test')
+      mount(h('ul', {}, [Items(stuff)]), '#fragment-test')
       it('list should have three items', function() {
         expect(fragTest.firstElementChild.children.length).to.equal(3)
       })
@@ -129,7 +129,7 @@
       )
       const vNodeTest =  h('div', {}, items)
       window.vNodeTest = vNodeTest
-      render(vNodeTest, '#fragment-test2')
+      mount(vNodeTest, '#fragment-test2')
       it('vNode should have only five children', function() {
         expect(vNodeTest.children.length).to.equal(5)
       })
@@ -177,12 +177,13 @@
         )
       }
       try {
-        render(ListItems(), document.querySelector('#fragment-test3'))
+        mount(ListItems(), document.querySelector('#fragment-test3'))
       } catch(err) {
         renderError = err
       }
       it('Render should generate an error message when attempting to insert Fragment directly into DOM', function() {
         expect(typeof renderError).to.equal('object')
+        expect(renderError.message).to.equal('Cannot insert Fragment directly into DOM.')
       })
       it('UL tag in DOM should remain empty', function() {
         const ul = document.querySelector('#fragment-test3')
