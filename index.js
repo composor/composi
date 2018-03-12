@@ -1,8 +1,5 @@
-import {h} from './lib/h'
-import {mount} from './lib/mount'
-import {render} from './lib/render'
-import {Component} from './lib/component'
-import {Fragment} from './lib/fragment'
-
-
-export {h, mount, render, Component, Fragment}
+export {h} from "./lib/h"
+export {mount} from './lib/mount'
+export {render} from './lib/render'
+export {Component} from './lib/component'
+export {Fragment} from './lib/fragment'
