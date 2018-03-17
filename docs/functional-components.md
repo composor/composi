@@ -4,9 +4,10 @@ Composi
 Contents
 --------
 - [Components](./components.md)
+- [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [Render](./render.md)
+- [Mount and Render](./render.md)
 - [CreateElement](./create-element.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
@@ -15,6 +16,7 @@ Contents
 - [Unmount](./unmount.md)
 - [Installation](../README.md)
 - [Third Party Libraries](./third-party.md)
+- Functional Components
 - [Deployment](./deployment.md)
 
 Functional Components

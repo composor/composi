@@ -6,7 +6,8 @@ Contents
 - [Components](./components.md)
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
-- [Render](./render.md)
+- Hyperscript
+- [Mount and Render](./render.md)
 - [CreateElement](./create-element.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)

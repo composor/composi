@@ -4,9 +4,10 @@ Composi
 Contents
 --------
 - [Components](./components.md)
+- JSX
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [Render](./render.md)
+- [Mount and Render](./render.md)
 - [CreateElement](./create-element.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)

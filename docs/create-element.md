@@ -3,10 +3,12 @@ Composi
 
 Contents
 --------
+- [Components](./components.md)
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [Render](./render.md)
+- [Mount and Render](./render.md)
+- CreateElement
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)

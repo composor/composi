@@ -7,11 +7,12 @@ Contents
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
-- [Render](./render.md)
-- [CreateElement](./create-element.md)s
+- [Mount and Render](./render.md)
+- [CreateElement](./create-element.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
+- Styles
 - [Unmount](./unmount.md)
 - [Installation](../README.md)
 - [Third Party Libraries](./third-party.md)
