@@ -8,7 +8,6 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Mount and Render](./render.md)
-- [CreateElement](./create-element.md)
 - State
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
