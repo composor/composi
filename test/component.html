@@ -21,6 +21,7 @@
       <div id="list1-test"></div>
       <div id="list2-test"></div>
       <div id="list3-test"></div>
+      <div id="boolean-props"></div>
     </div>
   </section>
   
@@ -376,6 +377,111 @@
         setTimeout(() => {
           expect(testDiv.element.children[0].textContent.trim()).to.equal('This was set dangerously!')
         }, 100)
+        done()
+      })
+    })
+
+    describe('Set properties with boolean values', function() {
+      // #boolean-props
+      class BooleanPropsTest extends Component {
+        render() {
+          return (
+            h('div',
+            {},
+            [
+              h('p', {}, [h('button', {id: 'btn-1', disabled: false})]),
+              h('p', {}, [h('button', {id: 'btn-2', disabled: 'false'})]),
+              h('p', {}, [h('button', {id: 'btn-3', disabled: true})]),
+              h('p', {}, [h('button', {id: 'btn-4', disabled: 'true'})]),
+              h('p', {}, [h('button', {id: 'btn-5', disabled: 1})]),
+              h('p', {}, [h('button', {id: 'btn-6', disabled: '1'})]),
+              h('p', {}, [h('button', {id: 'btn-7', disabled: -1})]),
+              h('p', {}, [h('button', {id: 'btn-8', disabled: '-1'})]),
+              h('p', {}, [h('button', {id: 'btn-9', disabled: 0})]),
+              h('p', {}, [h('button', {id: 'btn-10', disabled: '0'})])
+            ])
+          )
+        }
+        componentDidMount() {
+          this.buttons = this.element.querySelectorAll('button')
+        }
+      }
+      let buttons
+      const booleanPropsTest = new BooleanPropsTest({
+        container: '#boolean-props',
+        state: true
+      })
+      it('Button set to "disabled={false}" should not be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[0].disabled
+          expect(prop).to.be.false
+        }, 1000)
+        done()
+      })
+
+      it('Button set to "disabled=\"false\" should not be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[1].disabled
+          expect(prop).to.be.false
+        }, 1000)
+        done()
+      })
+
+      it('Button set to "disabled={true}" should be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[2].disabled
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+
+      it('Button set to "disabled=\"true\" should be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[3].disabled
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+      it('Button set to "disabled={1} should be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[4].disabled
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+      it('Button set to "disabled=\"1\" should be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[5].disabled
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+      it('Button set to "disabled={-1} should be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[6].disabled
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+      it('Button set to "disabled=\"-1\" should be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[7].disabled
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+      it('Button set to "disabled={0} should not be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[8].disabled
+          expect(prop).to.be.false
+        }, 1000)
+        done()
+      })
+      it('Button set to "disabled=\"0\" should be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[9].disabled
+          expect(prop).to.be.true
+        }, 1000)
         done()
       })
     })
