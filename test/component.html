@@ -34,6 +34,7 @@
     const {h, Component} = composi
     let should = chai.should()
     let expect = chai.expect
+    let assert = chai.assert
     
     describe('Create Component Instance', function() {
       let componentDidMount = false;
@@ -398,12 +399,22 @@
               h('p', {}, [h('button', {id: 'btn-7', disabled: -1})]),
               h('p', {}, [h('button', {id: 'btn-8', disabled: '-1'})]),
               h('p', {}, [h('button', {id: 'btn-9', disabled: 0})]),
-              h('p', {}, [h('button', {id: 'btn-10', disabled: '0'})])
+              h('p', {}, [h('button', {id: 'btn-10', disabled: '0'})]),
+              h('p', {class: 'boolean-test', translate: true}),
+              h('p', {class: 'boolean-test', translate: 'true'}),
+              h('p', {class: 'boolean-test', translate: false}),
+              h('p', {class: 'boolean-test', translate: 'false'}),
+              h('p', {class: 'boolean-test', translate: 'yes'}),
+              h('p', {class: 'boolean-test', translate: 'no'}),
+              h('p', {}, [h('input', {class: 'input', autocomplete: 'on'})]),
+              h('p', {}, [h('input', {class: 'input', autocomplete: 'off'})])
             ])
           )
         }
         componentDidMount() {
           this.buttons = this.element.querySelectorAll('button')
+          this.booleanTests = this.element.querySelectorAll('.boolean-test')
+          this.inputTests = this.element.querySelectorAll('.input')
         }
       }
       let buttons
@@ -411,6 +422,9 @@
         container: '#boolean-props',
         state: true
       })
+      window.booleanPropsTest = booleanPropsTest
+
+      // Disabled tests:
       it('Button set to "disabled={false}" should not be disabled', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.buttons[0].disabled
@@ -484,6 +498,69 @@
         }, 1000)
         done()
       })
+
+      // Translate tests:
+      it('Paragraph set to "translate={true} should be true', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.booleanTests[0].translate
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+      it('Paragraph set to "translate=\"true\" should be true', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.booleanTests[1].translate
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+      it('Paragraph set to "translate={false} should be false', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.booleanTests[2].translate
+          assert.isOk(prop)
+        }, 1000)
+        done()
+      })
+      it('Paragraph set to "translate=\"false\" should be false', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.booleanTests[3].translate
+          assert.isOk(prop)
+        }, 1000)
+        done()
+      })
+      it('Paragraph set to "translate=\"on\" should be true', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.booleanTests[4].translate
+          assert.isOk(prop)
+        }, 1000)
+        done()
+      })
+      it('Paragraph set to "translate=\"off\" should be false', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.booleanTests[5].translate
+          assert.isNotOk(prop)
+        }, 1000)
+        done()
+      })
+
+
+      // Autocomplete Tests
+      it('Paragraph set to "autocomplete=\"on\" should be true', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.inputTests[0].autocomplete
+          assert.isOk(prop)
+        }, 1000)
+        done()
+      })
+      it('Paragraph set to "autocomplete=\"off\" should be false', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.inputTests[1].autocomplete
+          expect(prop).to.equal('off')
+        }, 1000)
+        done()
+      })
+    
+
     })
 
     
