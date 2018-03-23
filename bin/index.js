@@ -91,7 +91,7 @@ const composi = (() => {
     return
   }
   if (name) {
-    path = p.join(path, name)
+    path = p.join(path, originalName)
     // Create new project:
     console.log('Creating a new Composi project.')
     const packageName = name.replace(' ', '-')
