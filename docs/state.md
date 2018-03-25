@@ -114,7 +114,19 @@ Updating Array State
 When a component has an array as state, you need to provide a second argument for `setState`: the index of the array where you want to make the index. For instance, suppose we have a component `fruitList` that prints out a list of fruits. We notice that the third item in the list is mispelled and want to update it. We can do that as follows:
 
 ```javascript
-fruitList.state = ['Apples', 'Oranges', 'Pinapplez', 'Bananas']
+const fruitList = new Component({
+  container: 'main',
+  state: ['Apples', 'Oranges', 'Pinapplez', 'Bananas'],
+  render: (fruits) => {
+    return (
+      <ul>
+        {
+          fruits.map(fruit => <li>{fruit}</li>)
+        }
+      </ul>
+    )
+  }
+})
 
 // Use second argument for index in the array you want to update:
 fruitList.setState('Pinapples', 2)</code>
@@ -149,18 +161,11 @@ This array is used as the state for a component of users. We want to update Joe'
 userList.setState({job: 'Rock Star'}, 0)
 ```
 
-This will instead result in the object loosing the firstName and lastName properties, and the list in the DOM would be updated accordingly. Instead, we need to get the object we want to update from the array, make whatever changes we need to and then set it on the state:
+The above operation will not update the user Joe Bodoni as you might think. It will result in the user's first and last names being deleted. Instead, we need to use a function to get the state and update the user's job at the correct index of the state object:
 
 ```javascript
-// Proper way to update an object in an array.
-// Get the Joe Bodoni user from state:
-const state = userList.state[0]
-
-// Set job to new value:
-state.job = 'Rock Star'
-
-// Update component's state:
-userList.state = state
+// Proper way to update state. Use setState to access the index of array, make change and return it:
+userList.setState(prevState => prevState[0].job = 'Rock Star')
 ```
 
 Complex State Operations
@@ -169,19 +174,13 @@ Complex State Operations
 As we saw in our last example of arrays, sometimes you will need to get the state, operate on it separately and then set the component's state to that. For example, if you need to use map, filter, sort or reverse on an array, you'll want to get the complete state and perform these operations. Aftwards you can just set the state:
 
 ```javascript
-// Get the component's state:
-const state = fruitsList.state
-
-// Reverse the array:
-state.reverse()
-
-// Set the component's state with the new state:
-fruitsList.state = state
+// Use setState with a callback to get the state, reverse it and return it:
+fruitsList.setState(prevState => prevState.reverse())
 ```
 
 setState with a Callback
 ------------------------
-One option for handling the need for complex operations when setting state is to pass a callback to the `setState` method. When you do so, the first argument of the callback will be the component's state. In the example below, notice how we get the state and manipulate it in the `handleClick` method. After doing what you need to with state, remember to return it. Otherwise the component's state will not get updated.
+When you pass a callback to the `setState` method, the first argument of the callback will be the component's state. In the example below, notice how we get the state and manipulate it in the `handleClick` method. After doing what you need to with state, remember to return it. Otherwise the component's state will not get updated.
 
 ```javascript
 class Button extends Component {
@@ -207,7 +206,7 @@ class Button extends Component {
 const button = new Button()
 ```
 
-Be aware that whatever the callback returns will be set as the component's new state. Therefore you will need to make whatever changes to the component's whole state before returning it.
+Be aware that whatever the callback returns will be set as the component's new state. Therefore you must complete all the changes you need before returning it.
 
 Keyed Items
 -----------
