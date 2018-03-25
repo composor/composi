@@ -66,23 +66,50 @@ export function Title(name) {
 }
 ```
 
-Both examples above create virtual nodes, so we will need a way to get them into the DOM. Composi provides the `render` function for that purpose. It works similar to React's `ReactDOM.render` function. It takes two arguments: a tag/vnode and a selector/element in which to insert the markup.
+Both examples above create virtual nodes, so we will need a way to get them into the DOM. Composi provides the `mount` function for that purpose. It works similar to React's `ReactDOM.render` function, but is specifically for mounting a functional component. It takes two arguments: a tag/vnode and a selector/element in which to insert the markup.
 
 In our `app.js` file we import `h` and `render` and then the `Title` functional component and render it to the DOM:
 
 ```javascript
 // app.js:
-import {h, render} from 'composi'
+import {h, mount} from 'composi'
 import {Title} from './components/title'
 
 // Define data for component:
 const name = 'World'
 
 // Render the component into header tag:
-render(<Title {...{name}}/>, 'header')
+mount(<Title {...{name}}/>, 'header')
 ```
 
 This will convert the functional component into a virtual node (vnode) and then convert that into actual nodes inside the header tag. Because a virtual node was created, we can re-render this later with new data and Composi will patch the DOM efficiently for us. In this case that would involve patching the text node of the `h1` tag.
+
+Using Mount with Render
+-----------------------
+The `mount` function returns a reference to the DOM tree that was created. This is useful for when you need to update a component. You can capture that value in a variable and then pass it to Composi's `render` funcion to update a functional component. Notice in the following example how we use `mount` to get a reference to the component and then pass it to the `render` function in a `setTimeout` to update it:
+
+```javascript
+// Remember to import both mount and render:
+import {h, mount, render} from 'composi'
+function Clock({date}) {
+  return (
+    <div>
+      <h3>The Current Time</h3>
+      <p>It is {date.toLocaleTimeString()}.</p>
+    </div>
+  )
+}
+
+const clock = mount(<Clock date={new Date()} />, 'section')
+
+setInterval(
+  () => {
+    // Pass the clock reference to render function to update it:
+    render(<Clock date={new Date()}/>, clock)
+  },
+  1000
+)
+```
 
 List with Map
 -------------
@@ -115,7 +142,7 @@ In our `app.js` file we put this all together:
 
 ```javascript
 // app.js:
-import {h, render} from 'composi'
+import {h, mount} from 'composi'
 import {Title} from './components/title'
 import {List} from './components/list'
 import {items} from './items'
@@ -123,11 +150,11 @@ import {items} from './items'
 // Define data for Title component:
 const name = 'World'
 
-// Render component into header:
-render(<Title {...{name}}/>, 'header')
+// Mount component into header:
+mount(<Title {...{name}}/>, 'header')
 
-// Render list component into section with items data:
-render(<List {...{items}}/>, 'section')
+// Mount list component into section with items data:
+mount(<List {...{items}}/>, 'section')
 ```
 
 Custom Tags
@@ -168,7 +195,6 @@ Events
 What if we wanted to make this list dynamic by allowing the user to add items? For that we need events. We'll add a text input and button so the user can enter an item. Since this doesn't involve any data consuming any data, their function just needs to return the markup for the nodes to be created. We'll call this function component `ListForm`:
 
 ```javascript
-// list.js:
 import {h} from 'composi'
 
 function ListForm() {
@@ -202,13 +228,16 @@ handleEvent Interface
 
 We are going to use the `handleEvent` interface to wire up events for the component. We'll do this in a separate file and import it into our `app.js` file. To use `handleEvent` with a functional component we'll need to create an object with the `handleEvent` function on it. Then we'll use a standar event listener and pass the that object instead of a callback.
 
-Since we want to be able to add a new fruit to the list, we need to have access to the data and also the function component that renders the list. Therefore we import them into the `events.js` file.
+Since we want to be able to add a new fruit to the list, we need to have access to the data and also the function component that mounts the list. Therefore we import them into the `events.js` file.
 
 ```javascript
-// events.js:
-import {h, render} from 'composi'
+// app.js:
+import {h, mount, render} from 'composi'
 import {items} from './items'
 import {List} from './components/list'
+
+
+const list = mount(<List {...{items}}/>, 'section')
 
 export const events = {
   addItem(e) {
@@ -216,7 +245,8 @@ export const events = {
     const value = input.value
     if (value) {
       items.push(value)
-      render(<List {...{items}}/>, 'section')
+      // Pass list from mount to render:
+      render(<List {...{items}}/>, list)
       input.value = ''
     }
   },
@@ -224,34 +254,12 @@ export const events = {
     e.target.className === 'list__button--add' && this.addItem(e)
   }
 }
+
+// Attach event listener for list and pass the events object instead of a callback:
+document.querySelector('.container-list').addEventListener('click', events)
 ```
 
-As you can see above, we need to get the value of the input. If the value is truthy, we push it to the items array. Then we re-render the functional component list. Because this is a different scope than `app.js` where we initially rendered the list, the first time we add an item, the list will be created a new, replacing what was there. That's because this is a different scope than `app.js`. However, with every new addition, the render function will use the new virtual dom in this scope to patch the DOM efficiently.
-
-Using the handleEvent Object
-----------------------------
-
-Now that we have our `handleEvent` object defined, we need to wire it up to our component. We'll do that in our `app.js` file:
-
-```javascript
-// app.js:
-import {h, render} from 'composi'
-import {Title} from './components/title'
-import {List} from './components/list'
-import {events} from './events'
-import {items} from './items'
-
-// Define data for component:
-const name = 'World'
-// Render component into header:
-render(<Title {...{name}}/>, 'header')
-
-// Render list component into section:
-render(<List {...{items}}/>, 'section')
-
-// Add event listener to the component's container and pass in the handleEvent object instead of a callback:
-document.querySelector('.container--list').addEventListener('click', events)
-```
+Notice that we first mount the list. This gives us a reference to the mounted component. We use this reference in our event handler to update the list in place. This allows Composi to use its virtual dom to efficiently update the DOM nodes with the least layout thrashing as possible.
 
 And that's it. With that we now have an interactive functional component that updates in real time with a virtual dom.
 

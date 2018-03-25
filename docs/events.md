@@ -734,6 +734,8 @@ class List extends Component {
 }
 ```
 
+If you want to use `closest` but need to support IE, you can include this [polyfill](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest#Polyfill).
+
 Do Not Mix!
 -----------
 
