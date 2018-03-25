@@ -288,12 +288,13 @@ There are two ways to define styles for a component: a component style tag or a 
 
 Lifecylce Methods
 -----------------
-Components have four lifecycle methods:
+Components have five lifecycle methods:
 
-1. componentWasCreated
-2. componentWillUpdate
-3. componentDidUpdate
-4. componentWillUnmount
+1. componentWillMount
+2. componentDidMount
+3. componentWillUpdate
+4. componentDidUpdate
+5. componentWillUnmount
 
 Learn more about using lifecycle methods with components by reading the [documentation](./lifecycle.md).
 
