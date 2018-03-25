@@ -236,7 +236,7 @@ import {h, mount, render} from 'composi'
 import {items} from './items'
 import {List} from './components/list'
 
-
+// Mount the component and capture reference in "list" variable:
 const list = mount(<List {...{items}}/>, 'section')
 
 export const events = {
@@ -245,7 +245,7 @@ export const events = {
     const value = input.value
     if (value) {
       items.push(value)
-      // Pass list from mount to render:
+      // Pass list variable render function to update component:
       render(<List {...{items}}/>, list)
       input.value = ''
     }
