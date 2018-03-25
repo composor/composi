@@ -24,9 +24,84 @@ Styling a Component
 You can define styles for a component. There are three ways to do this:
 
 1. You can style your component using [BEM] conventions(http://getbem.com/introduction/) and adding the component's styles to your project's stylesheet.
-2. You can use inline styles. This expects an object of property/values.
+2. You can use inline styles. For this you can use a normal string value, or you can use a JavaScript object of property/values. This allows you to create dynamic style values based on particular conditions or component state.
 3. You can provide your component with a style tag with styles for it inside the component's markup.
 4. You can use the NPM module `stylor` to create a virtual stylesheet scoped to your component.
+
+
+Inline Styles
+-------------
+
+You can provide your component elements with inline styles. This is just like you would normally do with HTML, a style attribute followed by a string of CSS properties and values:
+
+
+```javascript
+const title = new Component({
+  container: 'header',
+  state: 'World',
+  render: state => (
+    <nav style='padding: 20px; background-color: #ccc;'>
+      <h1 style='margin: 0; color: #fff;'>Hello, {state}!<h1>
+    </nav>
+  )
+})
+```
+
+You can also choose to use a JavaScript object notation approach. This allows you to use dynamic JavaScript evaluations in your CSS. In this case you are passing the `style` attribute a JavaScript object defining the style to be created. This means that CSS properties that are hyphenated must be camel cased. Also all values other than pure numbers must be enclosed in quotes. Since the style property's value needs to be interpolated, the style definition needs to be enclosed in curly braces. Notice how we provide objects as styles inside curly braces:
+
+```javascript
+const list = new Component({
+  container: 'section',
+  render: (data) => (
+    <ul style={{
+        listStyle: 'none', 
+        margin: '20px',
+        border: 'solid 1px #ccc',
+        borderBottom: 'none'
+      }}>
+      {
+        data.map(item => <li style={{
+          borderBottom: 'solid 1px #ccc',
+          padding: '5px 10px'
+        }}>{item}</li>)
+      }
+    </ul>
+  )
+})
+```
+
+Since the style value is a JavaScript object, you can remove a style from within the markup and store it as a separate value. This is especially easy when you define a component in its own file:
+
+```javascript
+// file: ./components/list.js
+
+// Define inline styles as separate objects:
+const listStyle = {
+  listStyle: 'none', 
+  margin: '20px',
+  border: 'solid 1px #ccc',
+  borderBottom: 'none'
+}
+
+const listItemStyle = {
+  borderBottom: 'solid 1px #ccc',
+  padding: '5px 10px'
+}
+
+// Pass style objects to component:
+const list = new Component({
+  container: 'section',
+  render: (data) => (
+    <ul style={listStyle}>
+      {
+        data.map(item => <li style={listItemStyle}>{item}</li>)
+      }
+    </ul>
+  )
+})
+```
+
+Although inline styles result in highly portable styled components, they also result in markup that is harder to read. If you mind your component's legibility getting degraded by inline styles, consider using the style tag as explained previously, or using the <code>stylor</code> module explained next.
 
 Style Tag in Component
 ----------------------
@@ -110,80 +185,6 @@ class List extends Component {
 ```
 
 When you are using this technique, it is up to you to make sure the styles in the tag are scoped to the component. In the above examples we used an id on the base element of the component. However, if you want to have multiple instances of a component, then you might want to think about using BEM and add the styles directly to your project's stylesheet.
-
-Inline Styles
--------------
-
-You can provide your component elements with inline styles. This is just like you would normally do with HTML, a style attribute followed by a string of CSS properties and values:
-
-
-```javascript
-const title = new Component({
-  container: 'header',
-  state: 'World',
-  render: state => (
-    &lt;nav style='padding: 20px; background-color: #ccc;'>
-      &lt;h1 style='margin: 0; color: #fff;'>Hello, {state}!&lt;h1>
-    &lt;/nav>
-  )
-})
-```
-
-You can also choose to use an object notation approach. This allows you to use dynamic JavaScript evaluations in your CSS. In this case you are passing the `style` attribute a JavaScript object defining the style to be created. This means that CSS properties that are hyphenated must be camel cased. Also all values other than pure numbers must be enclosed in quotes. Since the style property's value needs to be interpolated, the style definition needs to be enclosed in curly braces. Notice how we provide objects as styles inside curly braces:
-
-```javascript
-const list = new Component({
-  container: 'section',
-  render: (data) => (
-    <ul style={{
-        listStyle: 'none', 
-        margin: '20px',
-        border: 'solid 1px #ccc',
-        borderBottom: 'none'
-      }}>
-      {
-        data.map(item => <li style={{
-          borderBottom: 'solid 1px #ccc',
-          padding: '5px 10px'
-        }}>{item}</li>)
-      }
-    </ul>
-  )
-})
-```
-
-Since the style value is a JavaScript object, you can remove a style from within the markup and store it as a separate value. This is especially easy when you define a component in its own file:
-
-```javascript
-// file: ./components/list.js
-
-// Define inline styles as separate objects:
-const listStyle = {
-  listStyle: 'none', 
-  margin: '20px',
-  border: 'solid 1px #ccc',
-  borderBottom: 'none'
-}
-
-const listItemStyle = {
-  borderBottom: 'solid 1px #ccc',
-  padding: '5px 10px'
-}
-
-// Pass style objects to component:
-const list = new Component({
-  container: 'section',
-  render: (data) => (
-    <ul style={listStyle}>
-      {
-        data.map(item => <li style={listItemStyle}>{item}</li>)
-      }
-    </ul>
-  )
-})
-```
-
-Although inline styles result in highly portable styled components, they also result in markup that is harder to read. If you mind your component's legibility getting degraded by inline styles, consider using the style tag as explained previously, or using the <code>stylor</code> module explained next.
 
 
 Using Stylor
