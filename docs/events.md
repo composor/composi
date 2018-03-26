@@ -3,19 +3,19 @@ Composi
 
 Contents
 --------
-- [Components](./components.md)
+- [Installation](../README.md)
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
+- [Functional Components](./functional-components.md)
 - [Mount and Render](./render.md)
+- [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - Events
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Installation](../README.md)
 - [Third Party Libraries](./third-party.md)
-- [Functional Components](./functional-components.md)
 - [Deployment](./deployment.md)
 
 You might have the best looking components on the planet, but if there wasn't a way for users to interact with them, they would be essentially useless. There are two ways to implement events:

@@ -3,19 +3,19 @@ Composi
 
 Contents
 --------
-- [Components](./components.md)
+- [Installation](../README.md)
 - [JSX](./jsx.md)
 - Hyperx
 - [Hyperscript](./hyperscript.md)
+- [Functional Components](./functional-components.md)
 - [Mount and Render](./render.md)
+- [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Installation](../README.md)
 - [Third Party Libraries](./third-party.md)
-- [Functional Components](./functional-components.md)
 - [Deployment](./deployment.md)
 
 Hyperx

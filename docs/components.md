@@ -3,11 +3,11 @@ Composi
 
 Contents
 --------
-- Components
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Mount and Render](./render.md)
+- Components
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
