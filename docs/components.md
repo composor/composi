@@ -3,9 +3,11 @@ Composi
 
 Contents
 --------
+- [Installation](../README.md)
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
+- [Functional Components](./functional-components.md)
 - [Mount and Render](./render.md)
 - Components
 - [State](./state.md)
@@ -13,9 +15,7 @@ Contents
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
-- [Installation](../README.md)
 - [Third Party Libraries](./third-party.md)
-- [Functional Components](./functional-components.md)
 - [Deployment](./deployment.md)
 
 Component
