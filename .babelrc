@@ -2,5 +2,8 @@
   "presets": [
     ["env", {"modules": false}]
   ],
-  "plugins": ["external-helpers", "transform-es2015-parameters"]
+  "plugins": [
+    "external-helpers", 
+    "transform-es2015-parameters"
+  ]
 }
