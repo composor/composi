@@ -21,6 +21,7 @@
       <div id="list-test"></div>
       <div id="alert-test"></div>
       <div id="render-test"></div>
+      <div id="lifecycle"></div>
     </div>
   </section>
   
@@ -137,7 +138,7 @@
         expect(alert.style.color).to.equal('red')
       })
     })
-    describe('Mount list to update with render function', function() {
+    describe('Mount list to update later', function() {
       const list = document.querySelector('#render-test ul')
       
       it('should have just three children', function() {
@@ -150,7 +151,7 @@
       })
 
     })
-    describe('Update list with render function', function(done) {
+    describe('Update list with render function', function() {
       it('list virtual node should have four children', function(done) {
         setTimeout(() => {
           expect(vNode.children.length).to.equal(4)
@@ -197,7 +198,65 @@
         }, 3000)
         done()
       })
-      
+    })
+    
+    describe('Component should execute thee lifecycle hooks', function() {
+      let componentDidMount = false
+      let componentDidUpdate = false
+      let componentDidUnmount = false
+      let unmountedComponents = 0
+      function LifecycleTest(data) {
+        function testMount() {
+          componentDidMount = true
+        }
+        function testUpdate() {
+          componentDidUpdate = true
+          unmountedComponents += 1
+        }
+        function testUnmount() {
+          componentDidUnmount = true
+        } 
+        function listItems(items) {
+          console.log(items)
+          return items.map(item => h('li', {onComponentDidUnmount: () => testUnmount()}, item))
+        }
+        return (
+          h(
+            'ul',
+            {
+              onComponentDidMount: () => testMount(),
+              onComponentDidUpdate: () => testUpdate()
+            },
+            listItems(data)
+          )
+        )
+      }
+      let testComponent = mount(LifecycleTest([1,2]), '#lifecycle')
+
+      it('Functional component should execute "onComponentDidMount" when it is mounted', function(done) {
+        setTimeout(() => {
+          expect(componentDidMount).to.be.true
+          expect(testComponent.children.length).to.equal(2)
+        }, 1000)
+        done()
+      })
+      it('Functional component should execute "onComponentDidUpdate" when it is updated', function(done) {
+        setTimeout(() => {
+        render(LifecycleTest([1,2,3]), testComponent)
+          expect(componentDidUpdate).to.be.true
+          expect(testComponent.children.length).to.equal(3)
+        }, 1500)
+        done()
+      })
+      it('List component\'s list items should execute "onComponentDidUnmount" when they are deleted', function(done) {
+        setTimeout(() => {
+          render(LifecycleTest([1]), testComponent)
+          expect(componentDidUnmount).to.be.true
+          expect(testComponent.children.length).to.equal(1)
+          expect(unmountedComponents).to.equal(2)
+        }, 2000)
+        done()
+      })
     })
 
     mocha.run()
