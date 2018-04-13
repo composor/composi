@@ -181,9 +181,9 @@
       } catch(err) {
         renderError = err
       }
-      it('Render should generate an error message when attempting to insert Fragment directly into DOM', function() {
+      it('Render should generate an error message when attempting to insert Fragment tag directly into DOM', function() {
         expect(typeof renderError).to.equal('object')
-        expect(renderError.message).to.equal('Cannot insert Fragment directly into DOM.')
+        expect(renderError.message).to.equal('Cannot insert Fragment tag directly into DOM.')
       })
       it('UL tag in DOM should remain empty', function() {
         const ul = document.querySelector('#fragment-test3')
