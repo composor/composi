@@ -38,7 +38,7 @@ gulp.task('build', function () {
     
 
   return rollup.rollup({
-    input: './dev/app.js',
+    entry: './dev/app.js',
     plugins: [
       babel(),
       resolve({
@@ -58,7 +58,7 @@ gulp.task('build', function () {
     return bundle.write({
       format: 'iife',
       name: 'app',
-      file: './js/app.js',
+      dest: './js/app.js',
       sourcemap: true
     })
   })
