@@ -61,7 +61,7 @@ const composi = (() => {
   const package = createPackage({name: packageName, user: user, version: pkg.version})
 
   const deploy = argv.d || argv.deploy
-    
+
   if (version) {
     return console.log(pkg.version)
   }
@@ -69,7 +69,7 @@ const composi = (() => {
     if (deploy) {
       console.log('Deploying to production.')
       console.log('Please wait.')
-      
+
       let deployName = process.cwd().split(p.sep)
       deployName = deployName[deployName.length -1]
       deployName = `${deployName}-production`
@@ -138,7 +138,7 @@ const composi = (() => {
           p.join(path, 'README.md')
         ]
       })}, 400),
-      console.log('The project has been created.') 
+      console.log('The project has been created.')
       console.log('Use the terminal to cd to it and run `npm i` to install its dependencies.')
       console.log('After the install is done, you can run `gulp` to build and run your project.')
     }, 2500)

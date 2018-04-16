@@ -1,6 +1,6 @@
 {
   "name": "composi",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
@@ -43,6 +43,8 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-es2015-parameters": "^6.24.1",
     "babel-preset-env": "^1.6.0",
+    "browser-sync": "^2.21.0",
+    "fs-extra": "^5.0.0",
     "gulp": "^3.9.1",
     "gulp-gzip": "^1.4.0",
     "replace-in-file": "^2.6.4",
@@ -52,8 +54,6 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-resolve": "0.0.1-predev.1",
     "rollup-plugin-uglify": "^2.0.1",
-    "browser-sync": "^2.21.0",
-    "fs-extra": "^5.0.0",
     "yargs": "^11.0.0"
   }
 }
