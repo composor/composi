@@ -1,12 +1,13 @@
 {
   "name": "composi",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
-    "build": "gulp",
+    "build": "npm run format && gulp && npm run test",
     "test": "gulp test",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "format": "prettier --no-semi --single-quote --write ./lib/*.js ./lib/utils/*.js"
   },
   "bin": {
     "composi": "./bin/index.js"
@@ -51,6 +52,7 @@
     "browser-sync": "^2.21.0",
     "gulp": "^3.9.1",
     "gulp-gzip": "^1.4.0",
+    "prettier": "^1.12.1",
     "rollup": "^0.49.2",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.0",
