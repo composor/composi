@@ -84,9 +84,9 @@
         expect(vNode.children[2].children[0]).to.equal('Horse')
       })
       it('virtual node children should have following keys: "101", "102", "103"', function() {
-        expect(vNode.children[0].props.key).to.equal(101)
-        expect(vNode.children[1].props.key).to.equal(102)
-        expect(vNode.children[2].props.key).to.equal(103)
+        expect(vNode.children[0].key).to.equal(101)
+        expect(vNode.children[1].key).to.equal(102)
+        expect(vNode.children[2].key).to.equal(103)
       })
     }) 
 
@@ -176,10 +176,10 @@
       })
       it('virtual node children keys should be "101", "102", "103", "104"', function(done) {
         setTimeout(() => {
-        expect(vNode.children[0].props.key).to.equal(101)
-        expect(vNode.children[1].props.key).to.equal(102)
-        expect(vNode.children[2].props.key).to.equal(103)
-        expect(vNode.children[3].props.key).to.equal(104)
+        expect(vNode.children[0].key).to.equal(101)
+        expect(vNode.children[1].key).to.equal(102)
+        expect(vNode.children[2].key).to.equal(103)
+        expect(vNode.children[3].key).to.equal(104)
         }, 3000)
         done()
       })
