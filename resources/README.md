@@ -19,7 +19,7 @@ npm i
 After NPM finishes installing, you can build and run it:
 
 ```sh
-npm run build
+npm start
 ```
 
 This will open your built project in your default browser. 
