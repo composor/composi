@@ -10,7 +10,7 @@
 </head>
 <body>
   <nav onclick="location.pathname='/test/index.html'">
-    <h1>Mocha Tests - Composi mount &amp; render Function</h1>
+    <h1>Mocha Tests - Composi mount &amp; render Functions</h1>
   </nav>
   <section>
     <div id="mocha"></div>
@@ -22,6 +22,12 @@
       <div id="alert-test"></div>
       <div id="render-test"></div>
       <div id="lifecycle"></div>
+      <div id="hydrate">
+        <ul id="listToHydrate">
+          <li>One</li>
+          <li>Two</li>
+        </ul>
+      </div>
     </div>
   </section>
   
@@ -137,6 +143,70 @@
       it('alert should have style of "color: red"', function() {
         expect(alert.style.color).to.equal('red')
       })
+    })
+    describe('Hydrate existing DOM node using mount function', function() {
+      const listToHydrate = document.querySelector('#listToHydrate')
+      function hydrateTheList() {
+        return (
+          h(
+            'ul',
+            {
+              id: 'hydratedList'
+            },
+            [
+              h(
+                'li',
+                {},
+                'Apple'
+              ),
+              h(
+                'li',
+                {},
+                'Orange'
+              ),
+              h(
+                'li',
+                {},
+                'Banana'
+              )
+            ]
+          )
+        )
+      }
+      it('The list to hydrate should have an id of "listToHydrate"', function() {
+        expect(listToHydrate.id).to.equal('listToHydrate')
+      })
+      it('The list to hydrate should have two children', function() {
+        expect(listToHydrate.children.length).to.equal(2)
+      })
+      it('The list to hydrate should have children with content of "One" and "Two"', function() {
+        expect(listToHydrate.children[0].textContent).to.equal('One')
+        expect(listToHydrate.children[1].textContent).to.equal('Two')
+      })
+      it('The hydrated list should have three children', function(done) {
+        setTimeout(() => {
+          mount(hydrateTheList(), '#hydrate', '#listToHydrate')
+          const hydratedList = document.querySelector('#hydratedList')
+          expect(hydratedList.children.length).to.equal(3)
+        }, 1000)
+        done()
+      })
+      it('The hydrated list should have and id of "hydratedList"', function(done) {
+        setTimeout(() => {
+          const hydratedList = document.querySelector('#hydratedList')
+          expect(hydratedList.id).to.equal('hydratedList')
+        }, 1000)
+        done()
+      })
+      it('The hydrated list should contain "Apple", "Orange", "Banana"', function(done) {
+        setTimeout(() => {
+          const hydratedList = document.querySelector('#hydratedList')
+          expect(hydratedList.children[0].textContent).to.equal('Apple')
+          expect(hydratedList.children[1].textContent).to.equal('Orange')
+          expect(hydratedList.children[2].textContent).to.equal('Banana')
+        }, 2500)
+        done()
+      }, 2500)
     })
     describe('Mount list to update later', function() {
       const list = document.querySelector('#render-test ul')
