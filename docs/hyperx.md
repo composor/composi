@@ -21,7 +21,7 @@ Contents
 Hyperx
 ------
 
-If you do not like JSX, you can instead use Hyperx. This lets you define your component markup with ES6 template literals. At build time, Hyperx converts the template literals into hyperscript functions that Composi's virtual dom can understand. 
+If you do not like JSX, you can instead use Hyperx. This lets you define your component markup with ES6 template literals. At build time, Hyperx converts the template literals into hyperscript functions that Composi's virtual DOM can understand. 
 
 Installation
 ------------

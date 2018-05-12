@@ -44,7 +44,7 @@ Creating an Instance of Component
 
 Let's look at the first option, creating an instance of `Component`. When creating a component, you need to provide at least two arguments: the container, which is the element into which the component will be rendered and a render function. The container could just be the document body. Or you could have a basic html shell with predefined containers into which you will render your components. Using a shell means your document reaches first render quicker. 
 
-The component's render function is used to define markup that will get converted into elements and inserted into the DOM. The render function is also used every time the component is updated. Rendering the component with new data or changing the state of a stateful component causes the component use this render function to create a new virtual dom. Composi compares the component's new virtual dom with its previous one. If they do not match, the new one is used to patch and update the DOM. This results in fast and efficient updating of the DOM based on current state.
+The component's render function is used to define markup that will get converted into elements and inserted into the DOM. The render function is also used every time the component is updated. Rendering the component with new data or changing the state of a stateful component causes the component use this render function to create a new virtual DOM. Composi compares the component's new virtual DOM with its previous one. If they do not match, the new one is used to patch and update the DOM. This results in fast and efficient updating of the DOM based on current state.
 
 By default Composi uses JSX for markdown. You can learn more about JSX in the [documentation](./jsx.md). If you prefer, you can use the hyperscript function [h](./hyperscript.md) to define your markup. For the purpose of this tutorial we're going to use JSX for simplicity's sake.
 
@@ -329,7 +329,7 @@ const fruitList = new Component({
 fruitList.update(fruits)
 ```
 ### Creating a Stateful Component
-When you create a class by extending Component you can set default state in the constructor. When you create a new instance of such a class, the state gets set. This triggers the creation of a virtual dom, Composi runs a diff, and then patches the DOM. This results in the automatic rendering and insertion of the component in the DOM without having to run `update` on the component instance. Examine the example below: 
+When you create a class by extending Component you can set default state in the constructor. When you create a new instance of such a class, the state gets set. This triggers the creation of a virtual DOM, Composi runs a diff, and then patches the DOM. This results in the automatic rendering and insertion of the component in the DOM without having to run `update` on the component instance. Examine the example below: 
 
 ```javascript
 import {h, Component} from 'composi'

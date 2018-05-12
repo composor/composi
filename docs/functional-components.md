@@ -25,7 +25,7 @@ The component architecture is based on classes. If you favor functional programi
 Virtual Dom
 -----------
 
-When you create components with the Component class, you have a reference for the component's properties, methods, etc. This also provides a point of reference for the virtual dom. In contrast, functional components do not have this reference for their virtual dom. Instead, with functional components, the scope in which the function is invoked becomes the scope for the virtual dom. This means as your project grows and code gets out over many files, the scope of a functional component can be spread across several files. For components this is not a problem. For functional components this means the first time it gets invoked in a new scope, the previous virtual dom will be replaced by a new one. Unless you are creating a list with 10,000 or more items, you won't notice any inefficencies. However, it does result in more layout thrashing than when creating class-based components.
+When you create components with the Component class, you have a reference for the component's properties, methods, etc. This also provides a point of reference for the virtual DOM. In contrast, functional components do not have this reference for their virtual DOM. Instead, with functional components, the scope in which the function is invoked becomes the scope for the virtual DOM. This means as your project grows and code gets out over many files, the scope of a functional component can be spread across several files. For components this is not a problem. For functional components this means the first time it gets invoked in a new scope, the previous virtual DOM will be replaced by a new one. Unless you are creating a list with 10,000 or more items, you won't notice any inefficencies. However, it does result in more layout thrashing than when creating class-based components.
 
 Creating Functional Components
 ------------------------------
@@ -259,12 +259,12 @@ export const events = {
 document.querySelector('.container-list').addEventListener('click', events)
 ```
 
-Notice that we first mount the list. This gives us a reference to the mounted component. We use this reference in our event handler to update the list in place. This allows Composi to use its virtual dom to efficiently update the DOM nodes with the least layout thrashing as possible.
+Notice that we first mount the list. This gives us a reference to the mounted component. We use this reference in our event handler to update the list in place. This allows Composi to use its virtual DOM to efficiently update the DOM nodes with the least layout thrashing as possible.
 
-And that's it. With that we now have an interactive functional component that updates in real time with a virtual dom.
+And that's it. With that we now have an interactive functional component that updates in real time with a virtual DOM.
 
 Component Class Advantages
 --------------------------
 
-Although you can build a complex app using nothing but functional components, there are certain conveniences when using the Component class. First and foremost is the fact that classes allow you to encapsulate functionality using properties and methods defined directly on the component. The second is the component itself enables more efficient use of the virtual dom because it keeps track of that internally.
+Although you can build a complex app using nothing but functional components, there are certain conveniences when using the Component class. First and foremost is the fact that classes allow you to encapsulate functionality using properties and methods defined directly on the component. The second is the component itself enables more efficient use of the virtual DOM because it keeps track of that internally.
 

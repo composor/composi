@@ -23,7 +23,7 @@ State
 
 Components can be stateless or stateful. There are advantages to both. Chose the right one depending on use case. For example, if a component will only display the result of some other action, make it stateless and pass it the data it needs. If the data of a component can change at unpredictable times, make it stateful. That way, when its data changes, it will update automatically. If you have a fixed dataset and the component will never need to be rendered again during the session, make it stateless and pass it the data. 
 
-When you give a component state, Composi assigns it getters and setters. Setting state causes the component to render a new virtual dom, diff it with the old virtual dom, and if there are differences, update the actual DOM. As such, the assignment of data to a component's state will trigger an update. Setting state directly is ideal for primitive data types, such as string, numbers:
+When you give a component state, Composi assigns it getters and setters. Setting state causes the component to render a new virtual DOM, diff it with the old virtual DOM, and if there are differences, update the actual DOM. As such, the assignment of data to a component's state will trigger an update. Setting state directly is ideal for primitive data types, such as string, numbers:
 
 ```javascript
 const helloWorld = new Component({
@@ -101,7 +101,7 @@ Because this component's state is complex, we cannot directly update the state p
 personComponent.state.job = 'Web Developer'
 ```
 
-Instead we need to use the `setState` method. To update a state object property, we pass in an object with that property and the new value. Behind the scenes, `setState` will mixin the new object with the state object. Then it will create a new virtual dom and patch the actual DOM to reflect the changes.
+Instead we need to use the `setState` method. To update a state object property, we pass in an object with that property and the new value. Behind the scenes, `setState` will mixin the new object with the state object. Then it will create a new virtual DOM and patch the actual DOM to reflect the changes.
 
 ```javascript
 // Update the job property of the component's state:
@@ -254,7 +254,7 @@ const fruitList = new Component({
 })
 ```
 
-The diffing algorythm will use the key value to understand the order of items in the list. This results in more efficient diffing and patching. Putting the `key` properting in the markup of a list will not be rendered to the DOM. The `key` property will only exist in the virtual dom, where it is used to determine if the order of list elements has changed.
+The diffing algorythm will use the key value to understand the order of items in the list. This results in more efficient diffing and patching. Putting the `key` properting in the markup of a list will not be rendered to the DOM. The `key` property will only exist in the virtual DOM, where it is used to determine if the order of list elements has changed.
 
 Keys Must Be Unique
 -------------------

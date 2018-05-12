@@ -3,9 +3,9 @@ Composi
 
 Composi is a framework for creating desktop and mobile apps. With Composi you can create a dynamic website with reactive components, a progressive web app, or a hybrid app for mobile app stores. Visit the [website](https://composor.github.io).
 
-Composi is small. The core is only 3KB gzipped. It therefore loads fast. Its virtual dom updates components efficiently and quickly. 
+Composi is small. The core is only 3KB gzipped. It therefore loads fast. Its virtual DOM updates components efficiently and quickly. 
 
-Components can be stateless or stateful. Stateful components are reactive. When you change a component's state, that triggers the component's render function. That in turn creates a new virtual dom based on the data changes. It then patches the DOM to match the changes. If there are no changes, nothing will happen.
+Components can be stateless or stateful. Stateful components are reactive. When you change a component's state, that triggers the component's render function. That in turn creates a new virtual DOM based on the data changes. It then patches the DOM to match the changes. If there are no changes, nothing will happen.
 
 A component's markup is written with JSX. This means you can create custom tags to organize your component's template. You can also pass props to a component tag. If you prefer, you can instead use the `h` function to define the component's markup with hyperscript. Actually, at render time the JSX is converted to this as well.
 
@@ -108,9 +108,9 @@ To learn how to use Composi, open the [docs](./docs/index.md) folder.
 Summary
 -------
 
-Composi is all about components. These provide a great way to organize your code into modular and reusable chunks. The virtual dom means you never have to touch the DOM to change something.
+Composi is all about components. These provide a great way to organize your code into modular and reusable chunks. The virtual DOM means you never have to touch the DOM to change something.
 
-Because Composi uses JSX, there are many similarities to React patterns. Please note that Composi is not a React clone. It is not trying to be compatible with React and the React ecosystem the way Preact and Inferno do. Component state is managed quite differently from React. Components lack the React refs and context properties. Also lacking, PropTypes. Events are not synthetic. They are either real inline events or the `handleEvent` interface. Props and custom tags are supported only because JSX provides these by default. The component architecture is actually adapted from the Component class of [ChocolateChip-UI](https://github.com/chocolatechip-ui/chocolatechipui). Changes were made to the API to work with a virtual dom.
+Because Composi uses JSX, there are many similarities to React patterns. Please note that Composi is not a React clone. It is not trying to be compatible with React and the React ecosystem the way Preact and Inferno do. Component state is managed quite differently from React. Components lack the React refs and context properties. Also lacking, PropTypes. Events are not synthetic. They are either real inline events or the `handleEvent` interface. Props and custom tags are supported only because JSX provides these by default. The component architecture is actually adapted from the Component class of [ChocolateChip-UI](https://github.com/chocolatechip-ui/chocolatechipui). Changes were made to the API to work with a virtual DOM.
 
 Composi is small, just 3KB for the gzipped core. It loads quickly. Its small and focused API means you can learn everything in half a day and be productive. If you're already familiar with JSX, then you only need to learn the Component API. You can easily do that in an hour.
 
