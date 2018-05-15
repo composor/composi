@@ -30,7 +30,7 @@
       </div>
     </div>
   </section>
-  
+
   <script src="https://unpkg.com/mocha@4.0.1/mocha.js"></script>
   <script src="https://unpkg.com/chai@4.1.2/chai.js"></script>
   <script src='/dist/composi.js'></script>
@@ -41,7 +41,7 @@
 
     function H1(){
       return h('h1', {id: 'title'}, 'The Title')
-    } 
+    }
 
     mount(H1(), '#h1-test')
 
@@ -94,7 +94,7 @@
         expect(vNode.children[1].key).to.equal(102)
         expect(vNode.children[2].key).to.equal(103)
       })
-    }) 
+    })
 
     describe("Mount h1", function() {
       const title = document.querySelector('#title')
@@ -210,7 +210,7 @@
     })
     describe('Mount list to update later', function() {
       const list = document.querySelector('#render-test ul')
-      
+
       it('should have just three children', function() {
         expect(list.children.length).to.equal(3)
       })
@@ -269,7 +269,7 @@
         done()
       })
     })
-    
+
     describe('Component should execute thee lifecycle hooks', function() {
       let componentDidMount = false
       let componentDidUpdate = false
@@ -285,7 +285,7 @@
         }
         function testUnmount() {
           componentDidUnmount = true
-        } 
+        }
         function listItems(items) {
           console.log(items)
           return items.map(item => h('li', {onComponentDidUnmount: () => testUnmount()}, item))

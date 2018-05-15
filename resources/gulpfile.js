@@ -35,7 +35,7 @@ gulp.task('build', function () {
     .pipe(cssnano({advanced: true, aggressiveMerging: true}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./css'))
-    
+
 
   return rollup.rollup({
     entry: './dev/app.js',

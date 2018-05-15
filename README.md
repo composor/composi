@@ -3,7 +3,7 @@ Composi
 
 Composi is a framework for creating desktop and mobile apps. With Composi you can create a dynamic website with reactive components, a progressive web app, or a hybrid app for mobile app stores. Visit the [website](https://composor.github.io).
 
-Composi is small. The core is only 3KB gzipped. It therefore loads fast. Its virtual DOM updates components efficiently and quickly. 
+Composi is small. The core is only 3KB gzipped. It therefore loads fast. Its virtual DOM updates components efficiently and quickly.
 
 Components can be stateless or stateful. Stateful components are reactive. When you change a component's state, that triggers the component's render function. That in turn creates a new virtual DOM based on the data changes. It then patches the DOM to match the changes. If there are no changes, nothing will happen.
 

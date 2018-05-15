@@ -1,7 +1,7 @@
 project_name
 ========================
 
-Author: userName 
+Author: userName
 
 (c) currentYear All Rights Reserved
 
@@ -22,4 +22,4 @@ After NPM finishes installing, you can build and run it:
 npm start
 ```
 
-This will open your built project in your default browser. 
+This will open your built project in your default browser.

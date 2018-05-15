@@ -22,7 +22,7 @@
       <ul id="fragment-test3"></ul>
     </div>
   </section>
-  
+
   <script src="https://unpkg.com/mocha@4.0.1/mocha.js"></script>
   <script src="https://unpkg.com/chai@4.1.2/chai.js"></script>
   <script src='/dist/composi.js'></script>
@@ -38,8 +38,8 @@
       function NestFragments({letters}) {
         return (
           h(
-            'main', 
-            {}, 
+            'main',
+            {},
             [
               Fragment(
                 null,
@@ -85,7 +85,7 @@
         expect(fragmentVnode.children[5].type).to.equal('span')
       })
     })
-    
+
     describe('Use Fragment tag', function() {
       const stuff = ['Apples', 'Oranges', 'Bananas']
       const fragTest = document.querySelector('#fragment-test')
@@ -112,8 +112,8 @@
       const fragTest2 = document.querySelector('#fragment-test2')
       const items = Fragment(
         null, [
-          h('span', {}, [letters[0]]), 
-          h('span', {}, [letters[1]]), 
+          h('span', {}, [letters[0]]),
+          h('span', {}, [letters[1]]),
           Fragment(
             null, [
               h('span', {}, [letters[2]]),

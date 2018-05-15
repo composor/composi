@@ -24,18 +24,18 @@
       <div id="boolean-props"></div>
     </div>
   </section>
-  
+
   <script src='/dist/composi.js'></script>
   <script src="https://unpkg.com/mocha@4.0.1/mocha.js"></script>
   <script src="https://unpkg.com/chai@4.1.2/chai.js"></script>
   <script>mocha.setup('bdd')</script>
   <script>
-    
+
     const {h, Component} = composi
     let should = chai.should()
     let expect = chai.expect
     let assert = chai.assert
-    
+
     describe('Create Component Instance', function() {
       let componentDidMount = false;
       const h1 = new Component({
@@ -45,7 +45,7 @@
       })
       h1.update('World')
       const h1El = document.querySelector('#h1-test h1')
-      
+
       it('Component container should be "#h1-test"', function() {
         expect(h1.container.id).to.equal('h1-test')
       })
@@ -108,23 +108,23 @@
       })
       it('Component container should be "#list1-test"', function() {
         expect(list.container.id).to.equal('list1-test')
-      }) 
+      })
       it('Component element should be "ul"', function() {
         expect(list.element.nodeName).to.equal('UL')
-      }) 
+      })
       it('Component selector should be "#list1-test"', function() {
         expect(list.selector).to.equal('#list1-test')
-      }) 
+      })
       it('Component should have no state', function() {
         expect(list.state).to.equal(undefined)
       })
       let listEl = document.querySelector('#list1-test ul')
       it('Element created by component should be "ul"', function() {
         expect(listEl.nodeName).to.equal('UL')
-      }) 
+      })
       it('Element should have class of "list"', function() {
         expect(listEl.className).to.equal('list')
-      }) 
+      })
       it('Element should have three childen', function() {
         expect(listEl.children).to.have.lengthOf(3)
       })
@@ -133,7 +133,7 @@
       })
       it('Last list item should contain "Bananas"', function() {
         expect(listEl.children[2].textContent.trim()).to.equal('Bananas')
-      })  
+      })
       it('On update, list should have four children', function(done) {
         setTimeout(function() {
           list.update(['Apples', 'Oranges', 'Bananas', 'Grapes'])
@@ -146,7 +146,7 @@
           expect(listEl.children[3].textContent.trim()).to.equal('Grapes')
         }, 1000)
         done()
-      }) 
+      })
       it('On unmount, list should be removed from DOM', function(done) {
         setTimeout(function() {
           list.unmount()
@@ -156,7 +156,7 @@
           expect(container.children).to.have.lengthOf(0)
         }, 1000)
         done()
-      }) 
+      })
     })
 
     describe('Create Extended Component with State', function() {
@@ -227,19 +227,19 @@
           expect(list2.container.id).to.equal('list2-test')
         }, 100)
         done()
-      }) 
+      })
       it('Component element should be "ul"', function(done) {
         setTimeout(function() {
           expect(list2.element.nodeName).to.equal('UL')
         }, 100)
         done()
-      }) 
+      })
       it('Component selector should be "#list2-test"', function(done) {
         setTimeout(function() {
           expect(list2.selector).to.equal('#list2-test')
         }, 100)
         done()
-      }) 
+      })
       it('Component should have state', function(done) {
         setTimeout(function() {
           should.exist(list2.state)
@@ -263,13 +263,13 @@
           expect(listEl.nodeName).to.equal('UL')
         }, 100)
         done()
-      }) 
+      })
       it('Element should have class of "list"', function(done) {
         setTimeout(function() {
           expect(listEl.className).to.equal('list')
         }, 100)
         done()
-      }) 
+      })
       it('Element should have three childen', function(done) {
         setTimeout(function() {
           expect(listEl.children).to.have.lengthOf(4)
@@ -287,7 +287,7 @@
           expect(listEl.children[3].textContent.trim()).to.equal('Peas')
         }, 100)
         done()
-      })  
+      })
       it('List items should have title attribute', function(done) {
         setTimeout(function() {
           const items = Array.prototype.slice.apply(listEl.children)
@@ -297,7 +297,7 @@
           })
         }, 100)
         done()
-      })  
+      })
 
 
       it('On update, list should have four children', function(done) {
@@ -312,7 +312,7 @@
           expect(listEl.children[4].textContent.trim()).to.equal('Onions')
         }, 400)
         done()
-      }) 
+      })
 
 
 
@@ -338,12 +338,12 @@
           expect(container.children).to.have.lengthOf(0)
         }, 3000)
         done()
-      }) 
+      })
 
     })
 
     describe('Use property dangerouslySetInnerHTML on element to set props using innerHTML without encoding.', function() {
-      
+
       class Div extends Component {
         constructor(props) {
           super(props)
@@ -559,11 +559,11 @@
         }, 1000)
         done()
       })
-    
+
 
     })
 
-    
+
 
     mocha.run()
   </script>

@@ -24,12 +24,14 @@ Lifecycle Methods
 Composi has the following five lifecycle methods:
 
 1. componentWillMount
-2. ComponentDidMount
+2. componentDidMount
 3. componentWillUpdate
 4. componentDidUpdate
 5. componentWillUnmount
 
 Lifecycle methods let you implement maintenance and clean up code based on the status of a component from when it is created and injected into the DOM, when it is updated and when it is removed from the DOM.
+
+Each lifecycle method takes a callback to execute and receives the component instance as its argument.
 
 `componentWillMount` is executed before the component is created and inserted into the DOM.
 
