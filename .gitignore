@@ -6,3 +6,7 @@
 .Trashes
 npm-debug.log
 node_modules
+
+# Editor and IDE configuration
+.vscode/
+.idea/
