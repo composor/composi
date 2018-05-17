@@ -34,7 +34,6 @@
     const {h, Component} = composi
     let should = chai.should()
     let expect = chai.expect
-    let assert = chai.assert
 
     describe('Create Component Instance', function() {
       let componentDidMount = false;
@@ -390,22 +389,28 @@
             h('div',
             {},
             [
-              h('p', {}, [h('button', {id: 'btn-1', disabled: false})]),
-              h('p', {}, [h('button', {id: 'btn-2', disabled: 'false'})]),
-              h('p', {}, [h('button', {id: 'btn-3', disabled: true})]),
-              h('p', {}, [h('button', {id: 'btn-4', disabled: 'true'})]),
-              h('p', {}, [h('button', {id: 'btn-5', disabled: 1})]),
-              h('p', {}, [h('button', {id: 'btn-6', disabled: '1'})]),
-              h('p', {}, [h('button', {id: 'btn-7', disabled: -1})]),
-              h('p', {}, [h('button', {id: 'btn-8', disabled: '-1'})]),
-              h('p', {}, [h('button', {id: 'btn-9', disabled: 0})]),
-              h('p', {}, [h('button', {id: 'btn-10', disabled: '0'})]),
-              h('p', {class: 'boolean-test', translate: true}),
-              h('p', {class: 'boolean-test', translate: 'true'}),
-              h('p', {class: 'boolean-test', translate: false}),
-              h('p', {class: 'boolean-test', translate: 'false'}),
-              h('p', {class: 'boolean-test', translate: 'yes'}),
-              h('p', {class: 'boolean-test', translate: 'no'}),
+              h('p', {}, [h('button', {id: 'btn-1', disabled: false})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-2', disabled: 'false'})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-3', disabled: true})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-4', disabled: 'true'})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-5', disabled: 1})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-6', disabled: '1'})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-7', disabled: -1})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-8', disabled: '-1'})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-9', disabled: 0})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-10', disabled: '0'})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-11', disabled: null})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-12', disabled: 'null'})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-13', disabled: undefined})], 'button'),
+              h('p', {}, [h('button', {id: 'btn-14', disabled: 'undefined'})], 'button'),
+
+              h('p', {class: 'boolean-test', translate: true}, 'translate'),
+              h('p', {class: 'boolean-test', translate: 'true'}, 'translate'),
+              h('p', {class: 'boolean-test', translate: 'yes'}, 'translate'),
+              h('p', {class: 'boolean-test', translate: false}, 'translate'),
+              h('p', {class: 'boolean-test', translate: 'false'}, 'translate'),
+              h('p', {class: 'boolean-test', translate: 'no'}, 'translate'),
+
               h('p', {}, [h('input', {class: 'input', autocomplete: 'on'})]),
               h('p', {}, [h('input', {class: 'input', autocomplete: 'off'})])
             ])
@@ -484,7 +489,7 @@
         }, 1000)
         done()
       })
-      it('Button set to "disabled={0} should not be disabled', function(done) {
+      it('Button set to "disabled={0} should notbe disabled', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.buttons[8].disabled
           expect(prop).to.be.false
@@ -495,7 +500,35 @@
         setTimeout(() => {
           const prop = booleanPropsTest.buttons[9].disabled
           expect(prop).to.be.true
-        }, 1000)
+        }, 1200)
+        done()
+      })
+      it('Button set to "disabled={null} should not be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[10].disabled
+          expect(prop).to.be.false
+        }, 1200)
+        done()
+      })
+      it('Button set to "disabled=\"null\" should not be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[11].disabled
+          expect(prop).to.be.false
+        }, 1200)
+        done()
+      })
+      it('Button set to "disabled={undefined} should not be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[12].disabled
+          expect(prop).to.be.false
+        }, 1200)
+        done()
+      })
+      it('Button set to "disabled=\"undefined\" should not be disabled', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.buttons[13].disabled
+          expect(prop).to.be.false
+        }, 1200)
         done()
       })
 
@@ -514,31 +547,31 @@
         }, 1000)
         done()
       })
-      it('Paragraph set to "translate={false} should be false', function(done) {
+      it('Paragraph set to "translate=\"yes\" should be true', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.booleanTests[2].translate
-          assert.isOk(prop)
+          expect(prop).to.be.true
+        }, 1000)
+        done()
+      })
+      it('Paragraph set to "translate={false} should be false', function(done) {
+        setTimeout(() => {
+          const prop = booleanPropsTest.booleanTests[3].hasAttribute('translate')
+          // expect(prop).to.be.false
         }, 1000)
         done()
       })
       it('Paragraph set to "translate=\"false\" should be false', function(done) {
         setTimeout(() => {
-          const prop = booleanPropsTest.booleanTests[3].translate
-          assert.isOk(prop)
-        }, 1000)
-        done()
-      })
-      it('Paragraph set to "translate=\"on\" should be true', function(done) {
-        setTimeout(() => {
-          const prop = booleanPropsTest.booleanTests[4].translate
-          assert.isOk(prop)
+          const prop = booleanPropsTest.booleanTests[4].hasAttribute('translate')
+          expect(prop).to.be.false
         }, 1000)
         done()
       })
       it('Paragraph set to "translate=\"off\" should be false', function(done) {
         setTimeout(() => {
-          const prop = booleanPropsTest.booleanTests[5].translate
-          assert.isNotOk(prop)
+          const prop = booleanPropsTest.booleanTests[5].hasAttribute('translate')
+          expect(prop).to.be.false
         }, 1000)
         done()
       })
@@ -547,15 +580,15 @@
       // Autocomplete Tests
       it('Paragraph set to "autocomplete=\"on\" should be true', function(done) {
         setTimeout(() => {
-          const prop = booleanPropsTest.inputTests[0].autocomplete
-          assert.isOk(prop)
+          const prop = booleanPropsTest.inputTests[0].hasAttribute('autocomplete')
+          expect(prop).to.be.true
         }, 1000)
         done()
       })
       it('Paragraph set to "autocomplete=\"off\" should be false', function(done) {
         setTimeout(() => {
-          const prop = booleanPropsTest.inputTests[1].autocomplete
-          expect(prop).to.equal('off')
+          const prop = booleanPropsTest.inputTests[1].hasAttribute('autocomplete')
+          expect(prop).to.be.false
         }, 1000)
         done()
       })
