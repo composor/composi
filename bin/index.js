@@ -40,6 +40,7 @@ function createPackage(opts) {
     "gulp-cssnano": "^2.1.2",
     "gulp-gzip": "^1.4.0",
     "gulp-sourcemaps": "^2.6.1",
+    "rollup": "0.49.2",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^3.0.0",
