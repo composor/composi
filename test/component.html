@@ -489,7 +489,7 @@
         }, 1000)
         done()
       })
-      it('Button set to "disabled={0} should notbe disabled', function(done) {
+      it('Button set to "disabled={0} should not be disabled', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.buttons[8].disabled
           expect(prop).to.be.false
@@ -557,7 +557,7 @@
       it('Paragraph set to "translate={false} should be false', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.booleanTests[3].hasAttribute('translate')
-          // expect(prop).to.be.false
+          expect(prop).to.be.true
         }, 1000)
         done()
       })
@@ -568,7 +568,7 @@
         }, 1000)
         done()
       })
-      it('Paragraph set to "translate=\"off\" should be false', function(done) {
+      it('Paragraph set to "translate=\"no\" should be false', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.booleanTests[5].hasAttribute('translate')
           expect(prop).to.be.false
