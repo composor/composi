@@ -1,18 +1,23 @@
 Composi
 ========
+[![npm](https://img.shields.io/npm/v/composi.svg)](https://www.npmjs.org/package/composi) 
+[![Gzip Size](https://img.badgesize.io/https://unpkg.com/composi/dist/composi.js.gzip)](https://www.npmjs.org/package/composi)
+[![apm](https://img.shields.io/npm/l/composi.svg)](https://www.npmjs.org/package/composi)
+[![npm](https://img.shields.io/npm/dt/composi.svg)](https://www.npmjs.org/package/composi)
+[![Read the Docs (version)](https://img.shields.io/readthedocs/pip/stable.svg)](https://composor.github.io)
 
 Composi is a framework for creating desktop and mobile apps. With Composi you can create a dynamic website with reactive components, a progressive web app, or a hybrid app for mobile app stores. Visit the [website](https://composor.github.io).
 
-Composi is small. The core is only 3KB gzipped. It therefore loads fast. Its virtual DOM updates components efficiently and quickly.
+Composi is small. The core is barely 3KB gzipped. It therefore loads fast. Its virtual DOM updates components efficiently and quickly. It has an API very similar to React, while mainting it's emphasis on simplicity, size, and ease of learning. In fact, you can learn everything you need to know to build apps with Composi in an hour or two.
 
-Components can be stateless or stateful. Stateful components are reactive. When you change a component's state, that triggers the component's render function. That in turn creates a new virtual DOM based on the data changes. It then patches the DOM to match the changes. If there are no changes, nothing will happen.
+Composi components can be stateless or stateful. Stateful components are reactive. When you change a component's state, that triggers the component's render function. That in turn creates a new virtual DOM based on the data changes. It then patches the DOM to match the changes. If there are no changes, nothing will happen.
 
-A component's markup is written with JSX. This means you can create custom tags to organize your component's template. You can also pass props to a component tag. If you prefer, you can instead use the `h` function to define the component's markup with hyperscript. Actually, at render time the JSX is converted to this as well.
+A component's markup is written with JSX. This means you can create custom tags to organize your component's template. You can also pass props to a component tag. If you prefer, you can instead use the `h` function to define the component's markup with hyperscript. In fact, at render time the JSX is converted to this.
 
 Browser Support
 ---------------
 
-Composi is compatible with browsers back to IE 9 on Windows 7.
+Composi is compatible with browsers back to IE 9 on Windows 7, although you may need to include a [polyfill for promises](https://github.com/stefanpenner/es6-promise) for complete compatibility.
 
 
 
@@ -34,7 +39,6 @@ Live Examples on Codepen
 13. <a href='https://codepen.io/rbiggs/pen/mqyxJX' target='__blank'>Spreadsheet</a>
 14. <a href='https://codepen.io/rbiggs/pen/oervxx' target='__blank'>Counter with Redux</a>
 15. <a href='https://codepen.io/rbiggs/pen/JygrLo' target='__blank'>Counter with Mobx</a>
-
 
 Installation
 -------------
@@ -99,7 +103,49 @@ This will build and launch your project in your default browser.
 
 With this structure, you can add other sub-folders to components, or create other folders inside the `dev` folder as necessary.
 
-`styles.css` is a CSS reset. We are using the Bootstrap 4 rest since it provides a consistent baseline for HTML across all browsers. `app.js` is the core of your website/app. `components` folder has one component: `list.js`. You can add more files for other component as needs. Feel free to add more folders and files to the `dev` folder as you see fit to achieve the structure your app needs. Import them into `app.js`. At build time the build script uses `app.js` to bundle all your files and output them to `js/app.js`. The `index.html` is automatically setup to import that script. `index.html` is your main page. npm
+`styles.css` is a CSS reset. We are using the Bootstrap 4 rest since it provides a consistent baseline for HTML across all browsers. `app.js` is the core of your website/app. `components` folder has one component: `list.js`. You can add more files for other component as needs. Feel free to add more folders and files to the `dev` folder as you see fit to achieve the structure your app needs. Import them into `app.js`. At build time the build script uses `app.js` to bundle all your files and output them to `js/app.js`. The `index.html` is automatically setup to import that script. `index.html` is your main page.
+
+Example Code - Functional Component
+-----------------------------------
+
+```javascript
+import { h, mount } from 'composi'
+
+function HelloWorld({name}) {
+  return (
+    <nav>
+      <h1>Hello, {name}!</h1>
+    </nav>
+  )
+}
+
+mount(<HelloWorld name='World' />, 'header')
+```
+
+Example Code - Class Component
+------------------------------
+```javascript
+import { h, Component } from 'composi'
+import { sampleData } from './data/sample-data'
+
+class List extends Component {
+  render(data) {
+    return (
+      <ul class='list'>
+        {
+          data.map(item => <li key={item.key}>{item.name}</li>)
+        }
+      </ul>
+    )
+  }
+}
+
+// Instantiate class to render component to DOM:
+new List({
+  container: 'section',
+  state: sampleData
+})
+```
 
 Documentation
 -------------
@@ -134,7 +180,7 @@ Clicking on one of these will open the test page. The test runs automatically wh
 
 What's Missing
 --------------
-Composi is focused on one thing - providing a solution for components to build and structure a project. That means there are certain things it does not address.
+Composi is focused on one thing - providing a solution for components for building and structureing a projects. That means there are certain things it does not address, such as state management, routing, Ajax, and data persistence. There are already solutions that provide these, as enumerated below.
 
 ### State Management
 Composi provides the barest support for state through the component's `state` property and `setState` method. However for a more robust solution you may prefer to use [Redux](http://redux.js.org), [Mobx](https://mobx.js.org), or some other state management solution. When you do so, you'll want to create stateless components. Read the documentation for [Component](./docs/components.md) to learn more about stateless components. If yo want something really minimal, take a look at [trkl](https://www.npmjs.com/package/trkl) and [pure](https://www.npmjs.com/package/purestate). You could event roll your own state management solution by defining a class and using Composi's [pubsub functions](./docs/pubsub.md), `subscribe` and `dispatch` for making it reactive. Another possibility for state management is [freezer-js](https://www.npmjs.com/package/freezer-js)
