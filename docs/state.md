@@ -68,9 +68,10 @@ setState
 The Component class has a method called `setState`. Actually, you can use `setState` to set the state of primitive types. So, with the helloWorld component above, we could update its state like this:
 
 ```javascript
+// Do not use this:
 helloWorld.state = 'everybody'
 
-// or:
+// Instead do this:
 helloWorld.setState('everybody')
 ```
 
@@ -129,7 +130,11 @@ const fruitList = new Component({
 })
 
 // Use second argument for index in the array you want to update:
-fruitList.setState('Pinapples', 2)</code>
+fruitList.setState(prevState => {
+  prevState[2] = 'Pinapples'
+  // Return new state to update component:
+  return prevState
+})</code>
 ```
 
 ### Arrays of Objects
@@ -165,7 +170,12 @@ The above operation will not update the user Joe Bodoni as you might think. It w
 
 ```javascript
 // Proper way to update state. Use setState to access the index of array, make change and return it:
-userList.setState(prevState => prevState[0].job = 'Rock Star')
+userList.setState(prevState => {
+  // Update job of first person object in array:
+  prevState[0].job = 'Rock Star'
+  // Return changed state to update component:
+  return prevState
+})
 ```
 
 Complex State Operations
@@ -175,7 +185,10 @@ As we saw in our last example of arrays, sometimes you will need to get the stat
 
 ```javascript
 // Use setState with a callback to get the state, reverse it and return it:
-fruitsList.setState(prevState => prevState.reverse())
+fruitsList.setState(prevState => {
+  prevState.reverse()
+  return prevState
+})
 ```
 
 setState with a Callback
