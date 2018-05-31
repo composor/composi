@@ -21,6 +21,7 @@
       <div id="list1-test"></div>
       <div id="list2-test"></div>
       <div id="list3-test"></div>
+      <div id="dangerous-test"></div>
       <div id="boolean-props"></div>
     </div>
   </section>
@@ -199,7 +200,7 @@
         listEl = document.querySelector('#list2-test ul')
       }, 100)
 
-      it('Component lifecycle method "componentDidMount" should run before component is created', function(done) {
+      it('Component lifecycle method "componentWillMount" should run before component is created', function(done) {
         setTimeout(() => {
           expect(componentWillMount).to.equal(true)
         }, 100)
@@ -301,7 +302,10 @@
 
       it('On update, list should have four children', function(done) {
         setTimeout(function() {
-          list2.setState('Onions', list2.state.length)
+          list2.setState(prevState => {
+            prevState.push('Onions')
+            return prevState
+          })
           expect(listEl.children).to.have.lengthOf(4)
         }, 300)
         done()
@@ -317,7 +321,10 @@
 
       it('Component lifecycle methods "componentWillUpdate" and "componentDidUpdate" should run when component state is updated', function(done) {
         setTimeout(function(){
-          list2.setState('Lettuce', list2.state.length)
+          list2.setState(prevState => {
+            prevState.push('Lettuce')
+            return prevState
+          })
           setTimeout(() => {
             expect(componentWillUpdate).to.equal(true)
             expect(componentDidUpdate).to.equal(true)
@@ -346,7 +353,7 @@
       class Div extends Component {
         constructor(props) {
           super(props)
-          this.container = '#list3-test'
+          this.container = '#dangerous-test'
           this.state = true
         }
         render(data) {
