@@ -81,6 +81,7 @@ A new project will have the following folder structure:
 |--.editorconfig
 |--gulpfile.js
 |--index.html
+|--jsconfig.json
 |--package.json
 |--README.md
 ```
@@ -149,7 +150,7 @@ new List({
 
 Documentation
 -------------
-To learn how to use Composi, open the [docs](./docs/index.md) folder.
+To learn how to use Composi, open the [docs](./docs/index.md) folder for project documentation, or for in depth tutorials visit the [website](https://composor.github.io)
 
 Summary
 -------
