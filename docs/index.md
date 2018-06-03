@@ -17,3 +17,4 @@ To learn how Composi works and how to use it, read any of the following document
 - [Unmount](./unmount.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
+- [Differrences with React](./composi-react.md)

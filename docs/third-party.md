@@ -17,6 +17,7 @@ Contents
 - [Unmount](./unmount.md)
 - Third Party Libraries
 - [Deployment](./deployment.md)
+- [Differrences with React](./composi-react.md)
 
 Third Party Libraries
 ---------------------

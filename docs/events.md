@@ -17,6 +17,7 @@ Contents
 - [Unmount](./unmount.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
+- [Differrences with React](./composi-react.md)
 
 You might have the best looking components on the planet, but if there wasn't a way for users to interact with them, they would be essentially useless. There are two ways to implement events:
 

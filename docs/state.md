@@ -17,6 +17,7 @@ Contents
 - [Unmount](./unmount.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
+- [Differrences with React](./composi-react.md)
 
 State
 -----
