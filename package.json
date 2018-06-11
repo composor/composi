@@ -1,6 +1,6 @@
 {
   "name": "composi",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
@@ -40,6 +40,7 @@
   "homepage": "https://github.com/composor/composi#readme",
   "dependencies": {
     "fs-extra": "^5.0.0",
+    "npm": "^6.1.0",
     "replace-in-file": "^2.6.4",
     "yargs": "^11.0.0"
   },
