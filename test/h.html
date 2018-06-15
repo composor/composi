@@ -77,8 +77,8 @@
     describe('h should accept a functional component that takes props and children and returns a virtual node.', function() {
       const Component = (props, children) => h("div", props, children)
       const result = h(Component, null, "foo")
-      it('Functional component should be {type: "div", props: {}, children: ["foo"]}', function() {
-        expect(JSON.stringify(result)).to.equal(JSON.stringify({type: "div", props: {}, children: ["foo"]}))
+      it('Functional component should be {type: "div", props: {}, children: ["foo"]}, key: null', function() {
+        expect(JSON.stringify(result)).to.equal(JSON.stringify({type: "div", props: {}, children: ["foo"], key:null}))
       })
     })
     describe("Test for creation of list", function() {
