@@ -151,7 +151,7 @@
           h(
             'ul',
             {
-              id: 'hydratedList'
+              id: 'listToHydrate'
             },
             [
               h(
@@ -186,21 +186,21 @@
       it('The hydrated list should have three children', function(done) {
         setTimeout(() => {
           mount(hydrateTheList(), '#hydrate', '#listToHydrate')
-          const hydratedList = document.querySelector('#hydratedList')
+          const hydratedList = document.querySelector('#listToHydrate')
           expect(hydratedList.children.length).to.equal(3)
         }, 1000)
         done()
       })
       it('The hydrated list should have and id of "hydratedList"', function(done) {
         setTimeout(() => {
-          const hydratedList = document.querySelector('#hydratedList')
-          expect(hydratedList.id).to.equal('hydratedList')
+          const hydratedList = document.querySelector('#listToHydrate')
+          expect(hydratedList.id).to.equal('listToHydrate')
         }, 1000)
         done()
       })
       it('The hydrated list should contain "Apple", "Orange", "Banana"', function(done) {
         setTimeout(() => {
-          const hydratedList = document.querySelector('#hydratedList')
+          const hydratedList = document.querySelector('#listToHydrate')
           expect(hydratedList.children[0].textContent).to.equal('Apple')
           expect(hydratedList.children[1].textContent).to.equal('Orange')
           expect(hydratedList.children[2].textContent).to.equal('Banana')
