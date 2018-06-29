@@ -58,7 +58,7 @@ gulp.task('build', function () {
     return bundle.write({
       format: 'iife',
       name: 'app',
-      dest: './js/app.js',
+      file: './js/app.js',
       sourcemap: true
     })
   })
