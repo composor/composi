@@ -1,10 +1,11 @@
 {
   "name": "composi",
-  "version": "2.4.11",
+  "version": "2.5.0",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
-    "build": "npm run format && npm run lint && gulp",
+    "bundle": "rollup -c",
+    "build": "npm run format && npm run lint && npm run bundle && gulp gzip",
     "test": "gulp test",
     "prepare": "npm run build",
     "format": "prettier --no-semi --single-quote --write ./lib/*.js ./lib/utils/*.js",
@@ -40,7 +41,6 @@
   "homepage": "https://github.com/composor/composi#readme",
   "dependencies": {
     "fs-extra": "^5.0.0",
-    "npm": "^6.1.0",
     "replace-in-file": "^2.6.4",
     "yargs": "^11.0.0"
   },
@@ -55,7 +55,7 @@
     "eslint": "^4.19.1",
     "gulp": "^3.9.1",
     "gulp-gzip": "^1.4.0",
-    "prettier": "^1.13.5",
+    "prettier": "^1.13.7",
     "rollup": "^0.49.2",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.0",
