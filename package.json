@@ -1,11 +1,12 @@
 {
   "name": "composi",
-  "version": "2.5.0",
+  "version": "2.5.1",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
     "bundle": "rollup -c",
-    "build": "npm run format && npm run lint && npm run bundle && gulp gzip",
+    "build": "npm run format && npm run lint && npm run checkjs && npm run bundle && gulp gzip",
+    "checkjs": "tsc --allowJs --checkJs --noEmit --target ES6 lib/*.js lib/**/*.js",
     "test": "gulp test",
     "prepare": "npm run build",
     "format": "prettier --no-semi --single-quote --write ./lib/*.js ./lib/utils/*.js",
@@ -61,6 +62,7 @@
     "rollup-plugin-commonjs": "^8.2.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-resolve": "0.0.1-predev.1",
-    "rollup-plugin-uglify": "^2.0.1"
+    "rollup-plugin-uglify": "^2.0.1",
+    "typescript": "^2.9.2"
   }
 }

@@ -161,6 +161,34 @@ Because Composi uses JSX, there are many similarities to React patterns. Please 
 
 Composi is small, just 3KB for the gzipped core. It loads quickly. Its small and focused API means you can learn everything in half a day and be productive. If you're already familiar with JSX, then you only need to learn the Component API. You can easily do that in an hour.
 
+Type Safety
+-----------
+
+Composi is written in standard ES6 with JSDoc comments to document type usage. This exposes Composi's type system to TypeScript during build time to verify that the source code is correctly typed. This also provides enhanced features when using Composi with [Visual Studio Code](https://code.visualstudio.com). Open `Settings` from the `Preferences` menu in Visual Studio Code and add the following setting:
+
+```javascript
+"javascript.implicitProjectConfig.checkJs": true
+```
+This tells Visual Studio Code to use TypeScript to check the JavaScript in a project. By default it uses inference to understand JavaScript types, which is very lax. But with JSDoc comments specifying types, it uses those instead for a more strict check of the code structure.
+
+This also gives intellisense when hovering over terms, intelligent code completion, symbol definition peek, symbol renaming across files, typo detection, flagging of unused variables, and wrong use of types as parameters, wrong number of parameters, etc. All of this is happening live, as you are coding. Not build step necessary.
+
+You can run a type check on Composi with TypeScript using this package script:
+
+```javascript
+npm run checkjs
+```
+This test gets run automatically when performiing a build:
+
+```shell
+npm run build
+>  npm run format && npm run lint && npm run checkjs && npm run bundle && gulp gzip
+> prettier --no-semi --single-quote --write ./lib/*.js ./lib/utils/*.js
+> eslint --config ./.eslintrc.json lib
+> tsc --allowJs --checkJs --noEmit --target ES6 lib/*.js lib/**/*.js
+> rollup -c
+```
+
 Running Tests
 -------------
 
