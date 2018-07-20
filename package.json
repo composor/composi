@@ -1,15 +1,15 @@
 {
   "name": "composi",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
     "bundle": "rollup -c",
     "build": "npm run format && npm run lint && npm run checkjs && npm run bundle && gulp gzip",
-    "checkjs": "tsc --allowJs --checkJs --noEmit --target ES6 lib/*.js lib/**/*.js",
+    "checkjs": "tsc --allowJs --checkJs --noEmit --target ES6 lib/*.js",
     "test": "gulp test",
     "prepare": "npm run build",
-    "format": "prettier --no-semi --single-quote --write ./lib/*.js ./lib/utils/*.js",
+    "format": "prettier --no-semi --single-quote --write ./lib/*.js",
     "lint": "eslint --config ./.eslintrc.json lib"
   },
   "bin": {
