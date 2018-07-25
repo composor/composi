@@ -285,12 +285,13 @@
           componentDidUpdate = true
           unmountedComponents += 1
         }
-        function testUnmount() {
+        function testUnmount(el, done) {
           componentDidUnmount = true
+          done()
         }
         function listItems(items) {
           console.log(items)
-          return items.map(item => h('li', {onComponentDidUnmount: () => testUnmount()}, item))
+          return items.map(item => h('li', {onComponentWillUnmount: (el, done) => testUnmount(el, done)}, item))
         }
         return (
           h(
@@ -320,7 +321,7 @@
         }, 1500)
         done()
       })
-      it('List component\'s list items should execute "onComponentDidUnmount" when they are deleted', function(done) {
+      it('List component\'s list items should execute "onComponentWillUnmount" when they are deleted', function(done) {
         setTimeout(() => {
           render(LifecycleTest([1]), testComponent)
           expect(componentDidUnmount).to.be.true
