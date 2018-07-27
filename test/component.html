@@ -447,10 +447,10 @@
         done()
       })
 
-      it('Button set to "disabled=\"false\" should not be disabled', function(done) {
+      it('Button set to "disabled=\"false\" should be disabled', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.buttons[1].disabled
-          expect(prop).to.be.false
+          expect(prop).to.be.true
         }, 1000)
         done()
       })
@@ -519,10 +519,10 @@
         }, 1200)
         done()
       })
-      it('Button set to "disabled=\"null\" should not be disabled', function(done) {
+      it('Button set to "disabled=\"null\" should be disabled', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.buttons[11].disabled
-          expect(prop).to.be.false
+          expect(prop).to.be.true
         }, 1200)
         done()
       })
@@ -533,10 +533,10 @@
         }, 1200)
         done()
       })
-      it('Button set to "disabled=\"undefined\" should not be disabled', function(done) {
+      it('Button set to "disabled=\"undefined\" should be disabled', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.buttons[13].disabled
-          expect(prop).to.be.false
+          expect(prop).to.be.true
         }, 1200)
         done()
       })
@@ -570,10 +570,10 @@
         }, 1000)
         done()
       })
-      it('Paragraph set to "translate=\"false\" should be false', function(done) {
+      it('Paragraph set to "translate=\"false\" should not be false', function(done) {
         setTimeout(() => {
           const prop = booleanPropsTest.booleanTests[4].hasAttribute('translate')
-          expect(prop).to.be.false
+          expect(prop).to.be.true
         }, 1000)
         done()
       })
