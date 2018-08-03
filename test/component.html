@@ -35,8 +35,8 @@
   <script>
 
     const {h, Component} = composi
-    let should = chai.should()
-    let expect = chai.expect
+    const should = chai.should()
+    const expect = chai.expect
 
     describe('Create Component Instance', function() {
       let componentDidMount = false;
@@ -302,7 +302,7 @@
       })
 
 
-      it('On update, list should have four children', function(done) {
+      it('After setting state, list should have four children', function(done) {
         setTimeout(function() {
           list2.setState(prevState => {
             prevState.push('Onions')
@@ -312,13 +312,30 @@
         }, 300)
         done()
       })
-      it('On update, last list item should contain "Onions"', function(done) {
+      it('After setting state, last list item should contain "Onions"', function(done) {
         setTimeout(function() {
           expect(listEl.children[4].textContent.trim()).to.equal('Onions')
         }, 400)
         done()
       })
 
+      it('When setting state, original state should remain immutable.', function(done) {
+        setTimeout(function() {
+          // prevState should be a copy of the component's state.
+          // That means changes to it should not affect the component's state.
+          // Here we do not return prevState, preventing it from updating original state with changes.
+          let newState = []
+          list2.setState(prevState => {
+            prevState.push('new stuff')
+            newState = prevState
+          })
+          // Since we never returned prevState above, the component's original state should remain unchanged:
+          expect(JSON.stringify(list2.state)).to.equal(JSON.stringify(['Potatoes', 'Tomatoes', 'Carrots', 'Peas', 'Onions']))
+          // But the changes to prevState should be as follows:
+          expect(JSON.stringify(newState)).to.equal(JSON.stringify(['Potatoes', 'Tomatoes', 'Carrots', 'Peas', 'Onions', 'new stuff']))
+        }, 600)
+        done()
+      })
 
 
       it('Component lifecycle methods "componentWillUpdate" and "componentDidUpdate" should run when component state is updated', function(done) {
