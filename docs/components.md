@@ -8,8 +8,17 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Functional Components](./functional-components.md)
-- [Mount and Render](./render.md)
+- [Mount, Render and Unmount](./render.md)
 - Components
+  - [Class Component](#Class-Component)
+  - [Exteding the Class Component](#Extending-the-Class-Component)
+  - [State](#State)
+  - [Events](#Events)
+  - [Styles](#Styles)
+  - [Lifecylce Methods](#Lifecylce-Methods)
+  - [Trigger Initial Render With State](#Trigger-Initial-Render-with-State)
+  - [Querying the DOM](#Querying-the-DOM)
+  - [SSR & Hydration](#SSR-&-Hydration)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
@@ -19,8 +28,7 @@ Contents
 - [Deployment](./deployment.md)
 - [Differences with React](./composi-react.md)
 
-Component
----------
+## Class Component
 
 Composi is a library that provides a rich and powerful solution for components. This is provided by the Component class. To use it, you'll first need to create a project. After creating a project (see [Create a New Project](../README.md)), import both `h` and `Component` into your `app.js` file:
 
@@ -28,158 +36,16 @@ Composi is a library that provides a rich and powerful solution for components. 
 import {h, Component} from 'composi'
 ```
 
-With these imported, you have two options for creating components. 
-
-1. Create an instance of the Component class
-2. Extend Component to create a new component class
-
-Regardless of which approach you take, components have a number of properties that you can use to make your component useful. Below is a general list of properties. There are differences in how an instance of the Component class, or an extension of it, use these.
+You create a new or custom component by extending the Component class. Components have a number of properties that you can use to make your component useful. Below is a general list of properties. There are differences in how an instance of the Component class, or an extension of it, use these.
 
 1. container - the element in the DOM in which the component will be rendered. Multiple components can share the same container. In such a case they will be appended to the container one after the other in the order you first render them or set their initial state.
 2. render - a function that returns markup for the element. This function may optionally take some data that it uses to create dynamic content for the component. You may want to use inline events in your markup to capture user interactions. Read the [documentation for events](./events.md) for more information.
 3. state - some data that the component will use when rendering. This could be primitive types, or an object or array.
 4. Lifecycle methods - these allow you to do things during the lifecycle of the component.
 
-Creating an Instance of Component
----------------------------------
+## Extending the Class Component
 
-Let's look at the first option, creating an instance of `Component`. When creating a component, you need to provide at least two arguments: the container, which is the element into which the component will be rendered and a render function. The container could just be the document body. Or you could have a basic html shell with predefined containers into which you will render your components. Using a shell means your document reaches first render quicker. 
-
-The component's render function is used to define markup that will get converted into elements and inserted into the DOM. The render function is also used every time the component is updated. Rendering the component with new data or changing the state of a stateful component causes the component use this render function to create a new virtual DOM. Composi compares the component's new virtual DOM with its previous one. If they do not match, the new one is used to patch and update the DOM. This results in fast and efficient updating of the DOM based on current state.
-
-By default Composi uses JSX for markdown. You can learn more about JSX in the [documentation](./jsx.md). If you prefer, you can use the hyperscript function [h](./hyperscript.md) to define your markup. For the purpose of this tutorial we're going to use JSX for simplicity's sake.
-
-Component Instance
-------------------
-
-When you create a new Component instance, you initialize it by passing an object of options to the constructor. In this case, the options will be `container` and `render`:
-
-```javascript
-import {h, Component} from 'composi'
-
-const hello = new Component({
-  container: '#helloMessage',
-  render: (name) => <p>Hello, {name}!</p>
-})
-
-// Render the component to the DOM by passing data to the component's update method:
-hello.update('World') // Returns <p>Hello, World!</p>
-```
-
-We can also design a component that uses a complex object as its source of data:
-
-```javascript
-import {h, Component} from 'composi'
-
-// A person object:
-const person = {
-  name: {
-    firstName: 'Joe',
-    lastName: 'Bodoni'
-  },
-  job: 'Mechanic',
-  age: 23
-}
-
-// Define a component instance:
-const user = new Component({
-  container: '#userOutput',
-  render: (person) => (
-  <div>
-    <p>Name: {person.name.first} {person.name.last}</p>
-    <p>Job: {person.job}</p>
-  </div>)
-})
-
-// Render the component with the person object:
-user.update(person)
-```
-
-You can also use an array as the source of data for a component. This can be an array of simple types or of objects. In order to output the contents of an array you'll need to use the `map` function on the array and return the markup for each array loop instance:
-
-```javascript
-import {h, Component} from 'composi'
-
-const fruits = ['Apples', 'Oranges', 'Bananas']
-
-const fruitList = new Component({
-  container: '#fruits',
-  // Loop over the fruits array with "map":
-  render: (fruits) => (
-    <ul>
-      {
-        fruits.map(fruit => <li>{fruit}</li>)
-      }
-    </ul>)
-})
-// Render the list of fruits:
-fruitList.update(fruits)
-```
-
-Using this same pattern, we can output an array of objects:
-
-```javascript
-import {h, Component} from 'composi'
-
-const people = [
-  {
-    firstName: 'Joe',
-    lastName: 'Bodoni',
-    job: 'Mechanic'
-  },
-  {
-    firstName: 'Ellen',
-    lastName: 'Vanderbilt',
-    job: 'Lab Technician'
-  },
-  {
-    firstName: 'Sam',
-    lastName: 'Anderson',
-    job: 'Developer'
-  }
-]
-
-const peopleList = new Component({
-  container: '#people',
-  render: (people) => (
-    <ul>
-      {
-        people.map(person => <li>
-          <div>Name: {person.firstName} {person.lastName}</div>
-          <div>Job: {person.job}</div>
-        </li>)
-      }
-    </ul>)
-})
-
-// Render the peopleList component:
-peopleList.update(people)
-```
-
-Understanding Component Instances
--------------------------------------
-When you create an instance of Component with the `new` keyword, you do so by passing in a object literal of properties and values. Because of this, the scope of those properties is not the component but the object itself. This means that one property does not have access to another, even though they are defined in the same object literal. The only way to access these is from the instance itself. For example, suppose we create a new component instance with state. If we want to access that state inside an event, we would need to do so through the variable we used to create the instance:
-
-```javascript
-const person = new Component({
-  container: '#person',
-  state: personObj,
-  render: (person) => (
-    <div>
-       <h3>{person.firstName} {person.lastName}</h3>
-       <h4>{person.job}</h4>
-    </div>
-  )
-})
-```
-
-### Anti-Patterns
-Although it is possible to access a Component instance's properties as we've shown above, this is not ideal. Component instances are best used when the purpose is simple and straightforward. If you have need to directly access properties of a component or to have one with custom properties, then you want to instead extend the Component class. This is explained next.
-
-Extending Component
--------------------
-
-Many times it makes more sense to extend the Component class rather than to use an instance of it. By extending Component, you can create a custom, reusable component. This is how you would be able to create multiple versions of the same component on the page. You would need to provide only the container element and data to render. If you want to use inline events, you would want to create and extension of Component because then you can define all your actions directly on the component. To learn more about adding events to components, read the [documentation](./events.md).
+By extending Component, you can create a custom, reusable component. This is how you would be able to create multiple versions of the same component on the page. You would need to provide only the container element and data to render. If you want to use inline events, you would want to create and extension of Component because then you can define all your actions directly on the component. To learn more about adding events to components, read the [documentation](./events.md).
 
 Below we are going to create a list component to create multiple lists with different datasets:
 
@@ -269,26 +135,20 @@ toolsList.state = tools
 
 The above code would render three lists in the document body.
 
-Component Instance or Extend
-----------------------------
-Decisions, decisions. Ultimately it's up to you to decide whether to create a Component instance or to extend it. Each has benefits and drawbacks. If you just want to define a render function, set up state and inject your component in the DOM, creating a Component instance is enough. If you want a component with special methods and lifecycle events, or you want a reusable component with multiple instances, you'll want to extend the Component class. Understanding what you need to accomplish will determine which approach you chose.
+## State
 
-In fact, you might start of with a simple component as an Component instance. But later you need to add more functionality and it starts getting messy. It that happens, consider refactoring the component as an extension instead of an instance of Component.
-
-State
------
 In the above examples our components were stateless. Whatever data they needed, we passed it to them using their `update` methods. But you can define a component with state. The advantage is that when you change the state, the component automatically updates. Learn more about state by reading the [documentation](./state.md).
 
-Events
-------
+## Events
+
 Components can handle events in two ways, inline or as event listeners. Learn more about adding events to component by reading the [documentation](./events.md).
 
-Styles
-------
+## Styles
+
 There are two ways to define styles for a component: a component style tag or a virtual stylesheet scoped to a component. This makes the component easier to reuse. Learn more about defining styles for components by reading the [documentation](./styles.md).
 
-Lifecylce Methods
------------------
+## Lifecylce Methods
+
 Components have five lifecycle methods:
 
 1. componentWillMount
@@ -372,7 +232,7 @@ class Clock extends Component {
     this.setState({time: new Date()})
   }
 
-  componentWasCreated() {
+  componentDidMount() {
     this.timeID = setInterval(() => { this.tick() }, 1000)
   }
 }
@@ -381,8 +241,8 @@ const clock = new Clock({
 })
 ```
 
-Trigger Initial Render With State
----------------------------------
+## Trigger Initial Render With State
+
 When you create a component instance, you can trigger its render by setting state on the instance. When you do, no need to use `update` on it:
 
 ```javascript
@@ -396,8 +256,8 @@ const hello = new Component({
 hello.state = 'World'
 ```
 
-Querying the DOM
-----------------
+## Querying the DOM
+
 ### this.element
 
 Composi does not have a `ref` property like React. However, every component has an `element` property, which is the base element you define in the component's `render` function. Let's look at the following example:
@@ -467,12 +327,9 @@ const person = new Person()
 person.state = {name: 'Joe'}
 ```
 
-SSR & Hydration
----------------
+## SSR & Hydration
 
-You can use whatever server-side solution to pre-render the html for your document. Then after page loads, you can let Composi take over parts of the document as components. To do this you need to follow a simple rule:
-
-    Give your component's main element a unique id that matches the id of an element in the rendered document. This needs to be in the same element as the component's container. 
+You can use whatever server-side solution to pre-render the html for your document. Then after page loads, you can let Composi take over parts of the document as class components. To do this you need to tell the component what element in the DOM to hydrate. You do that with the `hydrate` property.
 
 Let's take a look at how we might do this. Suppose on the server we output some markup as follows:
 
@@ -491,23 +348,30 @@ Let's take a look at how we might do this. Suppose on the server we output some 
 When the page first loads this will be the default content. In fact, if the JavaScript did not load or failed with an exception, the user would see this content. If we want to replace the static content with a dynamic list, we can define the list component like this:
 
 ```javascript
-const list = new Component({
-  // Give the component the same container as the list "specialList" above:
-  container: 'article',
-  // Define list with same id as list in server-side markup:
-  render: (fruits) => (
+class Liste extends Component {
+  render(data) {
+    return (
     <ul id="specialList">
       {
         fruits.map(fruit => <li>{fruit}</li>)
       }
     </ul>
-  )
+    )
+  }
+}
+
+// Create instance of List:
+const list = new List({
+  // Designate container to render in:
+  container: 'article',
+  // Tell Composi to hydrate the list with an id of 'specialList':
+  hydrate: 'specialList'
+  // Set state, render the component and replace state nodes:
+  state: ['Stawberries', 'Peaches', 'Blueberries']
 })
-// Set state, render the component and replace state nodes:
-list.state = ['Stawberries', 'Peaches', 'Blueberries']
 ```
 
-With the above code, even though the server sent a static list to the browser, at laod time Composi will replace it with the dynamic component of the same id in the same container element.
+With the above code, even though the server sent a static list to the browser, at load time Composi will replace it with the dynamic component of the same id in the same container element.
 
 **Note:** When implementing serve-side rendering and component hydration, it's best to use ids for the parts you want to hydrate. That way it's easier for Composi to identify unique parts of the static HTML to take over.
 

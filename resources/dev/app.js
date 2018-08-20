@@ -1,6 +1,8 @@
-import {h, Component} from 'composi'
-import {title} from './components/title'
+import { h, Component } from 'composi'
+import { Title } from './components/title'
 
-// Set state on component.
-// Will cause component to render.
-title.setState('World')
+// Create instance of Title:
+const title = new Title({
+  container: 'header',
+  state: 'World'
+})

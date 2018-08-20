@@ -68,12 +68,12 @@
         expect(fragmentVnode.children.length).to.equal(6)
       })
       it('Children should have value of "A", "B", "C", "D", "E", "F"', function() {
-        expect(fragmentVnode.children[0].children[0]).to.equal('A')
-        expect(fragmentVnode.children[1].children[0]).to.equal('B')
-        expect(fragmentVnode.children[2].children[0]).to.equal('C')
-        expect(fragmentVnode.children[3].children[0]).to.equal('D')
-        expect(fragmentVnode.children[4].children[0]).to.equal('E')
-        expect(fragmentVnode.children[5].children[0]).to.equal('F')
+        expect(fragmentVnode.children[0].children[0].type).to.equal('A')
+        expect(fragmentVnode.children[1].children[0].type).to.equal('B')
+        expect(fragmentVnode.children[2].children[0].type).to.equal('C')
+        expect(fragmentVnode.children[3].children[0].type).to.equal('D')
+        expect(fragmentVnode.children[4].children[0].type).to.equal('E')
+        expect(fragmentVnode.children[5].children[0].type).to.equal('F')
       })
       it('The containing element should be "main"', function() {
         expect(fragmentVnode.type).to.equal('main')
@@ -146,13 +146,33 @@
         expect(vNodeTest.children[4].type).to.equal('span')
       })
       it('vNode children should have value of "a, b, c, d, e"', function() {
-        expect(vNodeTest.children[0].children[0]).to.equal('a')
-        expect(vNodeTest.children[1].children[0]).to.equal('b')
-        expect(vNodeTest.children[2].children[0]).to.equal('c')
-        expect(vNodeTest.children[3].children[0]).to.equal('d')
-        expect(vNodeTest.children[4].children[0]).to.equal('e')
+        expect(vNodeTest.children[0].children[0].type).to.equal('a')
+        expect(vNodeTest.children[1].children[0].type).to.equal('b')
+        expect(vNodeTest.children[2].children[0].type).to.equal('c')
+        expect(vNodeTest.children[3].children[0].type).to.equal('d')
+        expect(vNodeTest.children[4].children[0].type).to.equal('e')
       })
-      it('should flatten fragments into five siblings in DOM', function() {
+      it('should flatten nested fragments into five siblings in DOM', function() {
+        /*
+        Use nested fragments to test if they flatten during render:
+        const items = Fragment(
+          null, [
+            h('span', {}, [letters[0]]),
+            h('span', {}, [letters[1]]),
+            Fragment(
+              null, [
+                h('span', {}, [letters[2]]),
+                h('span', {}, [letters[3]]),
+                Fragment(
+                  null, [
+                    h('span', {}, [letters[4]])
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+        */
         expect(fragTest2.firstElementChild.children.length).to.equal(5)
       })
       it('Fragment children in DOM should be of type "SPAN"', function() {

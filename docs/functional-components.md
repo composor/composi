@@ -8,7 +8,18 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - Functional Components
-- [Mount and Render](./render.md)
+  - [Functional Components](#Functional-Components)
+  - [Virtual Dom](#Virtual-Dom)
+  - [Creating Functional Components](#Creating-Functional-Components)
+  - [Using Mount with Render](#Using-Mount-with-Render)
+  - [List with Map](#List-with-Map)
+  - [Custom Tags](#Custom-Tags)
+  - [Data Flows Down](#Data-Flows-Down)
+  - [Events](#Events)
+  - [handleEvent Interface](#handleEvent-Interface)
+  - [Lifecycle Hooks](#Lifecycle-Hooks)
+  - [Component Class Advantages](#Component-Class-Advantages)
+- [Mount, Render and Unmount](./render.md)
 - [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
@@ -19,17 +30,16 @@ Contents
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)
 
-Functional Components
----------------------
+
+## Functional Components
+
 The component architecture is based on classes. If you favor functional programing over OOP, you might prefer to use functional components. Functional Components are always stateless, so you will want to use them with some kind of state management, such as Redux, Mobx, etc. 
 
-Virtual Dom
------------
+## Virtual Dom
 
 When you create components with the Component class, you have a reference for the component's properties, methods, etc. This also provides a point of reference for the virtual DOM. In contrast, functional components do not have this reference for their virtual DOM. Instead, with functional components, the scope in which the function is invoked becomes the scope for the virtual DOM. This means as your project grows and code gets out over many files, the scope of a functional component can be spread across several files. For components this is not a problem. For functional components this means the first time it gets invoked in a new scope, the previous virtual DOM will be replaced by a new one. Unless you are creating a list with 10,000 or more items, you won't notice any inefficencies. However, it does result in more layout thrashing than when creating class-based components.
 
-Creating Functional Components
-------------------------------
+## Creating Functional Components
 
 Functional components use [JSX](./jsx.md) to create markup, but technically you could also use [Hyperx](./hyperx.md) with ES6 template literals. Here we're going to look at using JSX.
 
@@ -85,12 +95,12 @@ mount(<Title {...{name}}/>, 'header')
 
 This will convert the functional component into a virtual node (vnode) and then convert that into actual nodes inside the header tag. Because a virtual node was created, we can re-render this later with new data and Composi will patch the DOM efficiently for us. In this case that would involve patching the text node of the `h1` tag.
 
-Using Mount with Render
------------------------
+## Using Mount with Render
+
 The `mount` function returns a reference to the DOM tree that was created. This is useful for when you need to update a component. You can capture that value in a variable and then pass it to Composi's `render` funcion to update a functional component. Notice in the following example how we use `mount` to get a reference to the component and then pass it to the `render` function in a `setTimeout` to update it:
 
 ```javascript
-// Remember to import both mount and render:
+// Remember to import both Mount, Render and Unmount:
 import {h, mount, render} from 'composi'
 function Clock({date}) {
   return (
@@ -106,14 +116,20 @@ const clock = mount(<Clock date={new Date()} />, 'section')
 setInterval(
   () => {
     // Pass the clock reference to render function to update it:
-    render(<Clock date={new Date()}/>, clock)
+    render(clock, <Clock date={new Date()}/>, 'section')
   },
   1000
 )
 ```
 
-List with Map
--------------
+The `render` function expects three arguments:
+
+1. A reference to the already mounted component.
+2. The tag to use for rendering.
+3. The container in which the component was mounted.
+
+
+## List with Map
 
 Now lets create a functional component that takes an array and outputs a list of items. Notice that we are using [BEM](https://css-tricks.com/bem-101/) notation for class names to make styling easier.
 
@@ -158,8 +174,7 @@ mount(<Title {...{name}}/>, 'header')
 mount(<List {...{items}}/>, 'section')
 ```
 
-Custom Tags
------------
+## Custom Tags
 
 We can break this list down a bit using a custom tag for the list item. We will need to pass the data down to the child component through its props:
 
@@ -185,13 +200,11 @@ export function List(props) {
 }
 ```
 
-Data Flows Down
----------------
+## Data Flows Down
 
 When using custom tags inside a functional component, the data flows down, from the parent to the children. There is no two-way data binding. This makes it easy to reason about. If you need a child component to communicate some kind of data change to its parent, you can use events or any pubsub solution from NPM. We have a tiny and efficient pubsub module on NPM called [pubber](https://www.npmjs.com/package/pubber) that is perfect for these situations.
 
-Events
-------
+## Events
 
 What if we wanted to make this list dynamic by allowing the user to add items? For that we need events. We'll add a text input and button so the user can enter an item. Since this doesn't involve any data consuming any data, their function just needs to return the markup for the nodes to be created. We'll call this function component `ListForm`:
 
@@ -224,8 +237,7 @@ export function List(props) {
 }
 ```
 
-handleEvent Interface
----------------------
+## handleEvent Interface
 
 We are going to use the `handleEvent` interface to wire up events for the component. We'll do this in a separate file and import it into our `app.js` file. To use `handleEvent` with a functional component we'll need to create an object with the `handleEvent` function on it. Then we'll use a standar event listener and pass the that object instead of a callback.
 
@@ -246,8 +258,8 @@ export const events = {
     const value = input.value
     if (value) {
       items.push(value)
-      // Pass list variable render function to update component:
-      render(<List {...{items}}/>, list)
+      // Pass list variable to render function to update component:
+      list = render(list, <List {...{items}}/>, 'section')
       input.value = ''
     }
   },
@@ -260,12 +272,65 @@ export const events = {
 document.querySelector('.container-list').addEventListener('click', events)
 ```
 
-Notice that we first mount the list. This gives us a reference to the mounted component. We use this reference in our event handler to update the list in place. This allows Composi to use its virtual DOM to efficiently update the DOM nodes with the least layout thrashing as possible.
+Notice that we first mount the list. This gives us a reference to the mounted component. We use this reference in our event handler along with the component's container to update the list in place. This allows Composi to use its virtual DOM to efficiently update the DOM nodes with the least layout thrashing as possible.
 
 And that's it. With that we now have an interactive functional component that updates in real time with a virtual DOM.
 
-Component Class Advantages
---------------------------
+## Lifecycle Hooks
 
-Although you can build a complex app using nothing but functional components, there are certain conveniences when using the Component class. First and foremost is the fact that classes allow you to encapsulate functionality using properties and methods defined directly on the component. The second is the component itself enables more efficient use of the virtual DOM because it keeps track of that internally.
+Functional components have three lifecycle hooks:
+
+1. onmount
+2. onupdate
+3. onunmount
+
+The are attached to the element where you want to track the lifecycle event. They are added like any other prop.
+
+**onmount** gets passed the element that it is on as its argument. This lets you do things such as registering delegated events, accessing the DOM of the component, etc.
+
+**onupdate** gets passed a reference to the element it is attached to, the old props, and the new props. You can check the difference between the two sets of props to see what changed. This lifecyle hook executes every time you call the `render` function on the functional component. If you have a list of items and you only want `onupdate` to fire when an item's data changes, you can write the functional component so that it memoizes its items. 
+
+**onunmount** gets passed a `done` callback and  a reference to the element on which it is registered. You can do whatever you want but in the end you need to call `done()` to allow the unmounting to finish.
+
+```javascript
+//... Define removeItem:
+function removeItem(done, el) {
+  //... Do stuff here, like animating `el` before unmounting.
+  // Then call `done` to allow unmounting:
+  done()
+}
+
+// Notice how we pass `done` and `el` to the onupdate function.
+function ListItem({data}) {
+  return (
+    <li key={data.key} onunmount={(done, el) => removeItem(done, el)}>
+      {data.name}
+    </li>
+  )
+}
+```
+
+Since `el` is optional, you only need to pass `done` to the `unmount` callback:
+
+```javascript
+//... Define removeItem:
+function removeItem(done) {
+  //... Do stuff here.
+  // Then call `done` to allow unmounting:
+  done()
+}
+
+// Notice how we pass  onely `done` to the onupdate function.
+function ListItem({data}) {
+  return (
+    <li key={data.key} onunmount={(done) => removeItem(done)}>
+      {data.name}
+    </li>
+  )
+}
+```
+
+## Component Class Advantages
+
+Although you can build a complex app using nothing but functional components, there are certain conveniences when using the Component class. First and foremost is the fact that classes allow you to encapsulate functionality using properties and methods defined directly on the component. The second is that the component itself enables more efficient use of the virtual DOM because it keeps track of that internally. When data changes, the component itself initiates its update. No need to call a render function or update method to do that.
 

@@ -7,8 +7,13 @@ Contents
 - [JSX](./jsx.md)
 - [Hyperx](./hyperx.md)
 - Hyperscript
+  - [hyperscript -h](#hyperscript---h)
+  - [Tag Name](#Tag-Name)
+  - [Properties/Attributes](#Properties/Attributes)
+  - [Children](#Children)
+  - [Summary](#Summary)
 - [Functional Components](./functional-components.md)
-- [Mount and Render](./render.md)
+- [Mount, Render and Unmount](./render.md)
 - [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
@@ -19,8 +24,8 @@ Contents
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)
 
-hyperscript - h
----------------
+
+## hyperscript - h
 
 Although most people are fine using JSX, some people hate it and would rather use anything else. Hyperscript is an alternate way of defining markup. In fact, when you build your project, Babel converts all JSX into hyperscript. Composi provides the `h` function to enable hyperscript compatible usage.
 
@@ -30,8 +35,7 @@ Although most people are fine using JSX, some people hate it and would rather us
 2. propertes/attributes
 3. children
 
-Tag Name
---------
+## Tag Name
 
 The first argument is a tag name. This is a lowercase HTML tag.
 ```javascript
@@ -41,8 +45,7 @@ const p = h('p')
 const ul = h('ul')
 ````
 
-Properties/Attribues
---------------------
+## Properties/Attributes
 
 Often you want to be able to give an element a property or attribute. We're talking about `class`, `id`, `checked`, `disabled`, etc. You can add properties and attributes by providing a second argument. This will be a key/value pair wrapped in curly braces:
 
@@ -58,8 +61,7 @@ const h1 = h('h1', {})
 const button = h('button', null)
 ```
 
-Children
---------
+## Children
 
 The final argument allows you to define children for an element. There are two kinds of children: a text node, or other HTML elements. Providing text as an element's child is easy, just use a quoted string:
 
@@ -113,7 +115,6 @@ const list = h('ul', {class: 'list'}, [
 ])
 ```
 
-Summary
--------
+## Summary
 
 The hyperscript function `h` lets you define markup with JavaScript functions. If you do not like the look and feel of JSX, this is a good alternative. This `h` function is similar to [React.createElement](https://facebook.github.io/react/docs/react-api.html#createelement)

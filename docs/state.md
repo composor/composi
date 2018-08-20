@@ -8,9 +8,25 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Functional Components](./functional-components.md)
-- [Mount and Render](./render.md)
+- [Mount, Render and Unmount](./render.md)
 - [Components](./components.md)
 - State
+  - [State](#State)
+  - [Booleans](#Booleans)
+  - [Complex Data Types](#Complex-Data-Types)
+  - [setState](#setState)
+  - [Updating Array State](#Updating-Array-State)
+  - [Arrays of Objects](#Arrays-of-Objects)
+  - [Complex State Operations](#Complex-State-Operations)
+  - [setState with a Callback](#setState-with-a-Callback)
+  - [Keyed Items](#Keyed-Items)
+  - [Keyed Array Data](#Keyed-Array-Data)
+  - [Keys Must Be Unique](#Keys-Must-Be-Unique)
+  - [Never Use Loop Index for Keys](#Never-Use-Loop-Index-for-Keys)
+  - [State in Class Components](#State-in-Class-Components)
+  - [Third Party State Management](#Third-Party-State-Management)
+  - [Redux](#Redux)
+  - [Mobx](#Mobx)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
@@ -19,8 +35,7 @@ Contents
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)
 
-State
------
+## State
 
 Components can be stateless or stateful. There are advantages to both. Chose the right one depending on use case. For example, if a component will only display the result of some other action, make it stateless and pass it the data it needs. If the data of a component can change at unpredictable times, make it stateful. That way, when its data changes, it will update automatically. If you have a fixed dataset and the component will never need to be rendered again during the session, make it stateless and pass it the data. 
 
@@ -44,8 +59,8 @@ With the above component, we can change its output by directly accessing the com
 helloWorld.state = 'everybody'
 ```
 
-Booleans
----------
+## Booleans
+
 By default boolean values are not output. This is so they can be used for conditional checks. However, if you want to output a boolean value, just convert it to a string. There are two ways to do this. For `true` or `false` you can add `toString()` to convert them to strings. The values `null` and `undefined` do not have a `toString()` function, but you can use string concatenation to convert them, or use `String(value)`. Below are examples of these approaches:
 
 ```javascript
@@ -60,12 +75,12 @@ render: (value) => <p>The boolean value is: {value + ''}</p>
 render: (value) => <p>The boolean value is: {(String(value).toUpperCase()}</p>
 ```
 
-Complex Data Types
-------------------
+## Complex Data Types
+
 Most components will have state of complex data types: objects or arrays. To update the state of complex types you have two choices: use the `setState` method or get the state, perform your operations and set the state with the final result. We'll look at `setState` first.
 
-setState
---------
+## setState
+
 The Component class has a method called `setState`. Actually, you can use `setState` to set the state of primitive types. So, with the helloWorld component above, we could update its state like this:
 
 ```javascript
@@ -110,8 +125,7 @@ Instead we need to use the `setState` method. To update a state object property,
 personComponent.setState({job: 'Web Developer'})
 ```
 
-Updating Array State
---------------------
+## Updating Array State
 
 When a component has an array as state, you need to provide a second argument for `setState`: the index of the array where you want to make the index. For instance, suppose we have a component `fruitList` that prints out a list of fruits. We notice that the third item in the list is mispelled and want to update it. We can do that as follows:
 
@@ -138,7 +152,7 @@ fruitList.setState(prevState => {
 })</code>
 ```
 
-### Arrays of Objects
+## Arrays of Objects
 Arrays of objects are more complicated. This is because when you use `setState` on an array, it is actually performing a splice operation on the array. That means that if you only pass in an object with the property you want to update, as we did for objects, the entire object at that position in the array will be replaced by what you provided. Therefore to update an object in an array you need to provide a complete object for the update, or update the object first and then pass it in. Let's suppose we have an array of people objects:
 
 ```javascript
@@ -179,8 +193,7 @@ userList.setState(prevState => {
 })
 ```
 
-Complex State Operations
-------------------------
+## Complex State Operations
 
 As we saw in our last example of arrays, sometimes you will need to get the state, operate on it separately and then set the component's state to that. For example, if you need to use map, filter, sort or reverse on an array, you'll want to get the complete state and perform these operations. Aftwards you can just set the state:
 
@@ -192,8 +205,10 @@ fruitsList.setState(prevState => {
 })
 ```
 
-setState with a Callback
-------------------------
+Read the next section for more details on using a callback to set state.
+
+## setState with a Callback
+
 When you pass a callback to the `setState` method, the first argument of the callback will be the component's state. In the example below, notice how we get the state and manipulate it in the `handleClick` method. After doing what you need to with state, remember to return it. Otherwise the component's state will not get updated.
 
 ```javascript
@@ -222,12 +237,11 @@ const button = new Button()
 
 Be aware that whatever the callback returns will be set as the component's new state. Therefore you must complete all the changes you need before returning it.
 
-Keyed Items
------------
+## Keyed Items
 
-In general, Composi's diffing algorythm is very efficient at determining what changed. However, when dealing with long lists, especially if the items order has changed in a random way, it can be challenging to determine the best way to patch the DOM. Keys provide a mechnamism to remedy this. If you are not going to make any drastic changes to a list's data, keys are not necessary. But if the order of updated items can change dramatically, you'll want to use keyed data. 
+In general, Composi's diffing algorythm is very efficient at determining what changed. However, when dealing with long lists, especially if the items order has changed in a random way, it can be challenging to determine the best way to patch the DOM. Keys provide a mechnamism to remedy this. If you are not going to make any drastic changes to a list's data, keys are not necessary. But if the order of updated items can change, you'll want to use keyed data. 
 
-### Keyed Array Data
+## Keyed Array Data
 The easiest way to create a keyed list is to have any array of data with unique ids. These ids only need to be unique for the items in the array the list is using. You can use any scheme to create unique ids for array items. You could use a `uuid` module from [NPM](https://www.npmjs.com/search?q=uuid).
 
 Below is an example of some keyed data:
@@ -270,12 +284,18 @@ const fruitList = new Component({
 
 The diffing algorythm will use the key value to understand the order of items in the list. This results in more efficient diffing and patching. Putting the `key` properting in the markup of a list will not be rendered to the DOM. The `key` property will only exist in the virtual DOM, where it is used to determine if the order of list elements has changed.
 
-Keys Must Be Unique
--------------------
+## Keys Must Be Unique
+
 When using keys, make sure that each key is unique to that dataset. Otherwise, if they are not the diff and patch algorythms will get confused and produced unpredictable results when patching the DOM. You can use whatever means you want to create keys as long as they are unique.
 
-State in Extended Components
-----------------------------
+
+## Never Use Loop Index for Keys
+
+Never ever use loop indexes as data keys. The loop index value will change every time the data items are changes. This will make it impossible to understand the differences between the data and the DOM. This means you will get unpredictable DOM updates. Keys must always be in the data itself.
+
+Database as a rule provide unique ids for data items. Use those as keys.
+
+## State in Class Components
 
 When you extend Component to create a specialized class, you may want to set initial state for all instances of the class. You can set state directly in the constructor using the `this` keyword:
 
@@ -310,13 +330,11 @@ class Clock extends Component {
 }
 ```
 
+## Third Party State Management
 
-Third Party State Management
-----------------------------
 Because you can create stateless components, you can use thrid party state management solutions with Composi. Redux, Mobx, or roll your own.
 
-Redux
------
+## Redux
 
 ```javascript
 const { h, Component } from 'composi'
@@ -399,8 +417,7 @@ counter.update()
 
 This was a trivial example of using Redux with Composi. Please consult [Redux documention](http://redux.js.org/docs/basics/) to learn more about how Redux can solve your state management needs.
 
-Mobx
-----
+## Mobx
 
 You can also use [Mobx](https://mobx.js.org) for state management. Like in the Redux example above, you'll want to use state components.
 

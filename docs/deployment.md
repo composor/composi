@@ -8,7 +8,7 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Functional Components](./functional-components.md)
-- [Mount and Render](./render.md)
+- [Mount, Render and Unmount](./render.md)
 - [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
@@ -17,15 +17,18 @@ Contents
 - [Unmount](./unmount.md)
 - [Third Party Libraries](./third-party.md)
 - Deployment
+  - [CLI Deploy](#CLI-Deploy)
+  - [What Gets Deployed](#What-Gets-Deployed)
+  - [Changing Paths for Files](#Changing-Paths-for-Files)
+  - [Standalone](#Standalone)
 - [Differences with React](./composi-react.md)
 
-Deployment
-----------
+
+## Deployment
 
 After completing your project, you'll want to deploy it to where you will serve the site/app from. By default a Composi development project has a log of files and folder you don't need in deployment. The Composi command like can help you separate the final project from the development parts.
 
-CLI Deploy
-----------
+## CLI Deploy
 
 The Composi CLI can separate out the parts you need for deployment from the parts you need for development. There a just a few steps to follow. Open the terminal. There are two flags for deployment:
 
@@ -49,9 +52,8 @@ This would be deployed project at:
 ```bash
 C:\Users\wobba\dev\test-production
 ```
-
-What Gets Deployed
-------------------
+>
+## What Gets Deployed
 
 When you deploy a project, Composi exports certain files and folders. They are all at the root leve of the project:
 
@@ -65,12 +67,10 @@ When you deploy a project, Composi exports certain files and folders. They are a
 
 The default Composi project build does not contain a folder for icons and images. However, if you want to use icons and images with your project, you can create these folders at the root of your project. Then during deployment Composi will include them. Everything in the above folders will be transfered to the deployment destination.
 
-Changing Paths for Files
-------------------------
+## Changing Paths for Files
 
 Depending on how you intended to serve your project, you may need to change where CSS, icons, images and JavaScript reside. If this is so, be sure to adjust the paths to CSS and JavaScript in the `index.html` file, as well as any paths that for images in your `styles.css` file.
 
-Standalone
-----------
+## Standalone
 
 When you create the deployment version of your project, you get a standalone version. You could doubleclick the <code>index.html</code> to open it in your browser. Or you could open the terminal, <code>cd</code> to the deployed project and run an node server, such as [http-server](https://www.npmjs.com/package/http-server), in the project to launch it.

@@ -5,10 +5,20 @@ Contents
 --------
 - [Installation](../README.md)
 - JSX
+  - [JSX](#JSX)
+  - [XML](#XML)
+  - [JSX Attributes](#JSX-Attributes)
+  - [Partial Attributes](#Partial-Attributes)
+  - [Custom Tags](#Custom-Tags)
+  - [Custom Tags with Spread Operator](#Custom-Tags-with-Spread-Operator)
+  - [One Tag to Rule Them All](#One-Tag-to-Rule-Them-All)
+  - [Fragment Tag](#Fragment-Tag)
+  - [Components with Same Container](#Components-with-Same-Container)
+  - [Using SVG Sprite Icons](#Using-SVG-Sprite-Icons)
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Functional Components](./functional-components.md)
-- [Mount and Render](./render.md)
+- [Mount, Render and Unmount](./render.md)
 - [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
@@ -19,14 +29,12 @@ Contents
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)
 
-JSX
-----
+## JSX
 
 JSX provides a concise and convenient way to define markup to be created. Often people erroneously call JSX HTML. It is not HTML. It is in fact a type of XML. When you build your project, Babel takes the JSX code and converts it into hyperscript functions. In the case of a Composi project, it is set up to tell Babel to use Composi's hyperscript function for that transformation in the project's [.babelrc](https://babeljs.io/docs/usage/babelrc/) file.
 
 
-XML
----
+## XML
 
 Since JSX is a type of XML, tags need to follow XML rules. This means that all tags must be closed. In HTML 5 you can have self-closing tags, such as img, br, hr, input, etc.
 
@@ -50,8 +58,7 @@ Although some "purists" complain that JSX is mixing HTML into JavaScript, this i
 
 If you read the E4X documentation, you will recognize the similarities to JSX. E4X was an attempt by Mozilla to enable the creation of DOM nodes without using string concatenation. Unfortunately E4X never took off. The introduction of template literals and tagged template literals solved some of the problems E4X was trying to address. However, the shortcoming of template literals is that the the markup is defined as strings. This means IDEs cannot understand the markup in a template literal. JSX does not have this limitation. As such text editors and IDEs provide great tooling to make using JSX productive.
 
-JSX Attributes
---------------
+## JSX Attributes
 
 Unlike using JSX with React, Composi does not require that you use `className` instead of `class`. The following JSX would be invalid for React, but is the stardard for Composi:
 
@@ -67,7 +74,7 @@ function header(data) {
 }
 ```
 
-### Partial Attributes
+## Partial Attributes
 
 JSX does not support partial attribute values. The following code will not work:
 
@@ -103,8 +110,7 @@ function userList(users) {
 
 **Note** When evaluating attribute values, never use quotes around the evaluation as this will prevent the evaluation from happening. Just use curly braces.
 
-Custom Tags
-------------
+## Custom Tags
 
 Although JSX makes it easy to create standard HTML elements, it also allows you to create custom tags. These are not the same as [custom element](). There may be a few, higher level similarities between these two. But fundamentaly they are for different purposes. 
 
@@ -136,8 +142,7 @@ const fruitsList = new Component({
 })
 ```
 
-Custom Tags with Spread Operator
---------------------------------
+## Custom Tags with Spread Operator
 
 Looking at the above markup, we could break it up a bit to make it easier to read and reuse. To do this we'll define two functions to return markup. As mentioned earlier functions for custom tags must start with an uppercase letter. Lets break this up into two subcomponents:</p> 
 
@@ -216,8 +221,8 @@ const fruitsList = new Component({
 
 This results in cleaner code that is easier to read and maintain.
 
-One Tag to Rule Them All
-------------------------
+## One Tag to Rule Them All
+
 Because of the way JSX works, there must always be one enclosing tag for all the other tags you wish to create. You cannot return a group of siblings. They need to be contained in another tag. For example, suppose you wanted to create some list items to insert in a list:
 
 ```javascript
@@ -247,8 +252,7 @@ const goodJSX = new Component({
 })
 ```
 
-Fragment Tag
-------------
+## Fragment Tag
 
 As of version 1.5.0, Composi also supports a special Fragment tag. This allows you to group a number a siblings together instead of needing to enclose them in an html tag. The Fragment tag will be the parent, however it will not be converted into a tag in the DOM. Instead its children will become the children of whatever the Fragment gets inserted into. This is similar to how document fragments work. However, this is not an actual document fragment. The Fragment tag must always start with a capital F:
 
@@ -330,13 +334,11 @@ render(<Items letters={letters}/>, document.body)
 </main>
 ```
 
-Components with Same Container
-------------------------------
+## Components with Same Container
 
 Components do not have to have unique container elements. Multiple components can be rendered in the same container element. Their order in the DOM will be dependent on their order in execution.
 
-Using SVG Sprite Icons
-----------------------
+## Using SVG Sprite Icons
 
 Often developers use SVG sprite sheets for icons in their apps. Here are some articles about how this works: [Icon System with SVG Sprites](https://css-tricks.com/svg-sprites-use-better-icon-fonts/), [An Overview of SVG Sprite Creation Techniques](https://24ways.org/2014/an-overview-of-svg-sprite-creation-techniques/), [How to Implement Cross-Browser SVG Sprites](https://webdesign.tutsplus.com/tutorials/how-to-implement-cross-browser-svg-sprites--cms-22427)
 

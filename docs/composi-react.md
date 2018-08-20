@@ -8,7 +8,7 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Functional Components](./functional-components.md)
-- [Mount and Render](./render.md)
+- [Mount, Render and Unmount](./render.md)
 - [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
@@ -18,13 +18,19 @@ Contents
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
 - Differences with React
+  - [Differences Between Composi and React](#Differences-Between-Composi-and-React)
+  - [API](#API)
+  - [Properties](#Properties)
+  - [Lifecycle Hooks for Class Components](#Lifecycle-Hooks-for-Class-Components)
+  - [Lifecycle Events for Functional Components](#Lifecycle-Events-for-Functional-Components)
+  - [createRef/Ref](#createRef/Ref)
+  - [Instantiation](#Instantiation)
 
-Differences Between Composi and React
--------------------------------------
+## Differences Between Composi and React
 
 Although Composi and React share many API features, there are substantial differences. The following tables show what they share and how they differ.
 
-**API**
+## API
 
 | Composi            | React                       |
 |--------------------|-----------------------------|
@@ -47,16 +53,23 @@ Composi uses `mount` to render a functional component the first time. This retur
 // Hydrate H1 inside header tag:
 mount(<Title message='Amazing Title'/> 'header', 'h1')
 ```
-Use `render` to update an already mounted functional component:
+If you wish to update a component after mounting, capture its state in a variable. You'll need to use `let` because each update will change the value you have stored.
 
 ```javascript
-const title = mount(<Title message='Boring!'/>, 'header')
-// Sometime later update the title.
-// Pass in the 'title' variable from above:
-render(<Title message='An Amazing Title!!!'/>, title)
+// Hydrate H1 inside header tag:
+let title = mount(<Title message='Amazing Title'/> 'header', 'h1')
 ```
 
-**Properties**
+Use `render` to update an already mounted functional component. It takes three arguments, a reference to the mounted component and the tag to re-render and the container element to render it in. This will be the same one in which the component was originally mounted:
+
+```javascript
+let title = mount(<Title message='Boring!'/>, 'header')
+// Sometime later update the title.
+// Pass in the 'title' variable from above:
+title = render(title, <Title message='An Amazing Title!!!'/>, 'header')
+```
+
+## Properties
 
 | Composi                          | React                                        |
 |----------------------------------|----------------------------------------------|
@@ -65,13 +78,14 @@ render(<Title message='An Amazing Title!!!'/>, title)
 | onclick                          | onClick                                      |
 | oninput                          | onUpdate                                     |
 | for                              | htmlFor                                      |
-| xlink-href                       | xlinkHref                                    |
-| dangerouslySetInnerHTML (string) | dangerouslySetInnerHTML (callback)           |
-| style (accepts object or standard inline string value) | style (accepts object) |
+| xlink-href                       | xlinkHref or xlink-href                      |
+| innerHTML (string)               | dangerouslySetInnerHTML (callback)           |
+| style (accepts object or         |                                              |
+| standard inline string value)    | style (accepts object)                       |
 
-Inline events are just inline events, same as they've always been since DOM Level 0. Composi uses standard HTML attributes. No need for camel case or non-standard terms. For SVG icons you can use `xlink-href`. `dangerouslySetInnerHTML` accepts a string as its value. No need for a complicated function like with React. `style` can take a JavaScript object literal of key value pairs, or you can use a string as you normally would with HTML. React and friends only accept an object.
+Inline events are just inline events, same as they've always been since DOM Level 0. Composi uses standard HTML attributes. No need for camel case or non-standard terms. For SVG icons you can use `xlink-href`. `innerHTML` accepts a string as its value. No need for a complicated function like with React's `dangerouslySetInnerHTML`. `style` can take a JavaScript object literal of key value pairs, or you can use a string as you normally would with HTML. React and friends only accept an object.
 
-For handling `innerHTML`, Composi uses `dangerouslySetInnerHTML`. Unlike React, which requires a callback, you just pass a string for the content to insert:
+For handling `innerHTML`, Composi uses `innerHTML`. Unlike React, which requires a callback, you just pass a string for the content to insert:
 
 ```javascript
 function Title() {
@@ -81,10 +95,10 @@ function Title() {
 }
 const title = mount(<Title/>, 'header')
 // Later update the title:
-render(<Title dangerouslySetInnerHTML='The New Title!'/>, title)
+title = render(title, <Title innerHTML='The New Title!'/>, 'header')
 ```
 
-**Lifecycle Hooks for Class Comopnents**
+## Lifecycle Hooks for Class Components
 
 | Composi                   | React                                                      |
 |---------------------------|------------------------------------------------------------|
@@ -97,13 +111,14 @@ render(<Title dangerouslySetInnerHTML='The New Title!'/>, title)
 | N/A                       | getDerivedStateFromProps                                   |
 | componentShouldUpdate (attribute) | componentShouldUpdate (callback)                   |
 
-**Lifecycle Events for Functional Components**
 
-| Composi                      | React                |
-|------------------------------|----------------------|
-| onComponentDidMount          | N/A                  |
-| componentDidUpdate           | N/A                  |
-| onComponentWillUnmount       | N/A                  |
+## Lifecycle Events for Functional Components
+
+| Composi         | React      |
+|-----------------|------------|
+| onmount         | N/A        |
+| onupdate        | N/A        |
+| onunmount       | N/A        |
 
 Inline events are standard inline events. They do not get sythesized like React.
 
@@ -135,12 +150,13 @@ title.componentShouldUpdate = true
 title.update()
 ```
 
-**createRef/Ref**
+## createRef/Ref
 
-| Composi                                                      | React           |
-|--------------------------------------------------------------|-----------------|
-| N/A (use this.element with  componentDidMount to access DOM) | React.createRef |
-| N/A (same as above)                                          | ref             |
+| Composi                                         | React           |
+|-------------------------------------------------|-----------------|
+| N/A (use this.element with componentDidMount    |                 |
+| to access DOM)                                  | React.createRef |
+| N/A (same as above)                             | ref             |
 
 Composi does not have `createRef` like React, and so it does not support the `ref` property on elements. But you don't need it. Instead you can take advantage of a component's `element` property in the `componentDidUpdate` lifecycle hook to access elements in the DOM:
 
@@ -184,7 +200,7 @@ class List extends Component {
 }
 ```
 
-**Instantiation**
+## Instantiation
 
 | Composi                                 | React                            |
 |-----------------------------------------|----------------------------------|

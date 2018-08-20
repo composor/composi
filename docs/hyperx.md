@@ -6,9 +6,17 @@ Contents
 - [Installation](../README.md)
 - [JSX](./jsx.md)
 - Hyperx
+  - [Hyperx](#Hyperx)
+  - [Installation](#Installation)
+  - [Importing Hyperx for Use](#Importing-Hyperx-for-Use)
+  - [Using Template Literals](#Using-Template-Literals)
+  - [Partial Attributes in Template Literals](#Partial-Attributes-in-Template-Literals)
+  - [Hyperx with Components](#Hyperx-with-Components)
+  - [Custom Tags](#Custom-Tags)
+  - [Handling Sibling Tags](#Handling-Sibling-Tags)
 - [Hyperscript](./hyperscript.md)
 - [Functional Components](./functional-components.md)
-- [Mount and Render](./render.md)
+- [Mount, Render and Unmount](./render.md)
 - [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
@@ -19,13 +27,11 @@ Contents
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)
 
-Hyperx
-------
+## Hyperx
 
 If you do not like JSX, you can instead use Hyperx. This lets you define your component markup with ES6 template literals. At build time, Hyperx converts the template literals into hyperscript functions that Composi's virtual DOM can understand. 
 
-Installation
-------------
+## Installation
 
 First you will need to install Hyperx in your project. Open your terminal and run:
 
@@ -50,8 +56,8 @@ commonjs({
 }),
 ```
 
-Importing Hyperx for Use
-------------------------
+## Importing Hyperx for Use
+
 Next you'll need to import Hyperx into any file where you want to use it. That means any file in which you are importing Composi's `Component` class, you'll want to also import Hyperx. Besides importing it, you'll also need to let Hyperx know that it should use Composi's `h` function when it converts template literals into functions. You do that by importing the `h` function and passing it to Hyperx:
 
 ```javascript
@@ -64,8 +70,9 @@ const html = hyperx(h)
 
 We can now use the `html` function to define template literals as markup for Composi components. If you have not used template literals before, you might want to read up on [how they work](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
-Using Template Literals
------------------------
+
+## Using Template Literals
+
 You can use template literals just as you normally would. Whereas JSX uses `{someVariable}` to evaluate variables, template literals use `${someVariable}`. Notice how we capture Hyperx as a tagged template literal function `html`, which we then use to define markup:
 
 ```javascript
@@ -84,8 +91,7 @@ function header(data) {
 }
 ```
 
-
-### Partial Attributes
+## Partial Attributes in Template Literals
 
 Unlike JSX, Hyperx does support partial attribute values. The following code will work without a problem:
 
@@ -105,8 +111,8 @@ function userList(users) {
 }
 ```
 
-Hyperx with Components
-----------------------
+
+## Hyperx with Components
 
 We can use Hyperx directly inside a Component as part of the `render` function. Notice that when we need to loop over the arrray of items, we use `html` to define the list item. If we instad made that part a template literal, the markup would be returned as an escaped string. Of course, if that is what you want, that is how you would do it.
 
@@ -134,8 +140,8 @@ const fruitsList = new Component({
 })
 ```
 
-Custom Tags
------------
+## Custom Tags
+
 JSX has the concept of custom tags that allow you to break up complex markup into smaller, reusable pieces. You can accomplish the same thing with Hyperx. Define the functions that return the markup and then use them inside the parent render function as methods inside dollar sign curly braces:
 
 ```javascript
@@ -175,9 +181,9 @@ const fruitsList = new Component({
 })
 ```
 
-About Sibling Tags
-------------------
-Like JSX, you markup must always have one enclosing tag. Although it is legal to return a set of sibling elements in an ES6 template literal, this will not work with Composi's `h` function. That's because each tag you define will be converted into a function. As such, there needs to be one final, top-most function that returns the markup. 
+## Handling Sibling Tags
+
+Like JSX, your markup must always have one enclosing tag. Although it is legal to return a set of sibling elements in an ES6 template literal, this will not work with Composi's `h` function. That's because each tag you define will be converted into a function. As such, there needs to be one final, top-most function that returns the markup. 
 
 Bad markup:
 
@@ -206,4 +212,3 @@ const goodHyperx = new Component({
   `
 })
 ```
-

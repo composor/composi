@@ -8,19 +8,28 @@ Contents
 - [Hyperx](./hyperx.md)
 - [Hyperscript](./hyperscript.md)
 - [Functional Components](./functional-components.md)
-- [Mount and Render](./render.md)
+- [Mount, Render and Unmount](./render.md)
 - [Components](./components.md)
 - [State](./state.md)
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - Styles
+  - [Styling a Component](#Styling-a-Component)
+  - [Inline Styles](#Inline-Styles)
+  - [Style Tag in Component](#Style-Tag-in-Component)
+  - [Styling Components with Stylor](#Styling-Components-with-Stylor)
+  - [Installing Stylor](#Installing-Stylor)
+  - [Using Stylor into Your Project](#Using-Stylor-into-Your-Project)
+  - [BEM](#BEM)
+  - [Scoped Stylesheets and Memory](#Scoped-Stylesheets-and-Memory)
+  - [SASS, LESS, POST-CSS](#SASS,-LESS,-POST-CSS)
 - [Unmount](./unmount.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)
 
-Styling a Component
--------------------
+
+## Styling a Component
 
 You can define styles for a component. There are three ways to do this:
 
@@ -30,8 +39,7 @@ You can define styles for a component. There are three ways to do this:
 4. You can use the NPM module `stylor` to create a virtual stylesheet scoped to your component.
 
 
-Inline Styles
--------------
+## Inline Styles
 
 You can provide your component elements with inline styles. This is just like you would normally do with HTML, a style attribute followed by a string of CSS properties and values:
 
@@ -104,8 +112,8 @@ const list = new Component({
 
 Although inline styles result in highly portable styled components, they also result in markup that is harder to read. If you mind your component's legibility getting degraded by inline styles, consider using the style tag as explained previously, or using the <code>stylor</code> module explained next.
 
-Style Tag in Component
-----------------------
+## Style Tag in Component
+
 If you are creating an instance of the Component class, you want to define your styles in the render function and then pass them to the style tag inside your component's markup. In the example below, notice how we use the `nav` tag's id to scope the styles to it:
 
 ```javascript
@@ -188,12 +196,12 @@ class List extends Component {
 When you are using this technique, it is up to you to make sure the styles in the tag are scoped to the component. In the above examples we used an id on the base element of the component. However, if you want to have multiple instances of a component, then you might want to think about using BEM and add the styles directly to your project's stylesheet.
 
 
-Using Stylor
-------------
+## Styling Components with Stylor
 
-You can use the NPM module `stylor` to create a virtual stylesheet scoped to your components. You will do this inside the component's `componentWasCreated` lifecyle method. This requires the styles to be defined as a JavaScript object. Properties must be camel cased and values must be quoted. If you want, you can use hypenated properties by enclosing them in quotes. Simple selectors are fine, but complex properties will need to be enclosed in quotes. You can use hierachical nesting to define parent child relationships, similar to how LESS and SASS do. If the value for a property will be a pixel value, you do not need to provide the "px". values of plain numbers will get converted to pixel values.
+You can use the NPM module `stylor` to create a virtual stylesheet scoped to your components. You will do this inside the component's `componentDidMount` lifecyle method. This requires the styles to be defined as a JavaScript object. Properties must be camel cased and values must be quoted. If you want, you can use hypenated properties by enclosing them in quotes. Simple selectors are fine, but complex properties will need to be enclosed in quotes. You can use hierachical nesting to define parent child relationships, similar to how LESS and SASS do. If the value for a property will be a pixel value, you do not need to provide the "px". values of plain numbers will get converted to pixel values.
 
-### Installing Stylor
+
+## Installing Stylor
 
 Use NPM:
 
@@ -201,7 +209,8 @@ Use NPM:
 # cd to the project folder and run this:
 npm i -D stylor
 ```
-### Importing Stylor into Your Project
+
+## Using Stylor into Your Project
 After installing `stylor` as a dependency of your project, you need to import it in your project. In whichever file you want to use it, import it like this:
 
 ```javascript
@@ -224,7 +233,7 @@ const personComponent = new Component({
       <p>Age: {person.age}</p>
     </div>
   ),
-  componentWasCreated: () => {
+  componentDidMount: () => {
     // Define conponent-scoped styles:
     createStylesheet({
       base: '#person',
@@ -264,7 +273,7 @@ class Person extends Component {
       <p>Age: {person.age}</p>
     </div>
   )
-  componentWasCreated() {
+  componentDidMount() {
     // Define conponent-scoped styles:
     createStylesheet({
       base: '#person',
@@ -380,8 +389,7 @@ styles: {
 }
 ```
 
-BEM
----
+## BEM
 
 This will also work with [BEM](https://css-tricks.com/bem-101/). When doing so, best to just use the generic body tag as the base for the stylesheet:
 
@@ -430,13 +438,13 @@ createStylesheet('body', {
 })
 ```
 
-Scoped Stylesheets and Memory
------------------------------
+
+## Scoped Stylesheets and Memory
 
 When you define styles on a class constructor, each instance of the class will have its own virtual stylesheet created. This is fine if the number of instances are not large. You should, however, bare in mind that each scoped stylesheet takes up memory. If you intend to create many instances of the same component, it might make sense to not create a scope style but to instead put the styles that all instances will share in your project's stylesheet. 
 
-SASS, LESS, POST-CSS
---------------------
+
+## SASS, LESS, POST-CSS
 
 If you want, you can use SASS, LESS or PostCSS as CSS preprocessors in your project. To do so you will have to use the `gulp` versions. For SASS, use [gulp-sass](https://www.npmjs.com/package/gulp-sass), or LESS use [gulp-less](https://www.npmjs.com/package/gulp-less) and for PostCSS use [postcss](https://www.npmjs.com/package/gulp-postcss). Just install these like this:
 

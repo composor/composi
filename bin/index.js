@@ -10,6 +10,7 @@ const createPackage = require('../resources/createPackage')
 const p = require("path")
 const homedir = (process.platform === "win32") ? process.env.HOMEPATH : process.env.HOME
 const user = (process.platform === "win32") ? process.env.USERNAME : process.env.USER
+// @ts-ignore
 const pkg = require('../package.json')
 
 const composi = (() => {
@@ -22,7 +23,7 @@ const composi = (() => {
   const version = argv.version || argv.v
   const composi_path = __dirname.split(p.sep + 'bin')[0]
   const packageName = name.replace(' ', '-')
-  const package = createPackage({name: packageName, user: user, version: pkg.version})
+  const _package = createPackage({ name: packageName, user: user, version: pkg.version})
 
   const deploy = argv.d || argv.deploy
 
@@ -34,9 +35,8 @@ const composi = (() => {
       console.log('Deploying to production.')
       console.log('Please wait.')
 
-      let deployName = process.cwd().split(p.sep)
-      deployName = deployName[deployName.length -1]
-      deployName = `${deployName}-production`
+      let splitName = process.cwd().split(p.sep)
+      let deployName = `${splitName[splitName.length -1]}-production`
       fs.copy(p.join(process.cwd(), 'index.html'), p.join(path, deployName, 'index.html'))
       fs.copy(p.join(process.cwd(), 'js'), p.join(path, deployName, 'js'))
       fs.copy(p.join(process.cwd(), 'css'), p.join(path, deployName, 'css'))
@@ -67,7 +67,7 @@ const composi = (() => {
     fs.copy(p.join(composi_path, 'resources', 'dev', 'app.js'), p.join(path, 'dev', 'app.js'))
     fs.copy(p.join(composi_path, 'resources', 'dev', 'title.js'), p.join(path, 'dev', 'components', 'title.js'))
     fs.copy(p.join(composi_path, 'resources', 'index.html'), p.join(path, 'index.html'))
-    fs.outputFile(p.join(path, 'package.json'), package)
+    fs.outputFile(p.join(path, 'package.json'), _package)
     fs.copy(p.join(composi_path, 'resources', 'README.md'), p.join(path, 'README.md'))
     fs.copy(p.join(composi_path, 'resources', 'favicon-16x16.png'), p.join(path, 'images', 'favicon-16x16.png'))
     fs.copy(p.join(composi_path, 'resources', 'favicon-32x32.png'), p.join(path, 'images', 'favicon-32x32.png'))

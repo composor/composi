@@ -1,5 +1,5 @@
-Composi
-========
+# Composi
+
 [![npm](https://img.shields.io/npm/v/composi.svg)](https://www.npmjs.org/package/composi) 
 [![Gzip Size](https://img.badgesize.io/https://unpkg.com/composi/dist/composi.js.gzip)](https://www.npmjs.org/package/composi)
 [![apm](https://img.shields.io/npm/l/composi.svg)](https://www.npmjs.org/package/composi)
@@ -14,20 +14,114 @@ Composi components can be stateless or stateful. Stateful components are reactiv
 
 A component's markup is written with JSX. This means you can create custom tags to organize your component's template. You can also pass props to a component tag. If you prefer, you can instead use the `h` function to define the component's markup with hyperscript. In fact, at render time the JSX is converted to this.
 
-Browser Support
----------------
+## Browser Support
 
 Composi is compatible with browsers back to IE 9 on Windows 7, although you may need to include a [polyfill for promises](https://github.com/stefanpenner/es6-promise) for complete compatibility.
 
 
 
-Live Examples on Codepen
-------------------------
+## Breaking Changes in Version 3.0.0
+
+Upgrading from Composi 2.x.x to 3.x.x will require addressing two breaking changes. If you are using functional components, pay attention to the change in the call signature for the `render` function. Secondly, if you are using hydration with class components, this is now done with a `hydrate` property. 
+
+### render
+
+In version 3.x.x the `render` function returns a vitual node representing the current tree of the component. This needs to be assigned to the same variable used to capture the result of the `mount` function. Also, the `render` function now expects a third argument, the container the component is in. Notice in the following example how we mount a component, capturing its result in the variable `list`, then use that again when we `render` the component in the `addItem` function:
+
+```javascript
+import { h, mount, render } from 'composi'
+
+let input = null
+let key = 104
+const fruits = [
+  { key: 101, value: 'Apples' },
+  { key: 102, value: 'Oranges' },
+  { key: 103, value: 'Bananas' }
+]
+function List(props) {
+  function init(el) {
+    input = el.querySelector('input')
+    input.focus()
+  }
+  function addItem() {
+    const value = input.value
+    if (value) {
+      fruits.push({
+        key: key++,
+        value
+      })
+      // Update the component.
+      // Pass list from mount and re-capture it.
+      // Don't forget to pass in container as last argument.
+      list = render(<List fruits={fruits} />, list, 'section')
+      input.value = ''
+      input.focus()
+    } else {
+      alert('Please add a value before submitting.')
+    }
+  }
+  return (
+    <div onmount={el => init(el)}>
+      <p>
+        <input type="text"/>
+        <button onclick={() => addItem()}>Add</button>
+      </p>
+      <ul>
+        {
+          props.fruits.map(item => <li key={item.key}>{item.value}</li>)
+        }
+      </ul>
+    </div>
+  )
+}
+
+let list = mount(<List fruits={fruits}/>, 'section')
+```
+
+### Class Component Hydration
+
+In version 3.x.x how class components hydrate was changed. It now uses the `hydrate` property to tell Composi what element to use for hydration. When Composi finds the `hydrate` property, it creates a virtual node from the DOM element and uses that to patch the DOM during the first render. This means faster initial render and reaching first interactivity sooner. Below is an example of using the `hydrate` property:
+
+```javascript
+import { h, Component } 
+
+class List extends Component {
+  // Define list component here...
+}
+
+// Instantiate list component:
+const list = new List({
+  state: fruits,
+  container: 'section',
+  hydrate: '#old-list-from-server'
+})
+```
+
+If your class component is a single use one, you can put the `hydrate` property directly in the constuctor:
+
+```javascript
+import { h, Component } 
+
+class List extends Component {
+  constructor(props) {
+    super(props) 
+    this.state = fruits
+    this.container = 'section'
+    this.hydrate = '#old-list-from-server'
+  }
+  // Define rest of list component here...
+}
+
+// Instantiate list component:
+const list = new List()
+```
+
+## Live Examples on Codepen
 
 1. <a href='https://codepen.io/rbiggs/pen/GOyObq' target='__blank'>Todo List</a>
 3. <a href='https://codepen.io/rbiggs/pen/zPmERR' target='__blank'>Minimal Hacker News</a>
 2. <a href='https://codepen.io/rbiggs/pen/POMbxG' target='__blank'>Tour of Heroes (Client Side Routing)s</a>
-4. <a href='https://codepen.io/rbiggs/pen/BmXqqL' target='__blank'>Calculator</a>
+4. <a href='https://codepen.io/rbiggs/pen/MBdMKw' target='__blank'>Calculator</a>
 5. <a href='https://codepen.io/rbiggs/pen/qVxvOp' target='__blank'>Cat Image Browser</a>
 6. <a href='https://codepen.io/rbiggs/pen/EbovjJ' target='__blank'>Pythagoras Dancing Tree</a>
 7. <a href='https://codepen.io/rbiggs/pen/POpMMz' target='__blank'>Tic-Tac-Toe</a>
@@ -40,8 +134,7 @@ Live Examples on Codepen
 14. <a href='https://codepen.io/rbiggs/pen/oervxx' target='__blank'>Counter with Redux</a>
 15. <a href='https://codepen.io/rbiggs/pen/JygrLo' target='__blank'>Counter with Mobx</a>
 
-Installation
--------------
+## Installation
 
 To install Composi, you'll need to have [Nodejs](https://nodejs.org/en/) installed. Open your terminal and run:
 
@@ -51,8 +144,8 @@ npm i -g composi
 
 **Note:** On macOS and Linux, you may need to run the above command with `sudo`.
 
-Create a New Project
---------------------
+## Create a New Project
+
 After installing Composi, you can use it to create a new project. The simplest way to do this is to provide a project name following the `-n` flag:
 
 ```sh
@@ -65,8 +158,8 @@ npm -n myproject -p dev/New \Projects
 ```
 On Windows use the standard Windows file system path notation to define your project's path.
 
-Project Structure
------------------
+## Project Structure
+
 A new project will have the following folder structure:
 ```
 +--myproject
@@ -86,28 +179,27 @@ A new project will have the following folder structure:
 |--README.md
 ```
 
-Building
---------
+## Building
+
 To build your project, `cd` to its folder and run:
 
 ```sh
 npm i
 ```
 
-Then, while in your project's root folder, run:
+This will install the dependencies, build the project the first time and launch it in your default browser.
+
+At any other time you can build and launch the project. While in your project's root folder, run:
 
 ```sh
 npm start
 ```
 
-This will build and launch your project in your default browser.
-
-With this structure, you can add other sub-folders to components, or create other folders inside the `dev` folder as necessary.
+You can add other sub-folders to components, or create other folders inside the `dev` folder as necessary.
 
 `styles.css` is a CSS reset. We are using the Bootstrap 4 rest since it provides a consistent baseline for HTML across all browsers. `app.js` is the core of your website/app. `components` folder has one component: `list.js`. You can add more files for other component as needs. Feel free to add more folders and files to the `dev` folder as you see fit to achieve the structure your app needs. Import them into `app.js`. At build time the build script uses `app.js` to bundle all your files and output them to `js/app.js`. The `index.html` is automatically setup to import that script. `index.html` is your main page.
 
-Example Code - Functional Component
------------------------------------
+## Example Code - Functional Component
 
 ```javascript
 import { h, mount } from 'composi'
@@ -120,11 +212,11 @@ function HelloWorld({name}) {
   )
 }
 
-mount(<HelloWorld name='World' />, 'header')
+let hello = mount(<HelloWorld name='World' />, 'header')
 ```
 
-Example Code - Class Component
-------------------------------
+## Example Code - Class Component
+
 ```javascript
 import { h, Component } from 'composi'
 import { sampleData } from './data/sample-data'
@@ -148,12 +240,11 @@ new List({
 })
 ```
 
-Documentation
--------------
+## Documentation
+
 To learn how to use Composi, open the [docs](./docs/index.md) folder for project documentation, or for in depth tutorials visit the [website](https://composor.github.io)
 
-Summary
--------
+## Summary
 
 Composi is all about components. These provide a great way to organize your code into modular and reusable chunks. The virtual DOM means you never have to touch the DOM to change something.
 
@@ -161,10 +252,9 @@ Because Composi uses JSX, there are many similarities to React patterns. Please 
 
 Composi is small, just 3KB for the gzipped core. It loads quickly. Its small and focused API means you can learn everything in half a day and be productive. If you're already familiar with JSX, then you only need to learn the Component API. You can easily do that in an hour.
 
-Type Safety
------------
+## Type Safety
 
-Composi is written in standard ES6 with JSDoc comments to document type usage. This exposes Composi's type system to TypeScript during build time to verify that the source code is correctly typed. This also provides enhanced features when using Composi with [Visual Studio Code](https://code.visualstudio.com). Open `Settings` from the `Preferences` menu in Visual Studio Code and add the following setting:
+Composi is written in standard ES6 with JSDoc comments to document type usage. This exposes Composi's type system to TypeScript during build time to verify that the source code is correctly typed. This also provides enhanced features when using Composi with [Visual Studio Code](https://code.visualstudio.com). Open `Settings` from the `Preferences` menu in Visual Studio Code and add the following:
 
 ```javascript
 "javascript.implicitProjectConfig.checkJs": true
@@ -189,8 +279,7 @@ npm run build
 > rollup -c
 ```
 
-Running Tests
--------------
+## Running Tests
 
 Composi comes with unit test written with Mocha and Chai. These are loaded from a CDN, so you require an internet connect to run these tests. To run them, open your terminal and execute:
 
@@ -207,8 +296,8 @@ This will open a navigation page in your default browser. There are four tests:
 
 Clicking on one of these will open the test page. The test runs automatically when you open the page. Some errors may only show in the browser console, so open it to check. You can get back to the test navigation page by clicking any where on the top header.
 
-What's Missing
---------------
+## What's Missing
+
 Composi is focused on one thing - providing a solution for components for building and structureing a projects. That means there are certain things it does not address, such as state management, routing, Ajax, and data persistence. There are already solutions that provide these, as enumerated below.
 
 ### State Management
@@ -227,11 +316,14 @@ If you would prefer an approach more like tradition Ajax championed by jQuery, y
 ### Local Data Persistence
 If you need to persist data locally, you could use the browser's [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). If you need greater storage or a more sophisticated API, you might look at [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API). If you need support for older browsers, you might consider [localForage](https://www.npmjs.com/package/localforage). This is a libarary that uses whatever local dataStore is the best choice for the browser. It provides a simple interface that works the same for localStorage, WebSQL and IndexedDB.
 
+## Assorted Resources
 
-Prior Art
----------
+Useful resources for Composi, such as routing, Ajax, etc.: [Awesome Composi](https://github.com/composor/awesome-composi)
 
-Composi was not conceived in a vacuum. Inspiration came for exposure to:
+
+## Prior Art
+
+Composi was not conceived in a vacuum. Inspiration came from exposure to:
 
 1. [vue](https://github.com/vuejs/vue)
 2. [react](https://github.com/facebook/react)
