@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://unpkg.com/mocha@4.0.1/mocha.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/test/styles.css">
+  <link rel="icon" type="image/png" href="/resources/favicon-16x16.png" sizes="16x16" />
+  <link rel="icon" type="image/png" href="/resources/favicon-32x32.png" sizes="32x32" />
+</head>
+
+<body>
+  <nav onclick="location.pathname='/test/index.html'">
+    <h1>Mocha Tests - Composi DataStore</h1>
+  </nav>
+  <section>
+    <div id="mocha"></div>
+    <div id="messages"></div>
+    <div id="fixtures"></div>
+    <div id="hide-tests">
+      <div id="title-component"></div>
+    </div>
+  </section>
+
+  <script src='/dist/composi.js'></script>
+  <script src="https://unpkg.com/mocha@4.0.1/mocha.js"></script>
+  <script src="https://unpkg.com/chai@4.1.2/chai.js"></script>
+  <script>mocha.setup('bdd')</script>
+  <script>
+
+    const { h, DataStore, DataStoreComponent, Observer, uuid } = composi
+    const should = chai.should()
+    const expect = chai.expect
+
+    describe('uuid should create an RFC4122 version 4 compliant uuid', function() {
+      const id = uuid()
+      it('Uuid should have 36 characters', function() {
+        expect(typeof id).to.equal('string')
+        expect(id.length).to.equal(36)
+      })
+    })
+
+    describe('Create DataStore Instance', function () {
+      const dataStore1 = new DataStore({
+        state: {
+          title: 'This is the Title!'
+        }
+      })
+      it('New DataStore', function () {
+        expect(typeof dataStore1).to.equal('object')
+        expect(typeof dataStore1.state).to.equal('object')
+        expect(dataStore1.state.title).to.equal('This is the Title!')
+      })
+    })
+
+    describe('Using setState on dataStore should change its state', function() {
+      const dataStore2 = new DataStore({
+        state: {
+          items: [1,2,3]
+        }
+      })
+      it('New dataStore state should have three items', function() {
+        expect(dataStore2.state.items.length).to.equal(3)
+        expect(dataStore2.state.items[0]).to.equal(1)
+        expect(dataStore2.state.items[1]).to.equal(2)
+        expect(dataStore2.state.items[2]).to.equal(3)
+      })
+      it('Use setState to add item to dataStore', function(done) {
+        setTimeout(() => {
+          dataStore2.setState(prevState => {
+            prevState.items.push(4)
+            return prevState
+          })
+          expect(dataStore2.state.items.length).to.equal(4)
+          expect(dataStore2.state.items[3]).to.equal(4)
+        }, 1000)
+        done()
+      })
+    })
+    
+    
+    describe('dataStore.watch should react to dataStore.setState', function() {
+      let dataStoreData = []
+
+      const dataStore3 = new DataStore({
+        state: {
+          items: [
+            {
+              key: 101,
+              value: 'Apples'
+            },
+            {
+              key: 102,
+              value: 'Oranges'
+            }
+          ]
+        }
+      })
+      dataStore3.watch('dataStoreStateChanged', data => {
+        dataStoreData = data
+      })
+
+      it('The variable dataStoreData should be an empty array', function() {
+        expect(dataStoreData.length).to.equal(0)
+      })
+      it('Initial dataStore items should be two', function() {
+        expect(dataStore3.state.items.length).to.equal(2)
+        expect(dataStore3.state.items[0].value).to.equal('Apples')
+        expect(dataStore3.state.items[1].value).to.equal('Oranges')
+      })
+      it('Update dataStore using setState should dispatch dataStoreStateChanged event', function(done) {
+        setTimeout(() => {
+          dataStore3.setState(prevState => {
+            prevState.items.push({
+              key: 103,
+              value: 'Bananas'
+            })
+            return prevState
+          })
+          expect(dataStore3.state.items.length).to.equal(3)
+          expect(dataStore3.state.items[2].value).to.equal('Bananas')
+        }, 1000)
+        done()
+      })
+      it('dataStore should have dispatched dataStoreStateChanged and data, resulting in dataStoreData now holding copy of dataStore state', function(done) {
+        setTimeout(() => {
+          expect(dataStoreData.items.length).to.equal(3)
+          expect(dataStoreData.items[0].value).to.equal('Apples')
+          expect(dataStoreData.items[1].value).to.equal('Oranges')
+          expect(dataStoreData.items[2].value).to.equal('Bananas')
+        }, 1500)
+        done()
+      })
+    })
+
+
+    const dataStore4 = new DataStore({
+      state: {
+        title: 'A New Title'
+      }
+    })
+    class Title extends DataStoreComponent {
+      render(data) {
+        return (
+          h(
+            'h1',
+            null,
+            data.title
+          )
+        )
+      }
+    }
+    const title = new Title({
+      container: '#title-component',
+      dataStore: dataStore4
+    })
+      window.dataStore4 = dataStore4
+      window.title = title
+
+    const titleTest = document.querySelector('#title-component')
+  
+    describe('dataStore Component should not mount when first initialized with dataStore', function() {
+      it('Component should not yet be mounted', function() {
+        expect(titleTest.children.length).to.equal(0)
+      })
+    })
+
+    describe('Component should mount after passing dataStore.state to its update method', function() {
+      it('component should mount when dataStore is passed to its update method', function(done) {
+        setTimeout(() => {
+          title.update(dataStore4.state)
+          expect(titleTest.children.length).to.equal(1)
+          expect(titleTest.children[0].textContent).to.equal('A New Title')
+        }, 1000)
+        done()
+      })
+    })
+
+    describe('Update state of dataStore used by component', function() {
+      it('Changing state of dataStore with setState should change value of rendered component', function(done) {
+        setTimeout(() => {
+          dataStore4.setState(prevState => {
+            prevState.title = 'This is a brand new title!'
+            return prevState
+          })
+          expect(titleTest.children.length).to.equal(1)
+          expect(titleTest.children[0].textContent).to.equal('This is a brand new title!')
+        }, 2000)
+        done()
+      })
+    })
+
+    let observerDataTest = ''
+    const observer = new Observer()
+    describe('Create a new Observer', function() {
+      it('New observer should have empty event property', function() {
+        expect(Object.keys(observer.events).length).to.equal(0)
+        expect(observerDataTest).to.not.be.ok
+      })
+    })
+
+    describe('Observer with watcher should react to event being dispatched', function() {
+      it('Dispatching "event-test" should trigger watcher for that event', function(done) {
+        setTimeout(() => {
+          observer.watch('event-test', data => {
+            observerDataTest = data
+          })
+          observer.dispatch('event-test', 'This is the dispatched data')
+        })
+        done()
+      })
+      it('After dispatching event, the dispatchd data should have been assigned to test variable', function() {
+        it('The observer watcher should have updated the value of observerDataTest', function(done) {
+          setTimeout(() => {
+            expect(observerDataTest).to.equal('This is the dispatched data')
+          })
+          done()
+        }, 1000)
+      })
+    })
+
+    mocha.run()
+  </script>
+</body>
+
+</html>

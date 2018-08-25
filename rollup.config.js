@@ -4,7 +4,7 @@ import resolve from 'rollup-plugin-node-resolve'
 import uglify from 'rollup-plugin-uglify'
 
 export default {
-  input: 'index.js',
+  input: 'index-datastore.js',
   output: {
     file: 'dist/composi.js',
     format: 'umd',

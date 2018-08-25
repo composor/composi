@@ -15,6 +15,7 @@ To learn how Composi works and how to use it, read any of the following document
 - [Events](./events.md)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
+- [State Management with DataStore](./data-store.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
 - [Differences with React](./composi-react.md)

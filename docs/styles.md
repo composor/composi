@@ -24,6 +24,7 @@ Contents
   - [Scoped Stylesheets and Memory](#Scoped-Stylesheets-and-Memory)
   - [SASS, LESS, POST-CSS](#SASS,-LESS,-POST-CSS)
 - [Unmount](./unmount.md)
+- [State Management with DataStore](./data-store.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)

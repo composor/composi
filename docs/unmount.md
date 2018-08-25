@@ -17,6 +17,7 @@ Contents
 - Unmount
   - [Unmount](#Unmount)
   - [Removing Event from Class Component](#Removing-Event-from-Class-Component)
+- [State Management with DataStore](./data-store.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)

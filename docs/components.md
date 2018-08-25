@@ -23,6 +23,7 @@ Contents
 - [Lifecycle Methods](./lifecycle.md)
 - [Events](./events.md)
 - [Styles](./styles.md)
+- [State Management with DataStore](./data-store.md)
 - [Unmount](./unmount.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)

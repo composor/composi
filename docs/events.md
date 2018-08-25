@@ -30,6 +30,7 @@ Contents
   - [Do Not Mix!](#Do-Not-Mix!)
 - [Styles](./styles.md)
 - [Unmount](./unmount.md)
+- [State Management with DataStore](./data-store.md)
 - [Third Party Libraries](./third-party.md)
 - [Deployment](./deployment.md)
 - [Differrences with React](./composi-react.md)
