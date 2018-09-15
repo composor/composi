@@ -1,6 +1,6 @@
 {
   "name": "composi",
-  "version": "3.1.4",
+  "version": "3.2.0",
   "description": "A JavaScript library for creating websites, PWAs and hybrid apps.",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,7 @@
     "format": "prettier --no-semi --single-quote --write ./lib/*.js",
     "lint": "eslint --config ./.eslintrc.json lib"
   },
-  "bin": {
-    "composi": "./bin/index.js"
-  },
+  "bin": "./bin/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/composor/composi.git"

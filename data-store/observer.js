@@ -35,4 +35,13 @@ export class Observer {
     }
     return this.events[event].map(callback => callback(data));
   }
+
+  /**
+   * Remove an event from cache.
+   * @param {string} event 
+   * @return {void} undefined
+   */
+  unwatch(event) {
+    delete this.events[event]
+  }
 }

@@ -162,20 +162,9 @@
 
     const titleTest = document.querySelector('#title-component')
   
-    describe('dataStore Component should not mount when first initialized with dataStore', function() {
-      it('Component should not yet be mounted', function() {
-        expect(titleTest.children.length).to.equal(0)
-      })
-    })
-
-    describe('Component should mount after passing dataStore.state to its update method', function() {
-      it('component should mount when dataStore is passed to its update method', function(done) {
-        setTimeout(() => {
-          title.update(dataStore4.state)
-          expect(titleTest.children.length).to.equal(1)
-          expect(titleTest.children[0].textContent).to.equal('A New Title')
-        }, 1000)
-        done()
+    describe('dataStore Component should mount when first initialized with dataStore', function() {
+      it('Component should be mounted', function() {
+        expect(titleTest.children.length).to.equal(1)
       })
     })
 
@@ -219,6 +208,22 @@
           })
           done()
         }, 1000)
+      })
+    })
+    
+    describe('Should be able to unwatch observed event', function() {
+      it('After unwatching, event should not fire', function() {
+        const observer = new Observer()
+        let result
+        observer.watch('special_event', function (data) {
+          result = data
+        })
+        observer.dispatch('special_event', 'first fire.')
+        expect(result).to.equal('first fire.')
+        observer.unwatch('special_event')
+        observer.dispatch('special_event', 'second fire.')
+        // Because event is unwatched, result is unchanged:
+        expect(result).to.equal('first fire.')
       })
     })
 

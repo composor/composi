@@ -15,6 +15,7 @@ export class DataStoreComponent extends Component {
     this.dataStore = /** @type {DataStore}*/(props.dataStore)
     if (props.dataStore instanceof DataStore) {
       props.dataStore.watch('dataStoreStateChanged', () => this.update(this.dataStore.state))
+      this.update(this.dataStore.state)
     }
   }
 }

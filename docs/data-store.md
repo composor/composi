@@ -122,12 +122,8 @@ const list = new List(
 
 And that's it. The component is now linked to the `dataStore`. If we change the `dataStore's` state, the component will udpate automatically. We would do that using `setState` on the `dataStore`, as we did above.
 
-Because the component has no local state, as it currently stands the component hasn't mount. As it is, it won't mount until the `dataStore` gets updated. In order to mount the component the first time, we need to invoke its `update` method and pass in the `dataStore` state:
+Although the component has no local state, the component will mount as soon as it's instantiated. This is new in version 3.2.0. In earlier versions you had to mount the component using the `update` method.
 
-```javascript
-list.update(dataStore.state)
-```
-This will mount the component for us.
 
 ## Example
 

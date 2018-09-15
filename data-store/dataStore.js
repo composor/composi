@@ -1,4 +1,4 @@
-import { EMPTY_OBJECT, merge, isObject, uuid } from '../lib/utils'
+import { EMPTY_OBJECT, merge, getType, uuid } from '../lib/utils'
 import { Observer } from './observer'
 
 /**
@@ -72,7 +72,7 @@ export class DataStore {
       copyOfState = merge(EMPTY_OBJECT, this.state)
       const newState = data.call(this, copyOfState)
       if (newState) this.state = newState
-    } else if (isObject(this.state) && isObject(data)) {
+    } else if (getType(this.state) === 'Object' && getType(data) === 'Object') {
       const newState = merge(this.state, data)
       this.state = newState
     }
