@@ -1,5 +1,7 @@
 # Composi
 
+# This library is no longer in development. It has been superseded by [@composi/core](https://github.com/composi/core). We took everything related to Composi and created [a special namespace](https://github.com/composi) on NPM and Github. The new version is a natural evolution of Composi which fully embraces functional programing, abandoning class components for functional components. It provides a Redux-style state management for functional components its [runtime environment](https://composi.github.io/en/docs/runtime/runtime.html) inspired by [the Elm architecture](https://guide.elm-lang.org/architecture/). You can learn more about @composi/core on its [dedicated website](https://composi.github.io)
+
 [![npm](https://img.shields.io/npm/v/composi.svg)](https://www.npmjs.org/package/composi) 
 [![Gzip Size](https://img.badgesize.io/https://unpkg.com/composi/dist/composi.js.gzip)](https://www.npmjs.org/package/composi)
 [![apm](https://img.shields.io/npm/l/composi.svg)](https://www.npmjs.org/package/composi)
